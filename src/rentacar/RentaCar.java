@@ -5,6 +5,7 @@ package rentacar;
 /**
  *
  * @author 
+ * prueba
  */
 public class RentaCar {
 
