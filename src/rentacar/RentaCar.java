@@ -13,7 +13,11 @@ public class RentaCar {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        InterfazGrafica gui = new InterfazGrafica();
+        gui.setVisible(true);
+        
+        
     }
     
 }
