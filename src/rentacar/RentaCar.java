@@ -14,7 +14,7 @@ public class RentaCar {
      */
     public static void main(String[] args) {
         
-        InterfazGrafica gui = new InterfazGrafica();
+        InterfazUsuario gui = new InterfazUsuario();
         gui.setVisible(true);
         
         
