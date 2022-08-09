@@ -15,6 +15,7 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
      */
     public SolicitudAlquiler() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

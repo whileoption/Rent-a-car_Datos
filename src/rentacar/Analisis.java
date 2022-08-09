@@ -15,6 +15,7 @@ public class Analisis extends javax.swing.JFrame {
      */
     public Analisis() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

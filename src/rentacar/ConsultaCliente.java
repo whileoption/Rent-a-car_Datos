@@ -15,6 +15,7 @@ public class ConsultaCliente extends javax.swing.JFrame {
      */
     public ConsultaCliente() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

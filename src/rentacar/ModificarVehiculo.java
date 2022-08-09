@@ -13,14 +13,18 @@ import javax.swing.JOptionPane;
  *
  * @author Karina Madrigal
  */
-public class RegistroVehiculo extends javax.swing.JFrame {
+public class ModificarVehiculo extends javax.swing.JFrame {
 
     /**
      * Creates new form RegistroVehiculo
      */
-    public RegistroVehiculo() {
+    public ModificarVehiculo() {
         initComponents();
         setLocationRelativeTo(null);
+        //se llenan los campos
+        String placa = JOptionPane.showInputDialog("Ingrese la placa");
+        LlenarCampos(placa);
+        jtfPlaca.setEnabled(false);
     }
 
     /**
@@ -55,7 +59,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         jtfCombustible = new javax.swing.JTextField();
         jtfPasajeros = new javax.swing.JTextField();
         jtfAlquilerDia = new javax.swing.JTextField();
-        jbProcesarRegistroVehiculo = new javax.swing.JButton();
+        jbProcesarModificacionVehiculo = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jbAgregarExtra = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
@@ -120,11 +124,11 @@ public class RegistroVehiculo extends javax.swing.JFrame {
             }
         });
 
-        jbProcesarRegistroVehiculo.setBackground(new java.awt.Color(204, 255, 255));
-        jbProcesarRegistroVehiculo.setText("Registrar");
-        jbProcesarRegistroVehiculo.addActionListener(new java.awt.event.ActionListener() {
+        jbProcesarModificacionVehiculo.setBackground(new java.awt.Color(204, 255, 255));
+        jbProcesarModificacionVehiculo.setText("Modificar");
+        jbProcesarModificacionVehiculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbProcesarRegistroVehiculoActionPerformed(evt);
+                jbProcesarModificacionVehiculoActionPerformed(evt);
             }
         });
 
@@ -173,7 +177,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jbProcesarRegistroVehiculo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbProcesarModificacionVehiculo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,7 +273,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
                             .addComponent(jLabel7))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(32, 32, 32)
-                .addComponent(jbProcesarRegistroVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbProcesarModificacionVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
 
@@ -339,12 +343,14 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfModeloActionPerformed
 
-    private void jbProcesarRegistroVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbProcesarRegistroVehiculoActionPerformed
-        Vehiculo reg = new Vehiculo();
-        Pila registro = new Pila();
+    private void jbProcesarModificacionVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbProcesarModificacionVehiculoActionPerformed
 
+        Vehiculo veh = new Vehiculo();
+        Pila pila = new Pila();
+
+        //se agrega el nuevo valor
         if (ValidarCampos()) {
-            registro.push(new Vehiculo(this.jtfPlaca.getText(),
+            pila.push(new Vehiculo(this.jtfPlaca.getText(),
                     this.jtfMarca.getText(), this.jtfModelo.getText(),
                     this.jtfAnno.getText(), this.jtfColor.getText(),
                     this.jtfCilindrada.getText(), this.jtfCombustible.getText(),
@@ -355,16 +361,18 @@ public class RegistroVehiculo extends javax.swing.JFrame {
                     + "antes de registrar un vehiculo");
         }
         
-        JOptionPane.showMessageDialog(null, registro.Listar());
-        
+        //se elimina el valor
+        //pila.delete(jtfPlaca.getText());
+
+        //Limpia
         Limpiar();
 
-    }//GEN-LAST:event_jbProcesarRegistroVehiculoActionPerformed
+    }//GEN-LAST:event_jbProcesarModificacionVehiculoActionPerformed
 
     private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
         Limpiar();
     }//GEN-LAST:event_jbLimpiarActionPerformed
-  
+
     private static ArrayList<String> extras = new ArrayList<>();
     private void jbAgregarExtraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarExtraActionPerformed
         extras.add(this.jtfExtra.getText());
@@ -406,6 +414,28 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         return true;
     }
 
+    public void LlenarCampos(String placa) {
+        Pila pila = new Pila();
+        Vehiculo veh = pila.obtain(placa);
+
+        try {
+            this.jtfPlaca.setText(veh.getPlaca());
+            this.jtfMarca.setText(veh.getMarca());
+            this.jtfModelo.setText(veh.getModelo());
+            this.jtfAnno.setText(veh.getAnno());
+            this.jtfColor.setText(veh.getColor());
+            this.jtfCilindrada.setText(veh.getCilindrada());
+            this.jtfCombustible.setText(veh.getCombustible());
+            this.jtfPasajeros.setText(veh.getPasajeros());
+            this.jtfAlquilerDia.setText(veh.getAlquiler());
+            this.jtfExtra.setText(veh.getExtras().get(0));
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Placa no se encuentra "
+                    + "registrada");
+        }
+
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -423,20 +453,21 @@ public class RegistroVehiculo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegistroVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegistroVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegistroVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegistroVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegistroVehiculo().setVisible(true);
+                new ModificarVehiculo().setVisible(true);
             }
         });
     }
@@ -460,7 +491,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JButton jbAgregarExtra;
     private javax.swing.JButton jbLimpiar;
-    private javax.swing.JButton jbProcesarRegistroVehiculo;
+    private javax.swing.JButton jbProcesarModificacionVehiculo;
     private javax.swing.JButton jbVolverRegCliente;
     private javax.swing.JTextField jtfAlquilerDia;
     private javax.swing.JTextField jtfAnno;

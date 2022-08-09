@@ -4,6 +4,11 @@
  */
 package rentacar;
 
+import Vehiculo.Nodo;
+import Vehiculo.Pila;
+import Vehiculo.Vehiculo;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Karina Madrigal
@@ -15,6 +20,7 @@ public class Administracion extends javax.swing.JFrame {
      */
     public Administracion() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -73,18 +79,38 @@ public class Administracion extends javax.swing.JFrame {
 
         jbRegistrarVehiculo.setBackground(new java.awt.Color(204, 255, 255));
         jbRegistrarVehiculo.setText("Registrar");
+        jbRegistrarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbRegistrarVehiculoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Vehiculos");
 
         jbModificarVehiculo.setBackground(new java.awt.Color(204, 255, 255));
         jbModificarVehiculo.setText("Modificar");
+        jbModificarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbModificarVehiculoActionPerformed(evt);
+            }
+        });
 
         jbEliminarVehiculo.setBackground(new java.awt.Color(204, 255, 255));
         jbEliminarVehiculo.setText("Eliminar");
+        jbEliminarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEliminarVehiculoActionPerformed(evt);
+            }
+        });
 
         jbConsultarVehiculo.setBackground(new java.awt.Color(204, 255, 255));
         jbConsultarVehiculo.setText("Consultar");
+        jbConsultarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbConsultarVehiculoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -188,6 +214,11 @@ public class Administracion extends javax.swing.JFrame {
 
         jbVolverAdmin.setBackground(new java.awt.Color(255, 153, 153));
         jbVolverAdmin.setText("Volver");
+        jbVolverAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbVolverAdminActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -284,6 +315,51 @@ public class Administracion extends javax.swing.JFrame {
     private void jbRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRegistrarClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbRegistrarClienteActionPerformed
+
+    private void jbVolverAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverAdminActionPerformed
+        InterfazUsuario gui = new InterfazUsuario();
+        gui.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jbVolverAdminActionPerformed
+
+    private void jbRegistrarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRegistrarVehiculoActionPerformed
+        RegistroVehiculo regV = new RegistroVehiculo();
+        regV.setVisible(true);
+        this.setVisible(false);
+
+    }//GEN-LAST:event_jbRegistrarVehiculoActionPerformed
+
+    private void jbModificarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarVehiculoActionPerformed
+        
+        ModificarVehiculo modV = new ModificarVehiculo();
+        modV.setVisible(true);
+        this.setVisible(false);
+
+        
+    }//GEN-LAST:event_jbModificarVehiculoActionPerformed
+
+    private void jbEliminarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarVehiculoActionPerformed
+        
+        Pila del = new Pila();
+        
+        String placa = JOptionPane.showInputDialog("Ingrese la placa");
+        del.delete(placa);
+        
+    }//GEN-LAST:event_jbEliminarVehiculoActionPerformed
+
+    private void jbConsultarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarVehiculoActionPerformed
+        
+        Pila cons = new Pila();
+        Nodo node = new Nodo();
+        
+        if(node.getValor() != null){
+           cons.Listar(); 
+        } else{
+            JOptionPane.showMessageDialog(null, "No hay registros");
+        }
+        
+        
+    }//GEN-LAST:event_jbConsultarVehiculoActionPerformed
 
     /**
      * @param args the command line arguments

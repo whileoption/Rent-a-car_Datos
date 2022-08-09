@@ -132,7 +132,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jbProcesarRegistroVehiculo" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jbProcesarModificacionVehiculo" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -263,7 +263,7 @@
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="jbProcesarRegistroVehiculo" min="-2" pref="34" max="-2" attributes="0"/>
+                      <Component id="jbProcesarModificacionVehiculo" min="-2" pref="34" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -336,15 +336,15 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jtfAlquilerDia">
             </Component>
-            <Component class="javax.swing.JButton" name="jbProcesarRegistroVehiculo">
+            <Component class="javax.swing.JButton" name="jbProcesarModificacionVehiculo">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="cc" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Registrar"/>
+                <Property name="text" type="java.lang.String" value="Modificar"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbProcesarRegistroVehiculoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbProcesarModificacionVehiculoActionPerformed"/>
               </Events>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel5">

@@ -15,6 +15,7 @@ public class InterfazUsuario extends javax.swing.JFrame {
      */
     public InterfazUsuario() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -71,6 +72,11 @@ public class InterfazUsuario extends javax.swing.JFrame {
         jbUsuario.setMaximumSize(new java.awt.Dimension(115, 25));
         jbUsuario.setMinimumSize(new java.awt.Dimension(115, 25));
         jbUsuario.setPreferredSize(new java.awt.Dimension(115, 25));
+        jbUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbUsuarioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -133,8 +139,16 @@ public class InterfazUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAdminActionPerformed
-        // TODO add your handling code here:
+        Administracion adm = new Administracion();
+        adm.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jbAdminActionPerformed
+
+    private void jbUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbUsuarioActionPerformed
+        Usuario usr = new Usuario();
+        usr.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jbUsuarioActionPerformed
 
     /**
      * @param args the command line arguments

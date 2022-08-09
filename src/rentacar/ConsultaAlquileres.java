@@ -15,6 +15,7 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
      */
     public ConsultaAlquileres() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

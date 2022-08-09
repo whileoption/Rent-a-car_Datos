@@ -15,6 +15,7 @@ public class ConsultaVehiculos extends javax.swing.JFrame {
      */
     public ConsultaVehiculos() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

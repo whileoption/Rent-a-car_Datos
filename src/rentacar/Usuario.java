@@ -15,6 +15,7 @@ public class Usuario extends javax.swing.JFrame {
      */
     public Usuario() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -98,6 +99,11 @@ public class Usuario extends javax.swing.JFrame {
 
         jbVolverUsuario.setBackground(new java.awt.Color(255, 153, 153));
         jbVolverUsuario.setText("Volver");
+        jbVolverUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbVolverUsuarioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,6 +130,12 @@ public class Usuario extends javax.swing.JFrame {
     private void jbSolicitarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSolicitarVehiculoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbSolicitarVehiculoActionPerformed
+
+    private void jbVolverUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverUsuarioActionPerformed
+        InterfazUsuario gui = new InterfazUsuario();
+        gui.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jbVolverUsuarioActionPerformed
 
     /**
      * @param args the command line arguments

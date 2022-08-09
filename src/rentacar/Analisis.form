@@ -301,7 +301,6 @@
                               <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jtfVehiculoTop5" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>

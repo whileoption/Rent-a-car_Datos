@@ -15,6 +15,7 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
      */
     public DevolucionVehiculo() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
