@@ -69,6 +69,8 @@ public class Cliente {
         return "Cliente{" + "id=" + id + ", nombre=" + nombre + 
                 ", nacimiento=" + nacimiento + ", correo=" + correo + 
                 ", categoria=" + categoria + '}';
-    }      
+    }
+    
+    
+    
 }
-//comentario de prueba renta car
