@@ -17,7 +17,6 @@ public class RentaCar {
         InterfazUsuario gui = new InterfazUsuario();
         gui.setVisible(true);
         
-        
-    }
-    
+        System.out.println("Prueba realizada");
+    } 
 }
