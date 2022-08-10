@@ -13,8 +13,12 @@ public class Cliente {
     private String nombre, nacimiento, correo, categoria;
 
     public Cliente() {
+        //probando cliente
     }
 
+    public void prueba(){
+        
+    }
     public Cliente(int id, String nombre, String nacimiento, 
             String correo, String categoria) {
         this.id = id;
@@ -71,4 +75,3 @@ public class Cliente {
                 ", categoria=" + categoria + '}';
     }      
 }
-//comentario de prueba renta car
