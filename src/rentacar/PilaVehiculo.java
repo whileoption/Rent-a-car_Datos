@@ -1,6 +1,6 @@
 /*
  */
-package Vehiculo;
+package rentacar;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -9,12 +9,12 @@ import javax.swing.JOptionPane;
  *
  * @author Karina Madrigal
  */
-public class Pila {
+public class PilaVehiculo {
 
-    private Nodo cima;
+    private NodoVehiculo cima;
     private int longitud;
 
-    public Pila() {
+    public PilaVehiculo() {
         this.cima = null;
         this.longitud = 0;
     }
@@ -29,7 +29,7 @@ public class Pila {
 
     //se agregan nodos
     public void push(Vehiculo valor) {
-        Nodo newNode = new Nodo();
+        NodoVehiculo newNode = new NodoVehiculo();
         newNode.setValor(valor);
         if (this.Vacia()) {
             this.cima = newNode;
@@ -52,7 +52,7 @@ public class Pila {
 
     //Busca el nodo segun valor y retorna true si exise y false si no existe
     public boolean search(String reference) {
-        Nodo aux = cima;
+        NodoVehiculo aux = cima;
         boolean exist = false;
         while (exist != true && aux != null) {
             if (reference.toLowerCase().
@@ -69,13 +69,13 @@ public class Pila {
     public void delete(String reference) {
         //Consulta si el valor existe en la pila
         if (search(reference)) {
-            Nodo cimaPilaAux = null;
+            NodoVehiculo cimaPilaAux = null;
             //Recorre la pila hasta llegar al nodo que tenga el valor 
             //igual que el de reference
             while (!reference.toLowerCase()
                     .equals(cima.getValor().getPlaca().toLowerCase())) {
                 //Cra un nodo temporal para agregarlos a la pila auxiliar
-                Nodo temp = new Nodo();
+                NodoVehiculo temp = new NodoVehiculo();
                 //Ingresa el valor al node temmporal
                 temp.setValor(cima.getValor());
                 //Consulta si la pila auxiliar no ha sido inicializada
@@ -112,7 +112,7 @@ public class Pila {
 
     //Busca el nodo segun valor y retorna true si exise y false si no existe
     public Vehiculo obtain(String reference) {
-        Nodo aux = cima;
+        NodoVehiculo aux = cima;
         Vehiculo exist = null;
 
         while (search(reference)
@@ -132,7 +132,7 @@ public class Pila {
     public String Listar() {
         String cad = "";
         //Crea una copia de la pila
-        Nodo aux = cima;
+        NodoVehiculo aux = cima;
         //Recorre la pila hasta el ultimo node
         while (aux != null) {
             cad += ("|\t" + aux.getValor() + "|\t");

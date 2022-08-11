@@ -4,9 +4,6 @@
  */
 package rentacar;
 
-import Vehiculo.Nodo;
-import Vehiculo.Pila;
-import Vehiculo.Vehiculo;
 import javax.swing.JOptionPane;
 
 /**
@@ -330,35 +327,27 @@ public class Administracion extends javax.swing.JFrame {
     }//GEN-LAST:event_jbRegistrarVehiculoActionPerformed
 
     private void jbModificarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarVehiculoActionPerformed
+
+        String placa = JOptionPane.showInputDialog("Ingrese la placa");
         
         ModificarVehiculo modV = new ModificarVehiculo();
         modV.setVisible(true);
         this.setVisible(false);
 
-        
+
     }//GEN-LAST:event_jbModificarVehiculoActionPerformed
 
     private void jbEliminarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarVehiculoActionPerformed
-        
-        Pila del = new Pila();
-        
-        String placa = JOptionPane.showInputDialog("Ingrese la placa");
-        del.delete(placa);
-        
+
+
+
+
     }//GEN-LAST:event_jbEliminarVehiculoActionPerformed
 
     private void jbConsultarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarVehiculoActionPerformed
-        
-        Pila cons = new Pila();
-        Nodo node = new Nodo();
-        
-        if(node.getValor() != null){
-           cons.Listar(); 
-        } else{
-            JOptionPane.showMessageDialog(null, "No hay registros");
-        }
-        
-        
+
+      
+
     }//GEN-LAST:event_jbConsultarVehiculoActionPerformed
 
     /**

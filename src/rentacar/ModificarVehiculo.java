@@ -4,8 +4,6 @@
  */
 package rentacar;
 
-import Vehiculo.Pila;
-import Vehiculo.Vehiculo;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -23,6 +21,7 @@ public class ModificarVehiculo extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         //se llenan los campos
         String placa = JOptionPane.showInputDialog("Ingrese la placa");
+
         LlenarCampos(placa);
         jtfPlaca.setEnabled(false);
     }
@@ -346,7 +345,7 @@ public class ModificarVehiculo extends javax.swing.JFrame {
     private void jbProcesarModificacionVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbProcesarModificacionVehiculoActionPerformed
 
         Vehiculo veh = new Vehiculo();
-        Pila pila = new Pila();
+        PilaVehiculo pila = new PilaVehiculo();
 
         //se agrega el nuevo valor
         if (ValidarCampos()) {
@@ -360,10 +359,9 @@ public class ModificarVehiculo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Complete todos los espacios "
                     + "antes de registrar un vehiculo");
         }
-        
+
         //se elimina el valor
         //pila.delete(jtfPlaca.getText());
-
         //Limpia
         Limpiar();
 
@@ -415,7 +413,7 @@ public class ModificarVehiculo extends javax.swing.JFrame {
     }
 
     public void LlenarCampos(String placa) {
-        Pila pila = new Pila();
+        PilaVehiculo pila = new PilaVehiculo();
         Vehiculo veh = pila.obtain(placa);
 
         try {
@@ -429,7 +427,7 @@ public class ModificarVehiculo extends javax.swing.JFrame {
             this.jtfPasajeros.setText(veh.getPasajeros());
             this.jtfAlquilerDia.setText(veh.getAlquiler());
             this.jtfExtra.setText(veh.getExtras().get(0));
-        } catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Placa no se encuentra "
                     + "registrada");
         }

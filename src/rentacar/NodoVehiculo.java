@@ -1,18 +1,18 @@
 /*
  */
+package rentacar;
 
-package Vehiculo;
 
 /**
  *
  * @author Karina Madrigal
  */
-public class Nodo {
-    
-    private Vehiculo valor;
-    private Nodo siguiente;
+public class NodoVehiculo {
 
-    public Nodo() {
+    private Vehiculo valor;
+    private NodoVehiculo siguiente;
+
+    public NodoVehiculo() {
         this.valor = null;
         this.siguiente = null;
     }
@@ -25,11 +25,11 @@ public class Nodo {
         this.valor = valor;
     }
 
-    public Nodo getSiguiente() {
+    public NodoVehiculo getSiguiente() {
         return siguiente;
     }
 
-    public void setSiguiente(Nodo siguiente) {
+    public void setSiguiente(NodoVehiculo siguiente) {
         this.siguiente = siguiente;
     }
     

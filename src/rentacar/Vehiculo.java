@@ -1,6 +1,6 @@
 /*
  */
-package Vehiculo;
+package rentacar;
 
 import java.util.ArrayList;
 
@@ -108,14 +108,6 @@ public class Vehiculo {
         this.alquiler = alquiler;
     }
 
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
     public ArrayList<String> getExtras() {
         return extras;
     }
@@ -124,14 +116,19 @@ public class Vehiculo {
         this.extras = extras;
     }
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     @Override
     public String toString() {
-        return "Vehiculo{" + "placa=" + placa + ", marca=" + marca
-                + ", modelo=" + modelo + ", anno=" + anno
-                + ", color=" + color + ", cilindrada=" + cilindrada
-                + ", combustible=" + combustible + ", pasajeros=" + pasajeros
-                + ", alquiler=" + alquiler + ", estado=" + estado
-                + ", extras=" + extras + '}';
+        return "Vehiculo{" + "placa=" + placa + ", marca=" + marca + ", modelo=" + modelo + ", anno=" + anno + ", color=" + color + ", cilindrada=" + cilindrada + ", combustible=" + combustible + ", pasajeros=" + pasajeros + ", alquiler=" + alquiler + ", estado=" + estado + ", extras=" + extras + '}';
     }
+    
+    
 
 }
