@@ -35,16 +35,8 @@ public class Administracion extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jbRegistrarVehiculo = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jbModificarVehiculo = new javax.swing.JButton();
-        jbEliminarVehiculo = new javax.swing.JButton();
-        jbConsultarVehiculo = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jbRegistrarCliente = new javax.swing.JButton();
-        jbModificarCliente = new javax.swing.JButton();
-        jbEliminarCliente = new javax.swing.JButton();
-        jbConsultarCliente = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jbVerAlquiler = new javax.swing.JButton();
@@ -75,37 +67,10 @@ public class Administracion extends javax.swing.JFrame {
         );
 
         jbRegistrarVehiculo.setBackground(new java.awt.Color(204, 255, 255));
-        jbRegistrarVehiculo.setText("Registrar");
+        jbRegistrarVehiculo.setText("Vehiculos");
         jbRegistrarVehiculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbRegistrarVehiculoActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Vehiculos");
-
-        jbModificarVehiculo.setBackground(new java.awt.Color(204, 255, 255));
-        jbModificarVehiculo.setText("Modificar");
-        jbModificarVehiculo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbModificarVehiculoActionPerformed(evt);
-            }
-        });
-
-        jbEliminarVehiculo.setBackground(new java.awt.Color(204, 255, 255));
-        jbEliminarVehiculo.setText("Eliminar");
-        jbEliminarVehiculo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbEliminarVehiculoActionPerformed(evt);
-            }
-        });
-
-        jbConsultarVehiculo.setBackground(new java.awt.Color(204, 255, 255));
-        jbConsultarVehiculo.setText("Consultar");
-        jbConsultarVehiculo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbConsultarVehiculoActionPerformed(evt);
             }
         });
 
@@ -114,86 +79,40 @@ public class Administracion extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(0, 26, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jbConsultarVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbEliminarVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbModificarVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbRegistrarVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jbRegistrarVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
                 .addComponent(jbRegistrarVehiculo)
-                .addGap(18, 18, 18)
-                .addComponent(jbModificarVehiculo)
-                .addGap(18, 18, 18)
-                .addComponent(jbEliminarVehiculo)
-                .addGap(18, 18, 18)
-                .addComponent(jbConsultarVehiculo)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Clientes");
-
         jbRegistrarCliente.setBackground(new java.awt.Color(204, 204, 255));
-        jbRegistrarCliente.setText("Registrar");
+        jbRegistrarCliente.setText("Clientes");
         jbRegistrarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbRegistrarClienteActionPerformed(evt);
             }
         });
 
-        jbModificarCliente.setBackground(new java.awt.Color(204, 204, 255));
-        jbModificarCliente.setText("Modificar");
-
-        jbEliminarCliente.setBackground(new java.awt.Color(204, 204, 255));
-        jbEliminarCliente.setText("Eliminar");
-
-        jbConsultarCliente.setBackground(new java.awt.Color(204, 204, 255));
-        jbConsultarCliente.setText("Consultar");
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(98, 98, 98)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jbModificarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jbEliminarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jbConsultarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jbRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(57, 57, 57)
+                .addComponent(jbRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
                 .addComponent(jbRegistrarCliente)
-                .addGap(18, 18, 18)
-                .addComponent(jbModificarCliente)
-                .addGap(18, 18, 18)
-                .addComponent(jbEliminarCliente)
-                .addGap(18, 18, 18)
-                .addComponent(jbConsultarCliente)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -267,10 +186,10 @@ public class Administracion extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
 
@@ -310,7 +229,10 @@ public class Administracion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRegistrarClienteActionPerformed
-        // TODO add your handling code here:
+        RegistroCliente client = new RegistroCliente();
+        client.setVisible(true);
+        this.setVisible(false);
+        
     }//GEN-LAST:event_jbRegistrarClienteActionPerformed
 
     private void jbVolverAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverAdminActionPerformed
@@ -325,30 +247,6 @@ public class Administracion extends javax.swing.JFrame {
         this.setVisible(false);
 
     }//GEN-LAST:event_jbRegistrarVehiculoActionPerformed
-
-    private void jbModificarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarVehiculoActionPerformed
-
-        String placa = JOptionPane.showInputDialog("Ingrese la placa");
-        
-        ModificarVehiculo modV = new ModificarVehiculo();
-        modV.setVisible(true);
-        this.setVisible(false);
-
-
-    }//GEN-LAST:event_jbModificarVehiculoActionPerformed
-
-    private void jbEliminarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarVehiculoActionPerformed
-
-
-
-
-    }//GEN-LAST:event_jbEliminarVehiculoActionPerformed
-
-    private void jbConsultarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarVehiculoActionPerformed
-
-      
-
-    }//GEN-LAST:event_jbConsultarVehiculoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -387,8 +285,6 @@ public class Administracion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -397,13 +293,7 @@ public class Administracion extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JButton jbAnalisis;
-    private javax.swing.JButton jbConsultarCliente;
-    private javax.swing.JButton jbConsultarVehiculo;
     private javax.swing.JButton jbDevolucion;
-    private javax.swing.JButton jbEliminarCliente;
-    private javax.swing.JButton jbEliminarVehiculo;
-    private javax.swing.JButton jbModificarCliente;
-    private javax.swing.JButton jbModificarVehiculo;
     private javax.swing.JButton jbRegistrarCliente;
     private javax.swing.JButton jbRegistrarVehiculo;
     private javax.swing.JButton jbVerAlquiler;

@@ -93,14 +93,15 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         //Consulta si el valor existe en la pila
         if (search(reference)) {
             Nodo cimaPilaAux = null;
+            Nodo aux = cima;
             //Recorre la pila hasta llegar al nodo que tenga el valor 
             //igual que el de reference
-            while (!reference.toLowerCase()
-                    .equals(cima.getValor().getPlaca().toLowerCase())) {
-                //Cra un nodo temporal para agregarlos a la pila auxiliar
+            while (aux != null && reference.toLowerCase()
+                    .equals(aux.getValor().getPlaca().toLowerCase())) {
+                //Crea un nodo temporal para agregarlos a la pila auxiliar
                 Nodo temp = new Nodo();
                 //Ingresa el valor al node temmporal
-                temp.setValor(cima.getValor());
+                temp.setValor(aux.getValor());
                 //Consulta si la pila auxiliar no ha sido inicializada
                 if (cimaPilaAux == null) {
                     //Inicializa la pila auxiliar
@@ -114,6 +115,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
                 //Elimina el nodo del tope de la pila hasta llegar al nodo
                 //que se desea eliminar
                 pop();
+                aux = aux.getSiguiente();
             }
             //Elimina el nodo que coincide con el de reference
             pop();
@@ -138,8 +140,10 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         Nodo aux = cima;
         Vehiculo exist = null;
 
-        while (search(reference)
+        while (aux != null
+                && search(reference)
                 && aux.getValor().getPlaca().equals(reference.toLowerCase())) {
+
             exist = new Vehiculo(aux.getValor().getPlaca(),
                     aux.getValor().getMarca(), aux.getValor().getModelo(),
                     aux.getValor().getAnno(), aux.getValor().getColor(),
@@ -178,6 +182,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jbVolverAdmin = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -225,12 +230,22 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Registro de vehiculo");
 
+        jbVolverAdmin.setBackground(new java.awt.Color(153, 204, 255));
+        jbVolverAdmin.setText("<---");
+        jbVolverAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbVolverAdminActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
+                .addComponent(jbVolverAdmin)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(271, 271, 271))
         );
@@ -238,7 +253,9 @@ public class RegistroVehiculo extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jbVolverAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -553,6 +570,10 @@ public class RegistroVehiculo extends javax.swing.JFrame {
 
         Limpiar();
 
+//        for (int i = 0; i < extras.size(); i++) {
+//            extras.remove(i);
+//        }
+
     }//GEN-LAST:event_jbRegistrarVActionPerformed
 
     private void jbLimpiarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarVActionPerformed
@@ -571,9 +592,11 @@ public class RegistroVehiculo extends javax.swing.JFrame {
 
         String placa = JOptionPane.showInputDialog("Ingrese la placa");
         int op = JOptionPane.showConfirmDialog(null, "Se eliminará este registro, ¿está seguro?");
+        JOptionPane.showMessageDialog(null, search(placa));
         if (op == 0) {
             delete(placa);
         }
+        JOptionPane.showMessageDialog(null, Listar());
 
     }//GEN-LAST:event_jbEliminarVActionPerformed
 
@@ -590,13 +613,15 @@ public class RegistroVehiculo extends javax.swing.JFrame {
 
     private void jbMostrarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMostrarVActionPerformed
 
-        for(int i = 0; i < md.getRowCount(); i++){
-            md.removeRow(i);
-        }
-        
         md = (DefaultTableModel) jtVehiculos.getModel();
         Object[] vehic = new Object[11];
 
+        JOptionPane.showMessageDialog(null, md.getRowCount());
+        
+        for (int i = 0; i < md.getRowCount(); i++) {
+            md.removeRow(i);
+        }
+        
         Nodo aux = cima;
         while (aux != null) {
 
@@ -620,6 +645,15 @@ public class RegistroVehiculo extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jbMostrarVActionPerformed
 
+    private void jbVolverAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverAdminActionPerformed
+
+        Administracion volv = new Administracion();
+        volv.setVisible(true);
+        this.setVisible(false);
+
+
+    }//GEN-LAST:event_jbVolverAdminActionPerformed
+
     public void Limpiar() {
         this.jtfPlaca.setText("");
         this.jtfMarca.setText("");
@@ -631,7 +665,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         this.jtfPasajeros.setText("");
         this.jtfAlquilerDia.setText("");
         this.jtfExtra.setText("");
-    }
+    }   
 
     public boolean ValidarCampos() {
         if (this.jtfPlaca.getText().equals("")
@@ -651,7 +685,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
     public void LlenarCampos(String placa) {
 
         Vehiculo vehi = obtain(placa);
-        
+
         try {
             this.jtfPlaca.setText(vehi.getPlaca());
             this.jtfMarca.setText(vehi.getMarca());
@@ -732,6 +766,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
     private javax.swing.JButton jbModificarV;
     private javax.swing.JButton jbMostrarV;
     private javax.swing.JButton jbRegistrarV;
+    private javax.swing.JButton jbVolverAdmin;
     private javax.swing.JTable jtVehiculos;
     private javax.swing.JTextField jtfAlquilerDia;
     private javax.swing.JTextField jtfAnno;

@@ -1,7 +1,7 @@
 /*
  */
 
-package rentacar;
+package Cliente;
 
 /**
  *
@@ -9,13 +9,13 @@ package rentacar;
  */
 public class Cliente {
 
-    private int id;
+    private String id;
     private String nombre, nacimiento, correo, categoria;
 
     public Cliente() {
     }
 
-    public Cliente(int id, String nombre, String nacimiento, 
+    public Cliente(String id, String nombre, String nacimiento, 
             String correo, String categoria) {
         this.id = id;
         this.nombre = nombre;
@@ -24,11 +24,11 @@ public class Cliente {
         this.categoria = categoria;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -66,8 +66,8 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" + "id=" + id + ", nombre=" + nombre + 
-                ", nacimiento=" + nacimiento + ", correo=" + correo + 
-                ", categoria=" + categoria + '}';
+        return "id " + id + ", nombre " + nombre + 
+                ", nacimiento " + nacimiento + ", correo " + correo + 
+                ", categoria " + categoria;
     }      
 }
