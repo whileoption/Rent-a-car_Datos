@@ -18,6 +18,7 @@ public class RentaCar {
 
         InterfazUsuario gui = new InterfazUsuario();
         gui.setVisible(true);
+        
 
     }
 

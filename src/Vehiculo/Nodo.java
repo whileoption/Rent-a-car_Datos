@@ -1,6 +1,5 @@
 /*
  */
-
 package Vehiculo;
 
 /**
@@ -8,31 +7,33 @@ package Vehiculo;
  * @author Karina Madrigal
  */
 public class Nodo {
-    
-    private Vehiculo valor;
-    private Nodo siguiente;
 
-    public Nodo() {
-        this.valor = null;
-        this.siguiente = null;
+    private Vehiculo dato;
+    private Nodo next;
+
+    public Nodo(Vehiculo dato) {
+        this.dato = dato;
     }
 
-    public Vehiculo getValor() {
-        return valor;
+    public Vehiculo getDato() {
+        return dato;
     }
 
-    public void setValor(Vehiculo valor) {
-        this.valor = valor;
+    public void setDato(Vehiculo dato) {
+        this.dato = dato;
     }
 
-    public Nodo getSiguiente() {
-        return siguiente;
+    public Nodo getNext() {
+        return next;
     }
 
-    public void setSiguiente(Nodo siguiente) {
-        this.siguiente = siguiente;
+    public void setNext(Nodo next) {
+        this.next = next;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "" + this.dato;
+    }
 
 }
