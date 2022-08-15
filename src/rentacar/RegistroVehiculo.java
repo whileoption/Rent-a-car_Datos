@@ -20,6 +20,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
      */
     public RegistroVehiculo() {
         initComponents();
+        jbAceptar.setVisible(false);
         setLocationRelativeTo(null);
     }
 
@@ -86,10 +87,10 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         return vehObtenido;
     }
 
-    public void modifica(Vehiculo p) {
+    public void modifica(String placa) {
         if (cabeza != null) { //si cabeza no es null
-            if (existe(p.getPlaca())) {
-                Vehiculo vehModif = obtain(p.getPlaca());
+            if (existe(placa)) {
+                Vehiculo vehModif = new Vehiculo();
                 vehModif.setMarca(jtfMarca.getText());
                 vehModif.setModelo(jtfModelo.getText());
                 vehModif.setAnno(jtfAnno.getText());
@@ -100,6 +101,18 @@ public class RegistroVehiculo extends javax.swing.JFrame {
                 vehModif.setAlquiler(jtfAlquilerDia.getText());
                 vehModif.setEstado(jcbEstado.getSelectedItem().toString());
                 vehModif.setExtras(agregarExtras());
+            }
+        }
+    }
+    
+    public void modificar(Vehiculo v){
+        if (cabeza!= null){
+            Nodo aux = cabeza;
+            while(aux != null && aux.getDato().getPlaca() != v.getPlaca()){
+                aux = aux.getNext();
+            }
+            if(aux != null && aux.getDato().getPlaca() == v.getPlaca()){
+                aux.getDato().setColor(v.getColor());
             }
         }
     }
@@ -219,6 +232,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         jbRegistrarV = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jcbEstado = new javax.swing.JComboBox<>();
+        jbAceptar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtaVehiculos = new javax.swing.JTextArea();
 
@@ -288,6 +302,12 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         jtfModelo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfModeloActionPerformed(evt);
+            }
+        });
+
+        jtfMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfMarcaActionPerformed(evt);
             }
         });
 
@@ -373,6 +393,13 @@ public class RegistroVehiculo extends javax.swing.JFrame {
 
         jcbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Disponible", "Alquilado", "En reparación", "Fuera de circulación" }));
 
+        jbAceptar.setText("Aceptar");
+        jbAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAceptarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -442,7 +469,10 @@ public class RegistroVehiculo extends javax.swing.JFrame {
                         .addComponent(jbEliminarV, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jbMostrarV, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jbLimpiarV))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jbAceptar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbLimpiarV)))
                 .addGap(36, 36, 36))
         );
         jPanel3Layout.setVerticalGroup(
@@ -483,15 +513,16 @@ public class RegistroVehiculo extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jtfCilindrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel12)
-                                    .addComponent(jcbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel12)
+                                .addComponent(jcbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtfCilindrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(33, 33, 33)))
-                .addComponent(jbLimpiarV)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbLimpiarV)
+                    .addComponent(jbAceptar))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbMostrarV, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -535,7 +566,9 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -575,12 +608,9 @@ public class RegistroVehiculo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Complete todos los espacios "
                     + "antes de registrar un vehiculo");
         }
-
         Limpiar();
-
         jtfPlaca.setEnabled(true);
         jbModificarV.setEnabled(true);
-
     }//GEN-LAST:event_jbRegistrarVActionPerformed
 
     private void jbLimpiarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarVActionPerformed
@@ -597,13 +627,13 @@ public class RegistroVehiculo extends javax.swing.JFrame {
 
     private void jbAgregarExtraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarExtraActionPerformed
         agregarExtras();
-
     }//GEN-LAST:event_jbAgregarExtraActionPerformed
 
     private void jbEliminarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarVActionPerformed
 
         String placa = JOptionPane.showInputDialog("Ingrese la placa");
-        int op = JOptionPane.showConfirmDialog(null, "Se eliminará este registro, ¿está seguro?");
+        int op = JOptionPane.showConfirmDialog(null,"Se eliminará este registro"
+                + ", ¿está seguro?");
         if (op == 0) {
             elimina(placa);
         }
@@ -614,19 +644,17 @@ public class RegistroVehiculo extends javax.swing.JFrame {
     private void jbModificarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarVActionPerformed
 
         jtfPlaca.setEnabled(false);
-        String placa = JOptionPane.showInputDialog("Ingrese la placa");
-
-        LlenarCampos(placa);
+        jbAceptar.setVisible(true);
         jbModificarV.setEnabled(false);
+        String placa = JOptionPane.showInputDialog("Ingrese la placa");
+        LlenarCampos(placa);
+        //modifica(placa);
         elimina(placa);
-
-
     }//GEN-LAST:event_jbModificarVActionPerformed
 
     private void jbMostrarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMostrarVActionPerformed
 
         jtaVehiculos.setText(toString());
-
     }//GEN-LAST:event_jbMostrarVActionPerformed
 
     private void jbVolverAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverAdminActionPerformed
@@ -634,9 +662,36 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         Administracion volv = new Administracion();
         volv.setVisible(true);
         this.setVisible(false);
-
-
     }//GEN-LAST:event_jbVolverAdminActionPerformed
+
+    private void jtfMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfMarcaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfMarcaActionPerformed
+
+    private void jbAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAceptarActionPerformed
+    
+        Vehiculo vehi = new Vehiculo();
+        //modifica(vehi.getPlaca()); 
+        jbAceptar.setVisible(false);
+        Limpiar();
+        jbModificarV.setEnabled(true);
+        jtfPlaca.setEnabled(true);
+        if (cabeza != null) { //si cabeza no es null
+            if (existe(vehi.getPlaca())) {
+                Vehiculo vehModif = new Vehiculo();
+                vehModif.setMarca(jtfMarca.getText());
+                vehModif.setModelo(jtfModelo.getText());
+                vehModif.setAnno(jtfAnno.getText());
+                vehModif.setColor(jtfColor.getText());
+                vehModif.setCilindrada(jtfCilindrada.getText());
+                vehModif.setCombustible(jtfCombustible.getText());
+                vehModif.setPasajeros(jtfPasajeros.getText());
+                vehModif.setAlquiler(jtfAlquilerDia.getText());
+                vehModif.setEstado(jcbEstado.getSelectedItem().toString());
+                vehModif.setExtras(agregarExtras());
+            }
+        }
+    }//GEN-LAST:event_jbAceptarActionPerformed
 
     public void Limpiar() {
         this.jtfPlaca.setText("");
@@ -684,8 +739,11 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Placa no se encuentra "
                     + "registrada");
+            jtfPlaca.setEnabled(true);
+            jbModificarV.setEnabled(true);
         }
-
+        
+        
     }
 
     /**
@@ -745,6 +803,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jbAceptar;
     private javax.swing.JButton jbAgregarExtra;
     private javax.swing.JButton jbEliminarV;
     private javax.swing.JButton jbLimpiarV;

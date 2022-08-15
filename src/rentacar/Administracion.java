@@ -121,12 +121,27 @@ public class Administracion extends javax.swing.JFrame {
 
         jbVerAlquiler.setBackground(new java.awt.Color(255, 255, 204));
         jbVerAlquiler.setText("Ver Alquileres");
+        jbVerAlquiler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbVerAlquilerActionPerformed(evt);
+            }
+        });
 
         jbDevolucion.setBackground(new java.awt.Color(255, 255, 204));
         jbDevolucion.setText("Devolucion");
+        jbDevolucion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbDevolucionActionPerformed(evt);
+            }
+        });
 
         jbAnalisis.setBackground(new java.awt.Color(255, 255, 204));
         jbAnalisis.setText("Generar Analisis");
+        jbAnalisis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAnalisisActionPerformed(evt);
+            }
+        });
 
         jbVolverAdmin.setBackground(new java.awt.Color(255, 153, 153));
         jbVolverAdmin.setText("Volver");
@@ -248,6 +263,24 @@ public class Administracion extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jbRegistrarVehiculoActionPerformed
 
+    private void jbVerAlquilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVerAlquilerActionPerformed
+        ConsultaAlquileres consul = new ConsultaAlquileres();
+        consul.show(true);
+        dispose();
+    }//GEN-LAST:event_jbVerAlquilerActionPerformed
+
+    private void jbDevolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDevolucionActionPerformed
+        DevolucionVehiculo dev = new DevolucionVehiculo();
+        dev.show(true);
+        dispose();
+    }//GEN-LAST:event_jbDevolucionActionPerformed
+
+    private void jbAnalisisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAnalisisActionPerformed
+        Analisis ana = new Analisis();
+        ana.show(true);
+        dispose();
+    }//GEN-LAST:event_jbAnalisisActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -280,7 +313,7 @@ public class Administracion extends javax.swing.JFrame {
             public void run() {
                 new Administracion().setVisible(true);
             }
-        });
+        });  
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

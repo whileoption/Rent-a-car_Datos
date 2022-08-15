@@ -17,6 +17,10 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
     }
+    
+    public void procesar(){
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -71,9 +75,19 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
 
         jbProcesarDevolucion.setBackground(new java.awt.Color(204, 255, 255));
         jbProcesarDevolucion.setText("Procesar");
+        jbProcesarDevolucion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbProcesarDevolucionActionPerformed(evt);
+            }
+        });
 
         jbVolverDevolVehiculo.setBackground(new java.awt.Color(255, 153, 153));
         jbVolverDevolVehiculo.setText("Volver");
+        jbVolverDevolVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbVolverDevolVehiculoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -105,7 +119,6 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
@@ -140,6 +153,17 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jbVolverDevolVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverDevolVehiculoActionPerformed
+        Administracion admi = new Administracion();
+        admi.show(true);
+        dispose();
+    }//GEN-LAST:event_jbVolverDevolVehiculoActionPerformed
+
+    private void jbProcesarDevolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbProcesarDevolucionActionPerformed
+        
+        
+    }//GEN-LAST:event_jbProcesarDevolucionActionPerformed
 
     /**
      * @param args the command line arguments

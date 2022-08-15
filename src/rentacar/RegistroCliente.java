@@ -51,16 +51,26 @@ public class RegistroCliente extends javax.swing.JFrame {
         if (cabeza != null) {
             NodoC aux = cabeza;
             while (aux != null) {
-
                 if (aux.getDato().getId().equals(id)) {
                     return true;
                 }
-
                 aux = aux.getNext();
             }
             exist = (aux != null);
         }
         return exist;
+    }
+    
+    public boolean existe2 (String id){
+        boolean esta = false;
+        if (cabeza != null){
+            NodoC aux = cabeza;
+            while(aux != null && aux.getDato().getId() != id){
+                aux = aux.getNext();
+            }
+            esta = (aux != null && aux.getDato().getId() == id);
+        }
+        return esta;
     }
 
     public void elimina(String id) {
@@ -87,12 +97,17 @@ public class RegistroCliente extends javax.swing.JFrame {
     }
 
     public void modificar(Cliente p) {
-        JOptionPane.showMessageDialog(null, p.getId());
+        //JOptionPane.showMessageDialog(null, p.getId());
         if (existe(p.getId())) {
             NodoC aux = cabeza;
             while (aux != null) {
                 if (aux.getDato().getId().equals(p.getId())) {
-                    aux.getDato().setNombre(JOptionPane.showInputDialog("Digite el nuevo nombre"));
+                    aux.getDato().setNombre(JOptionPane.showInputDialog("Digite "
+                            + "el nuevo nombre"));
+                    aux.getDato().setNacimiento(JOptionPane.showInputDialog("Digite "
+                            + "la nueva fecha de nacimiento"));
+                    aux.getDato().setCorreo(JOptionPane.showInputDialog("Digite "
+                            + "el nuevo correo"));
                 }
                 aux = aux.getNext();
             }
@@ -252,6 +267,11 @@ public class RegistroCliente extends javax.swing.JFrame {
         });
 
         jcbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zafiro", "Oro", "Plata", "Bronce" }));
+        jcbCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbCategoriaActionPerformed(evt);
+            }
+        });
 
         jbModificarCleinte.setBackground(new java.awt.Color(204, 204, 255));
         jbModificarCleinte.setText("Modificar");
@@ -330,7 +350,6 @@ public class RegistroCliente extends javax.swing.JFrame {
                                 .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(17, 17, 17))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jbMostrarClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())))))
         );
@@ -356,11 +375,10 @@ public class RegistroCliente extends javax.swing.JFrame {
                             .addComponent(jtfCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
                             .addComponent(jbLimpiarV)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(jtfCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10)
+                        .addComponent(jtfCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jcbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbRegistroCliente)
@@ -428,8 +446,6 @@ public class RegistroCliente extends javax.swing.JFrame {
         Administracion volv = new Administracion();
         volv.setVisible(true);
         this.setVisible(false);
-
-
     }//GEN-LAST:event_jbVolverRegClienteActionPerformed
 
     private void jbRegistroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRegistroClienteActionPerformed
@@ -439,28 +455,29 @@ public class RegistroCliente extends javax.swing.JFrame {
                 jcbCategoria.getSelectedItem().toString()));
 
         Limpiar();
-
     }//GEN-LAST:event_jbRegistroClienteActionPerformed
 
     private void jbModificarCleinteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarCleinteActionPerformed
 
         String cedula = JOptionPane.showInputDialog("Ingrese la cedula");
         modificar(obtain(cedula));
-
     }//GEN-LAST:event_jbModificarCleinteActionPerformed
 
     private void jbEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarClienteActionPerformed
 
         String cedula = JOptionPane.showInputDialog("Ingrese la cedula");
         elimina(cedula);
-
+        Limpiar();
     }//GEN-LAST:event_jbEliminarClienteActionPerformed
 
     private void jbMostrarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMostrarClientesActionPerformed
 
         jtaClientes.setText(toString());
-
     }//GEN-LAST:event_jbMostrarClientesActionPerformed
+
+    private void jcbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbCategoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbCategoriaActionPerformed
 
     /**
      * @param args the command line arguments

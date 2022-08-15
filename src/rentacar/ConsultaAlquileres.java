@@ -90,6 +90,11 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
 
         jbVolverAlquilProces.setBackground(new java.awt.Color(255, 153, 153));
         jbVolverAlquilProces.setText("Volver");
+        jbVolverAlquilProces.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbVolverAlquilProcesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,6 +117,12 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jbVolverAlquilProcesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverAlquilProcesActionPerformed
+        Administracion admi = new Administracion();
+        admi.show(true);
+        dispose();
+    }//GEN-LAST:event_jbVolverAlquilProcesActionPerformed
 
     /**
      * @param args the command line arguments
