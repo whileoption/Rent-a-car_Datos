@@ -10,6 +10,10 @@ public class Nodo {
 
     private Vehiculo dato;
     private Nodo next;
+    private Nodo back;
+
+    public Nodo() {
+    }
 
     public Nodo(Vehiculo dato) {
         this.dato = dato;
@@ -31,6 +35,15 @@ public class Nodo {
         this.next = next;
     }
 
+    public Nodo getBack() {
+        return back;
+    }
+
+    public void setBack(Nodo back) {
+        this.back = back;
+    }
+    
+    
     @Override
     public String toString() {
         return "" + this.dato;

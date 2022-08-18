@@ -4,6 +4,8 @@ package rentacar;
 
 import Cliente.Cliente;
 import Cliente.NodoC;
+import java.util.ArrayList;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,30 +21,40 @@ public class RegistroCliente extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
+        for (int i = 0; i < regCliente.size(); i++) {
+            inserta(regCliente.get(i));
+        }
+
+    }
+
+    //Almacenamiento de la informacion
+    protected static ArrayList<Cliente> regCliente = new ArrayList<>();
+
+    public static ArrayList<Cliente> getRegCliente() {
+        return regCliente;
+    }
+
+    public static void setRegCliente(ArrayList<Cliente> regCliente) {
+        RegistroCliente.regCliente = regCliente;
     }
 
     //Esto es para la lista
     private NodoC cabeza;
 
-    public void inserta(Cliente p) { //ordena de menor a mayor (2,5,14,55,...)
+    public void inserta(Cliente p) {
         if (cabeza == null) {  //si no hay cabeza
             cabeza = new NodoC(p); //crea un nodo que establece como cabeza
-//        } else if (p.getId() < cabeza.getDato().getId()) { //si es menor a cabeza
-//            NodoC aux = new NodoC(p); //crea nodo auxiliar
-//            aux.setNext(cabeza); //la lista se ubica detras del aux
-//            cabeza = aux; //aux se establece como nueva cabeza
         } else if (cabeza.getNext() == null) { //si no hay nada luego de cabeza
             cabeza.setNext(new NodoC(p)); //crea el nodo detras de la cabeza
-        } else { //si es mayor o igual a cabeza
-            NodoC aux = cabeza; //el aux es igual a la cabeza
+        } else {
+            NodoC aux = cabeza;
 
-            while (aux.getNext() != null //siempre que lo que esta luego no sea nulo
-                    ) { //y lo que esta despues sea menor al dato 
+            while (aux.getNext() != null) {
                 aux = aux.getNext(); //el auxiliar es lo que esta luego
             }
             NodoC temp = new NodoC(p); //se crea nodo temporal
-            temp.setNext(aux.getNext()); //lo que esta luego del temporal es el que esta despues del aux
-            aux.setNext(temp); //el temporal es ahora lo que esta despues del aux
+            temp.setNext(aux.getNext());
+            aux.setNext(temp);
         }
     }
 
@@ -60,60 +72,57 @@ public class RegistroCliente extends javax.swing.JFrame {
         }
         return exist;
     }
-    
-    public boolean existe2 (String id){
-        boolean esta = false;
-        if (cabeza != null){
-            NodoC aux = cabeza;
-            while(aux != null && aux.getDato().getId() != id){
-                aux = aux.getNext();
-            }
-            esta = (aux != null && aux.getDato().getId() == id);
-        }
-        return esta;
-    }
 
+    //Este metodo se basa en lo expuesto por Jesús Equihua
+    //Fuente: https://www.youtube.com/watch?v=W7t5ewx1vp4
     public void elimina(String id) {
-        JOptionPane.showMessageDialog(null, cabeza);
-        if (cabeza != null) {
-            if (cabeza.getDato().getId().equals(id)) {
-                cabeza = cabeza.getNext();
-            } else {
-                NodoC aux = cabeza;
-                while (aux.getNext() != null) {
-                    if (aux.getNext().getDato().getId().equals(id)) {
 
-                        if (aux.getNext().getNext() != null) {
-                            aux.setNext(aux.getNext().getNext());
-                        } else {
-                            aux.setNext(null);
-                        }
-                    }
-                    aux = aux.getNext();
+        NodoC aux = cabeza;
+        NodoC previous = null;
+        boolean found = false;
+
+        while (aux != null && found == false) {
+            if (aux.getDato().getId().equals(id)) {
+                if (previous == null) {
+                    cabeza = aux.getNext();
+                    aux.setNext(null);
+                } else {
+                    previous.setNext(aux.getNext());
+                    aux.setNext(null);
                 }
+                found = true;
             }
+            previous = aux;
+            aux = aux.getNext();
         }
 
     }
 
     public void modificar(Cliente p) {
         //JOptionPane.showMessageDialog(null, p.getId());
-        if (existe(p.getId())) {
-            NodoC aux = cabeza;
-            while (aux != null) {
-                if (aux.getDato().getId().equals(p.getId())) {
-                    aux.getDato().setNombre(JOptionPane.showInputDialog("Digite "
-                            + "el nuevo nombre"));
-                    aux.getDato().setNacimiento(JOptionPane.showInputDialog("Digite "
-                            + "la nueva fecha de nacimiento"));
-                    aux.getDato().setCorreo(JOptionPane.showInputDialog("Digite "
-                            + "el nuevo correo"));
+        if (p != null) {
+            if (existe(p.getId())) {
+                NodoC aux = cabeza;
+                while (aux != null) {
+                    if (aux.getDato().getId().equals(p.getId())) {
+                        aux.getDato().setNombre(JOptionPane.showInputDialog("Digite "
+                                + "el nuevo nombre"));
+                        aux.getDato().setNacimiento(JOptionPane.showInputDialog("Digite "
+                                + "la nueva fecha de nacimiento"));
+                        aux.getDato().setCorreo(JOptionPane.showInputDialog("Digite "
+                                + "el nuevo correo"));
+                        aux.getDato().setCategoria(JOptionPane.showInputDialog("Digite "
+                                + "la nueva categoria\n Zafiro, Oro, Plata, Bronce"));
+                    }
+                    aux = aux.getNext();
                 }
-                aux = aux.getNext();
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe id");
             }
         } else {
             JOptionPane.showMessageDialog(null, "No existe id");
         }
+
     }
 
     public Cliente extrae(String id) {
@@ -443,6 +452,13 @@ public class RegistroCliente extends javax.swing.JFrame {
 
     private void jbVolverRegClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverRegClienteActionPerformed
 
+        NodoC aux = cabeza;
+
+        while (aux != null) {
+            regCliente.add(aux.getDato());
+            aux = aux.getNext();
+        }
+
         Administracion volv = new Administracion();
         volv.setVisible(true);
         this.setVisible(false);
@@ -450,11 +466,17 @@ public class RegistroCliente extends javax.swing.JFrame {
 
     private void jbRegistroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRegistroClienteActionPerformed
 
-        inserta(new Cliente(jtfCedula.getText(), jtfNombre.getText(),
-                jtfNacimiento.getText(), jtfCorreo.getText(),
-                jcbCategoria.getSelectedItem().toString()));
+        if (existe(jtfCedula.getText())) {
+            JOptionPane.showMessageDialog(null, "Registro ya existe");
+            Limpiar();
+        } else {
+            inserta(new Cliente(jtfCedula.getText(), jtfNombre.getText(),
+                    jtfNacimiento.getText(), jtfCorreo.getText(),
+                    jcbCategoria.getSelectedItem().toString()));
 
-        Limpiar();
+            Limpiar();
+        }
+
     }//GEN-LAST:event_jbRegistroClienteActionPerformed
 
     private void jbModificarCleinteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarCleinteActionPerformed
@@ -466,12 +488,19 @@ public class RegistroCliente extends javax.swing.JFrame {
     private void jbEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarClienteActionPerformed
 
         String cedula = JOptionPane.showInputDialog("Ingrese la cedula");
-        elimina(cedula);
-        Limpiar();
+        int op = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar registro?");
+        if (op == 0) {
+            elimina(cedula);
+            Limpiar();
+        }
+
     }//GEN-LAST:event_jbEliminarClienteActionPerformed
 
     private void jbMostrarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMostrarClientesActionPerformed
 
+        for (int i = 0; i < regCliente.size(); i++) {
+            regCliente.remove(i);
+        }
         jtaClientes.setText(toString());
     }//GEN-LAST:event_jbMostrarClientesActionPerformed
 
