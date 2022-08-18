@@ -65,9 +65,15 @@ public class RegistroVehiculo extends javax.swing.JFrame {
     public boolean existe(String placa) {
         boolean esta = false;
         Nodo aux = cabeza;
-        
-        if (cabeza != null) {    
-            while (aux != ultimo && !esta) {
+
+        if (cabeza != null) {
+            
+            if(cabeza.getDato().getPlaca().toLowerCase()
+                        .equals(placa.toLowerCase())){
+                esta = true;
+            }
+            
+            while (aux != ultimo && !esta) {                
                 if (aux.getDato().getPlaca().toLowerCase()
                         .equals(placa.toLowerCase())) {
                     esta = true;
@@ -117,7 +123,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
                 vehModif.setPasajeros(jtfPasajeros.getText());
                 vehModif.setAlquiler(jtfAlquilerDia.getText());
                 vehModif.setEstado(jcbEstado.getSelectedItem().toString());
-                vehModif.setExtras(agregarExtras());
+                vehModif.setExtras(extras);
 
             }
         }
@@ -132,34 +138,33 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         Nodo ant = new Nodo();
         aux = cabeza;
         ant = null;
-        
-        if(cabeza != null){
-            while(cabeza != null && !enc){
-                if(aux.getDato().getPlaca().toLowerCase()
-                        .equals(placa.toLowerCase())){
-                    if(aux == cabeza){
+
+        if (cabeza != null) {
+            while (cabeza != null && !enc) {
+                if (aux.getDato().getPlaca().toLowerCase()
+                        .equals(placa.toLowerCase())) {
+                    if (aux == cabeza) {
                         cabeza = cabeza.getNext();
                         cabeza.setBack(null);
-                    } else if(aux == ultimo){
+                    } else if (aux == ultimo) {
                         ultimo = ultimo.getBack();
                         ultimo = ant;
-                    } else{
+                    } else {
                         ant.setNext(aux.getNext());
                         aux.getNext().setBack(ant);
                     }
-                    
+
                     enc = true;
-                    
+
                 }
                 ant = aux;
                 aux = aux.getNext();
             }
-            
+
         }
         cabeza.setBack(ultimo);
         ultimo.setNext(cabeza);
 
-        
     }
 
     public Vehiculo extrae(String placa) {
@@ -617,7 +622,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
                         this.jtfAnno.getText(), this.jtfColor.getText(),
                         this.jtfCilindrada.getText(), this.jtfCombustible.getText(),
                         this.jtfPasajeros.getText(), this.jtfAlquilerDia.getText(),
-                        this.jcbEstado.getSelectedItem().toString(), agregarExtras()));
+                        this.jcbEstado.getSelectedItem().toString(), extras));
             } else {
                 JOptionPane.showMessageDialog(null, "Complete todos los espacios "
                         + "antes de registrar un vehiculo");
@@ -625,6 +630,13 @@ public class RegistroVehiculo extends javax.swing.JFrame {
             Limpiar();
             jtfPlaca.setEnabled(true);
             jbModificarV.setEnabled(true);
+
+            
+//            //Reiniciar la lista de extras
+//            for (int i = 0; i < extras.size(); i++) {
+//                extras.remove(i);
+//            }
+
         }
     }//GEN-LAST:event_jbRegistrarVActionPerformed
 
@@ -679,7 +691,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
     private void jbVolverAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverAdminActionPerformed
 
         Nodo aux = cabeza;
-        
+
         ultimo.setNext(null);
         while (aux != null) {
             regVehiculo.add(aux.getDato());
@@ -716,7 +728,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
                 vehModif.setPasajeros(jtfPasajeros.getText());
                 vehModif.setAlquiler(jtfAlquilerDia.getText());
                 vehModif.setEstado(jcbEstado.getSelectedItem().toString());
-                vehModif.setExtras(agregarExtras());
+                vehModif.setExtras(extras);
             }
         }
     }//GEN-LAST:event_jbAceptarActionPerformed
