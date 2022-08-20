@@ -54,7 +54,7 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
     
     public boolean existe(String id) {
         boolean exist = false;
-
+        
         if (cabeza != null) {
             NodoA aux = cabeza;
             while (aux != null) {                
@@ -88,11 +88,11 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
             previous = aux;
             aux = aux.getNext();
         }
-
     }
     
     public Alquiler extrae(String id) {
         Alquiler valor = null;
+        
         if (cabeza != null) {
             if (cabeza.getDato().getId().equals(id)) {
                 valor = cabeza.getDato();
@@ -122,7 +122,6 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
             }
             aux = aux.getNext();
         }
-
         return valor;
     }
     
@@ -286,7 +285,7 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
                         .addComponent(jcbExtras, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 6, Short.MAX_VALUE)))
+                        .addGap(0, 14, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -299,6 +298,10 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
                     .addComponent(jtfCedulaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1)
+                        .addGap(34, 34, 34))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -320,14 +323,11 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
                                     .addComponent(jtfDiasAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel2))
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(18, 18, 18)
+                        .addGap(14, 14, 14)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jtfAnnoAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1)))
-                .addGap(34, 34, 34))
+                            .addComponent(jtfAnnoAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -409,10 +409,11 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
 
     private void jbAlquilarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlquilarVehiculoActionPerformed
         if (existe(jtfCedulaUsuario.getText())) {
-            JOptionPane.showMessageDialog(null, "Ya se solicito un alquiler bajo esta cedula");
-            Limpiar();
+            JOptionPane.showMessageDialog(null, "Ya se solicito un alquiler bajo "
+                    + "esta cedula");
         } else {
-            inserta(new Alquiler(jtfCedulaUsuario.getText(), jtfDiasAlquilar.getText(),
+            inserta(new Alquiler(jtfCedulaUsuario.getText(), 
+                    jtfDiasAlquilar.getText(),
                     jtfCantPasajeros.getText(), jtfMarcaAlquilar.getText(), 
                     jtfModeloAlquilar.getText(), jtfAnnoAlquilar.getText()));
             JOptionPane.showMessageDialog(null, "Solicitud enviada!");

@@ -670,15 +670,6 @@ public class RegistroVehiculo extends javax.swing.JFrame {
 
     private void jbVolverAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverAdminActionPerformed
 
-        Nodo aux = cabeza;
-
-        ultimo.setNext(null);
-        while (aux != null) {
-            regVehiculo.add(aux.getDato());
-            aux = aux.getNext();
-        }
-        ultimo.setNext(cabeza);
-
         Administracion volv = new Administracion();
         volv.setVisible(true);
         this.setVisible(false);

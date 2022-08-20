@@ -4,6 +4,8 @@
  */
 package rentacar;
 
+import Vehiculo.Vehiculo;
+
 /**
  *
  * @author Karina Madrigal
@@ -17,6 +19,26 @@ public class Analisis extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
     }
+    
+    public void Limpiar() {
+        //this.jcbCategoria.setSelectedIndex(0);
+        this.jtfClienteTop1.setText("");
+        this.jtfClienteTop2.setText("");
+        this.jtfClienteTop3.setText("");
+        this.jtfClienteTop4.setText("");
+        this.jtfClienteTop5.setText("");
+        this.jtfVehiculoTop1.setText("");
+        this.jtfVehiculoTop2.setText("");
+        this.jtfVehiculoTop3.setText("");
+        this.jtfVehiculoTop4.setText("");
+        this.jtfVehiculoTop5.setText("");
+        this.jtdPromZafiro.setText("");
+        this.jtdPromOro.setText("");
+        this.jtdPromPlata.setText("");
+        this.jtdPromBronce.setText("");
+    }
+       
+        
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -329,8 +351,18 @@ public class Analisis extends javax.swing.JFrame {
         });
 
         jbGenerar.setText("Generar");
+        jbGenerar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGenerarActionPerformed(evt);
+            }
+        });
 
         jbLimpiar.setText("Limpiar");
+        jbLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -374,6 +406,15 @@ public class Analisis extends javax.swing.JFrame {
     private void jtfClienteTop1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfClienteTop1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfClienteTop1ActionPerformed
+
+    private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
+        Limpiar();
+    }//GEN-LAST:event_jbLimpiarActionPerformed
+
+    private void jbGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGenerarActionPerformed
+        Vehiculo mivehiculo = new Vehiculo();
+        //mivehiculo.getRegVehiculo();
+    }//GEN-LAST:event_jbGenerarActionPerformed
 
     /**
      * @param args the command line arguments
