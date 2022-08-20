@@ -129,6 +129,9 @@ public class Usuario extends javax.swing.JFrame {
 
     private void jbSolicitarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSolicitarVehiculoActionPerformed
         // TODO add your handling code here:
+        SolicitudAlquiler sctA = new SolicitudAlquiler();
+        sctA.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jbSolicitarVehiculoActionPerformed
 
     private void jbVolverUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverUsuarioActionPerformed

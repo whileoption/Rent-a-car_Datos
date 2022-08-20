@@ -1,21 +1,150 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package rentacar;
 
-/**
- *
- * @author Karina Madrigal
- */
+import Alquiler.NodoA;
+import Alquiler.Alquiler;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 public class SolicitudAlquiler extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RegistroVehiculo
-     */
+    //Creates new form SolicitudAlquiler
     public SolicitudAlquiler() {
         initComponents();
         setLocationRelativeTo(null);
+        
+        for (int i = 0; i < sctdAlquiler.size(); i++) {
+            inserta(sctdAlquiler.get(i));
+        }
+    }
+    
+    //Almacenamiento de la informacion
+    protected static ArrayList<Alquiler> sctdAlquiler = new ArrayList<>();
+
+    public static ArrayList<Alquiler> getSctdAlquiler() {
+        return sctdAlquiler;
+    }
+
+    public static void setSctdAlquiler(ArrayList<Alquiler> sctdAlquiler) {
+        SolicitudAlquiler.sctdAlquiler = sctdAlquiler;
+    }
+
+    //Se hace uso de la lista circular
+    private NodoA cabeza;
+    
+    /*
+     Inserta un objeto Solicitud a una lista circular no ordenada
+     @param p objeto tipo Alquiler a insertar
+     */
+    public void inserta(Alquiler p) {
+        if (cabeza == null) {  //si no hay cabeza
+            cabeza = new NodoA(p); //crea un nodo que establece como cabeza
+        } else if (cabeza.getNext() == null) { //si no hay nada luego de cabeza
+            cabeza.setNext(new NodoA(p)); //crea el nodo detras de la cabeza
+        } else {
+            NodoA aux = cabeza;
+
+            while (aux.getNext() != null) {
+                aux = aux.getNext(); //el auxiliar es lo que esta luego
+            }
+            NodoA temp = new NodoA(p); //se crea nodo temporal
+            temp.setNext(aux.getNext());
+            aux.setNext(temp);
+        }
+    }
+    
+    public boolean existe(String id) {
+        boolean exist = false;
+
+        if (cabeza != null) {
+            NodoA aux = cabeza;
+            while (aux != null) {                
+                if (aux.getDato().getId().equals(id)) {
+                    return true;
+                }
+                aux = aux.getNext();
+            }
+            exist = (aux != null);
+        }
+        return exist;
+    }
+    
+     public void elimina(String id) {
+
+        NodoA aux = cabeza;
+        NodoA previous = null;
+        boolean found = false;
+
+        while (aux != null && found == false) {
+            if (aux.getDato().getId().equals(id)) {
+                if (previous == null) {
+                    cabeza = aux.getNext();
+                    aux.setNext(null);
+                } else {
+                    previous.setNext(aux.getNext());
+                    aux.setNext(null);
+                }
+                found = true;
+            }
+            previous = aux;
+            aux = aux.getNext();
+        }
+
+    }
+    
+    public Alquiler extrae(String id) {
+        Alquiler valor = null;
+        if (cabeza != null) {
+            if (cabeza.getDato().getId().equals(id)) {
+                valor = cabeza.getDato();
+                cabeza = cabeza.getNext();
+                elimina(id);
+            } else {
+                NodoA aux = cabeza;
+                while (aux != null) {
+                    if (aux.getDato().getId().equals(id)) {
+                        valor = aux.getDato();
+                        elimina(id);
+                    }
+                    aux = aux.getNext();
+                }
+            }
+        }
+        return valor;
+    }
+    
+    public Alquiler obtain(String id) {
+        Alquiler valor = null;
+        NodoA aux = cabeza;
+
+        while (aux != null) {
+            if (aux.getDato().getId().equals(id)) {
+                valor = aux.getDato();
+            }
+            aux = aux.getNext();
+        }
+
+        return valor;
+    }
+    
+    @Override
+    public String toString() {
+        NodoA aux = cabeza;
+        String s = "";
+        while (aux != null) {
+            s += aux + ", \n";
+            aux = aux.getNext();
+        }
+        return s;
+    }
+    
+    public void Limpiar() {
+        this.jtfCedulaUsuario.setText("");
+        this.jtfDiasAlquilar.setText("");
+        this.jtfCantPasajeros.setText("");
+        this.jtfMarcaAlquilar.setText("");
+        this.jtfModeloAlquilar.setText("");
+        this.jtfAnnoAlquilar.setText("");
+        //this.jcbExtras.setSelectedItem(0);
     }
 
     /**
@@ -41,11 +170,15 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
         jtfMarcaAlquilar = new javax.swing.JTextField();
         jtfCantPasajeros = new javax.swing.JTextField();
         jtfModeloAlquilar = new javax.swing.JTextField();
-        jbAlquilarVehiculo = new javax.swing.JButton();
         jcbExtras = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jtfAnnoAlquilar = new javax.swing.JTextField();
-        jbVolverSolicVehiculo = new javax.swing.JButton();
+        jtfCedulaUsuario = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TextAlquiler = new javax.swing.JTextArea();
+        jbVolverSolicAlquiler = new javax.swing.JButton();
+        jbAlquilarVehiculo = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -96,86 +229,106 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
             }
         });
 
-        jbAlquilarVehiculo.setBackground(new java.awt.Color(204, 255, 255));
-        jbAlquilarVehiculo.setText("Registrar");
-
         jcbExtras.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel6.setText("Año");
+
+        jtfCedulaUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCedulaUsuarioActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Cedula");
+
+        TextAlquiler.setColumns(20);
+        TextAlquiler.setRows(5);
+        jScrollPane1.setViewportView(TextAlquiler);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jtfCedulaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jtfMarcaAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel3))
+                            .addGap(26, 26, 26)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jtfDiasAlquilar)
+                                .addComponent(jtfCantPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
-                        .addComponent(jtfMarcaAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtfDiasAlquilar, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                            .addComponent(jtfCantPasajeros)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6))
-                        .addGap(85, 85, 85)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtfAnnoAlquilar)
-                            .addComponent(jtfModeloAlquilar))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel10)
+                        .addGap(86, 86, 86)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jtfModeloAlquilar, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                            .addComponent(jtfAnnoAlquilar))))
                 .addGap(18, 18, 18)
-                .addComponent(jcbExtras, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 76, Short.MAX_VALUE)
+                        .addComponent(jLabel10)
+                        .addGap(18, 18, 18)
+                        .addComponent(jcbExtras, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 6, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addComponent(jbAlquilarVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jcbExtras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfCedulaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jtfCantPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 104, Short.MAX_VALUE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jtfCantPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jtfMarcaAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4))))
+                                    .addComponent(jLabel4))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jtfModeloAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jtfDiasAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel5))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(jtfDiasAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcbExtras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(92, 92, 92)
-                        .addComponent(jtfModeloAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfAnnoAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(jbAlquilarVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                            .addComponent(jLabel6)
+                            .addComponent(jtfAnnoAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1)))
+                .addGap(34, 34, 34))
         );
-
-        jbVolverSolicVehiculo.setBackground(new java.awt.Color(255, 153, 153));
-        jbVolverSolicVehiculo.setText("Volver");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -185,14 +338,8 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jbVolverSolicVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,26 +347,87 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbVolverSolicVehiculo)
-                .addContainerGap())
+                .addContainerGap(34, Short.MAX_VALUE))
         );
+
+        jbVolverSolicAlquiler.setBackground(new java.awt.Color(255, 153, 153));
+        jbVolverSolicAlquiler.setText("Volver");
+        jbVolverSolicAlquiler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbVolverSolicAlquilerActionPerformed(evt);
+            }
+        });
+
+        jbAlquilarVehiculo.setBackground(new java.awt.Color(204, 255, 255));
+        jbAlquilarVehiculo.setText("Registrar");
+        jbAlquilarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAlquilarVehiculoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jbAlquilarVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbVolverSolicAlquiler, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbAlquilarVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbVolverSolicAlquiler)
+                .addGap(18, 18, 18))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jbVolverSolicAlquilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverSolicAlquilerActionPerformed
+        NodoA aux = cabeza;
+
+        while (aux != null) {
+            sctdAlquiler.add(aux.getDato());
+            aux = aux.getNext();
+        }
+        
+        Usuario volv = new Usuario();
+        volv.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jbVolverSolicAlquilerActionPerformed
+
+    private void jbAlquilarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlquilarVehiculoActionPerformed
+        if (existe(jtfCedulaUsuario.getText())) {
+            JOptionPane.showMessageDialog(null, "Ya se solicito un alquiler bajo esta cedula");
+            Limpiar();
+        } else {
+            inserta(new Alquiler(jtfCedulaUsuario.getText(), jtfDiasAlquilar.getText(),
+                    jtfCantPasajeros.getText(), jtfMarcaAlquilar.getText(), 
+                    jtfModeloAlquilar.getText(), jtfAnnoAlquilar.getText()));
+            JOptionPane.showMessageDialog(null, "Solicitud enviada!");
+            Limpiar();
+        }
+        
+        for (int i = 0; i < sctdAlquiler.size(); i++) {
+            sctdAlquiler.remove(i);
+        }
+        TextAlquiler.setText(toString());
+    }//GEN-LAST:event_jbAlquilarVehiculoActionPerformed
+
+    private void jtfCedulaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCedulaUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCedulaUsuarioActionPerformed
 
     private void jtfMarcaAlquilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfMarcaAlquilarActionPerformed
         // TODO add your handling code here:
@@ -264,6 +472,7 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea TextAlquiler;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -271,15 +480,18 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbAlquilarVehiculo;
-    private javax.swing.JButton jbVolverSolicVehiculo;
+    private javax.swing.JButton jbVolverSolicAlquiler;
     private javax.swing.JComboBox<String> jcbExtras;
     private javax.swing.JTextField jtfAnnoAlquilar;
     private javax.swing.JTextField jtfCantPasajeros;
+    private javax.swing.JTextField jtfCedulaUsuario;
     private javax.swing.JTextField jtfDiasAlquilar;
     private javax.swing.JTextField jtfMarcaAlquilar;
     private javax.swing.JTextField jtfModeloAlquilar;

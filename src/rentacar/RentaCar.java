@@ -1,14 +1,8 @@
-/*
- */
 package rentacar;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author prueba
- */
 public class RentaCar {
 
     /**
@@ -18,5 +12,4 @@ public class RentaCar {
         InterfazUsuario gui = new InterfazUsuario();
         gui.setVisible(true);
     }
-
 }

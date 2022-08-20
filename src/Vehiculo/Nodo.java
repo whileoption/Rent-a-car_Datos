@@ -1,11 +1,5 @@
-/*
- */
 package Vehiculo;
 
-/**
- *
- * @author Karina Madrigal
- */
 public class Nodo {
 
     private Vehiculo dato;
