@@ -1,3 +1,5 @@
+/*
+ */
 package rentacar;
 
 import Vehiculo.Nodo;
@@ -7,9 +9,15 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+/**
+ *
+ * @author Karina Madrigal
+ */
 public class RegistroVehiculo extends javax.swing.JFrame {
 
-    //Creates new form RegistroVehiculo
+    /**
+     * Creates new form RegistroVehiculo
+     */
     public RegistroVehiculo() {
         initComponents();
         jbAceptar.setVisible(false);
@@ -18,6 +26,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         for (int i = 0; i < regVehiculo.size(); i++) {
             inserta(regVehiculo.get(i));
         }
+
     }
 
     //Almacenamiento de la informacion
@@ -35,9 +44,10 @@ public class RegistroVehiculo extends javax.swing.JFrame {
     private Nodo cabeza;
     private Nodo ultimo;
 
-    /*
-     Inserta un objeto Vehiculo a una lista circular no ordenada
-     @param p objeto tipo Vehiculo a insertar
+    /**
+     * Inserta un objeto Vehiculo a una lista circular no ordenada
+     *
+     * @param p objeto tipo Vehiculo a insertar
      */
     public void inserta(Vehiculo p) {
         if (cabeza == null) { //si cabeza es igual a null
@@ -57,11 +67,15 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         Nodo aux = cabeza;
 
         if (cabeza != null) {
-            if(cabeza.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())){
+
+            if (cabeza.getDato().getPlaca().toLowerCase()
+                    .equals(placa.toLowerCase())) {
                 esta = true;
             }
-            while (aux != ultimo && !esta) {                
-                if (aux.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
+
+            while (aux != ultimo && !esta) {
+                if (aux.getDato().getPlaca().toLowerCase()
+                        .equals(placa.toLowerCase())) {
                     esta = true;
                 }
                 aux = aux.getNext();
@@ -73,26 +87,28 @@ public class RegistroVehiculo extends javax.swing.JFrame {
     public Vehiculo obtain(String placa) {
         Vehiculo vehObtenido = null;
         if (cabeza != null) {
-            if (cabeza.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
+            if (cabeza.getDato().getPlaca().toLowerCase()
+                    .equals(placa.toLowerCase())) {
                 vehObtenido = cabeza.getDato();
-            } else 
-                if (ultimo.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
+            } else if (ultimo.getDato().getPlaca().toLowerCase()
+                    .equals(placa.toLowerCase())) {
                 vehObtenido = ultimo.getDato();
-                } else {
-                    Nodo aux = cabeza;
-       
-                    while (aux.getNext() != cabeza) {
-                        if (aux.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
-                            vehObtenido = aux.getDato();
-                        }
-                        aux = aux.getNext();
+            } else {
+                Nodo aux = cabeza;
+                while (aux.getNext() != cabeza) {
+                    if (aux.getDato().getPlaca().toLowerCase()
+                            .equals(placa.toLowerCase())) {
+                        vehObtenido = aux.getDato();
                     }
+                    aux = aux.getNext();
                 }
+            }
         }
         return vehObtenido;
     }
 
     public void modifica(String placa) {
+
         if (cabeza != null) { //si cabeza no es null
             if (existe(placa)) {
                 Vehiculo vehModif = obtain(placa);
@@ -108,6 +124,7 @@ public class RegistroVehiculo extends javax.swing.JFrame {
                 vehModif.setAlquiler(jtfAlquilerDia.getText());
                 vehModif.setEstado(jcbEstado.getSelectedItem().toString());
                 vehModif.setExtras(extras);
+
             }
         }
     }
@@ -115,7 +132,6 @@ public class RegistroVehiculo extends javax.swing.JFrame {
     //Este metodo se basa en lo expuesto por 
     //Tutoriales de Programación Explicada
     //Fuente: https://www.youtube.com/watch?v=bxvhZX_dwpo
-    
     public void elimina(String placa) {
         boolean enc = false;
         Nodo aux = new Nodo();
@@ -125,26 +141,30 @@ public class RegistroVehiculo extends javax.swing.JFrame {
 
         if (cabeza != null) {
             while (cabeza != null && !enc) {
-                if (aux.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
+                if (aux.getDato().getPlaca().toLowerCase()
+                        .equals(placa.toLowerCase())) {
                     if (aux == cabeza) {
                         cabeza = cabeza.getNext();
                         cabeza.setBack(null);
-                    } else 
-                        if (aux == ultimo) {
-                            ultimo = ultimo.getBack();
-                            ultimo = ant;
-                        } else {
-                            ant.setNext(aux.getNext());
-                            aux.getNext().setBack(ant);
-                        }
+                    } else if (aux == ultimo) {
+                        ultimo = ultimo.getBack();
+                        ultimo = ant;
+                    } else {
+                        ant.setNext(aux.getNext());
+                        aux.getNext().setBack(ant);
+                    }
+
                     enc = true;
+
                 }
                 ant = aux;
                 aux = aux.getNext();
             }
+
         }
         cabeza.setBack(ultimo);
         ultimo.setNext(cabeza);
+
     }
 
     public Vehiculo extrae(String placa) {
@@ -611,12 +631,10 @@ public class RegistroVehiculo extends javax.swing.JFrame {
             jtfPlaca.setEnabled(true);
             jbModificarV.setEnabled(true);
 
-            
 //            //Reiniciar la lista de extras
 //            for (int i = 0; i < extras.size(); i++) {
 //                extras.remove(i);
 //            }
-
         }
     }//GEN-LAST:event_jbRegistrarVActionPerformed
 
@@ -624,7 +642,15 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         Limpiar();
     }//GEN-LAST:event_jbLimpiarVActionPerformed
 
-    private ArrayList<String> extras = new ArrayList<>();
+    protected static ArrayList<String> extras = new ArrayList<>();
+
+    public static ArrayList<String> getExtras() {
+        return extras;
+    }
+
+    public static void setExtras(ArrayList<String> extras) {
+        RegistroVehiculo.extras = extras;
+    }
 
     private ArrayList<String> agregarExtras() {
         extras.add(this.jtfExtra.getText());
@@ -669,6 +695,19 @@ public class RegistroVehiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_jbMostrarVActionPerformed
 
     private void jbVolverAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverAdminActionPerformed
+
+        try {
+            Nodo aux = cabeza;
+
+            ultimo.setNext(null);
+            while (aux != null) {
+                regVehiculo.add(aux.getDato());
+                aux = aux.getNext();
+            }
+            ultimo.setNext(cabeza);
+        } catch(Exception e){
+            
+        }
 
         Administracion volv = new Administracion();
         volv.setVisible(true);

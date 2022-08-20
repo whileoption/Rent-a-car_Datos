@@ -1,149 +1,304 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package rentacar;
 
 import Alquiler.NodoA;
-import Alquiler.Alquiler;
+import Analisis.Ordenamiento;
+import Analisis.SeleccionVehiculo;
+import Analisis.Solicitud;
+import Vehiculo.Vehiculo;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.JOptionPane;
 
+/**
+ *
+ * @author Karina Madrigal
+ */
 public class SolicitudAlquiler extends javax.swing.JFrame {
 
-    //Creates new form SolicitudAlquiler
+    /**
+     * Creates new form RegistroVehiculo
+     */
     public SolicitudAlquiler() {
         initComponents();
         setLocationRelativeTo(null);
-        
-        for (int i = 0; i < sctdAlquiler.size(); i++) {
-            inserta(sctdAlquiler.get(i));
+        jtfPlacaAlquiler.setVisible(false);
+
+        for (int i = 0; i < vehiculo.getExtras().size(); i++) {
+            jcbExtras.addItem(vehiculo.getExtras().get(i));
         }
+
+        //Pila
+        this.cima = null;
+        this.longitud = 0;
+
     }
-    
+
+    //Objeto tipo RegistroVehiculo
+    RegistroVehiculo vehiculo = new RegistroVehiculo();
+
     //Almacenamiento de la informacion
-    protected static ArrayList<Alquiler> sctdAlquiler = new ArrayList<>();
+    private static ArrayList<Solicitud> placaAlquilada = new ArrayList<>();
 
-    public static ArrayList<Alquiler> getSctdAlquiler() {
-        return sctdAlquiler;
+    //Esto es para la pila
+    private NodoA cima;
+    private int longitud;
+
+    public boolean Vacia() {
+        return cima == null;
     }
 
-    public static void setSctdAlquiler(ArrayList<Alquiler> sctdAlquiler) {
-        SolicitudAlquiler.sctdAlquiler = sctdAlquiler;
+    public int tamano() {
+        return longitud;
     }
 
-    //Se hace uso de la lista circular
-    private NodoA cabeza;
-    
-    /*
-     Inserta un objeto Solicitud a una lista circular no ordenada
-     @param p objeto tipo Alquiler a insertar
-     */
-    public void inserta(Alquiler p) {
-        if (cabeza == null) {  //si no hay cabeza
-            cabeza = new NodoA(p); //crea un nodo que establece como cabeza
-        } else if (cabeza.getNext() == null) { //si no hay nada luego de cabeza
-            cabeza.setNext(new NodoA(p)); //crea el nodo detras de la cabeza
+    //se agregan nodos
+    public void push(Vehiculo valor) {
+        NodoA newNode = new NodoA();
+        newNode.setValor(valor);
+        if (this.Vacia()) {
+            this.cima = newNode;
         } else {
-            NodoA aux = cabeza;
+            newNode.setSiguiente(this.cima);
+            this.cima = newNode;
+        }
+        this.longitud++;
+    }
 
-            while (aux.getNext() != null) {
-                aux = aux.getNext(); //el auxiliar es lo que esta luego
-            }
-            NodoA temp = new NodoA(p); //se crea nodo temporal
-            temp.setNext(aux.getNext());
-            aux.setNext(temp);
+    //elimina el nodo de la cima
+    public void pop() {
+        if (!Vacia()) {
+            //Asigna como primer nodo al siguiente de la pila
+            this.cima = this.cima.getSiguiente();
+            //Decrementa el contador del tamaño de la pila
+            this.longitud--;
         }
     }
-    
-    public boolean existe(String id) {
+
+    //Busca el nodo segun valor y retorna true si exise y false si no existe
+    public boolean search(String placa) {
+        //Crea una copia de la pila
+        NodoA aux = cima;
+        //Bandera para verificar si existe el elemento search
         boolean exist = false;
-        
-        if (cabeza != null) {
-            NodoA aux = cabeza;
-            while (aux != null) {                
-                if (aux.getDato().getId().equals(id)) {
-                    return true;
-                }
-                aux = aux.getNext();
+        //Recorre la pila hasta encontrar el node o llegar al final de la pila
+        while (exist != true && aux != null) {
+            //Compara si el valor del nodo es igual al reference
+            if (placa.toLowerCase()
+                    .equals(aux.getValor().getPlaca().toLowerCase())) {
+                //Cambia el valor de la bandera
+                exist = true;
+            } else {
+                //Avanza al siguiente node
+                aux = aux.getSiguiente();
             }
-            exist = (aux != null);
         }
+        //Retorna el valor de la bandera
         return exist;
     }
-    
-     public void elimina(String id) {
 
-        NodoA aux = cabeza;
-        NodoA previous = null;
-        boolean found = false;
-
-        while (aux != null && found == false) {
-            if (aux.getDato().getId().equals(id)) {
-                if (previous == null) {
-                    cabeza = aux.getNext();
-                    aux.setNext(null);
-                } else {
-                    previous.setNext(aux.getNext());
-                    aux.setNext(null);
+    //Elimina según referencia
+    public void delete(String placa) {
+        //Consulta si el valor existe en la pila
+        if (search(placa)) {
+            //Crea una pila auxiliar que guarda valores que se vayan 
+            //desapilando en la pila original
+            NodoA cimaPilaAux = null;
+            //Recorre la pila hasta llegar al node que tenga el valor 
+            //igual que el de reference
+            while (!placa.toLowerCase()
+                    .equals(cima.getValor().getPlaca().toLowerCase())) {
+                //Cra un node temporal para agregarlos a la pila auxiliar
+                NodoA temp = new NodoA();
+                //Ingresa el valor al node temmporal
+                temp.setValor(cima.getValor());
+                //Consulta si la pila auxiliar no ha sido inicializada
+                if (cimaPilaAux == null) {
+                    //Inicializa la pila auxiliar
+                    cimaPilaAux = temp;
+                } //Caso contrario si la pila auxiliar ya contiene elementos
+                //los agrega al start
+                else {
+                    temp.setSiguiente(cimaPilaAux);
+                    cimaPilaAux = temp;
                 }
-                found = true;
+                //Elimina el node del tope de la pila hasta llegar al node
+                //que se desea eliminar
+                pop();
             }
-            previous = aux;
-            aux = aux.getNext();
+            //Elimina el node que coincide con el de reference
+            pop();
+            //Regresa los valores de la pila auxiliar a la pila original
+            //mientras la pila auxiliar tenga elementos
+            while (cimaPilaAux != null) {
+                //Utiliza el metodo push para regresar elementos a la pila original
+                push(cimaPilaAux.getValor());
+            }
+            //Libera la memoria utilizada por la pila auxiliar
+            cimaPilaAux = null;
+        } else {
+            System.out.println("El nodo indicado no existe");
         }
     }
-    
-    public Alquiler extrae(String id) {
-        Alquiler valor = null;
-        
-        if (cabeza != null) {
-            if (cabeza.getDato().getId().equals(id)) {
-                valor = cabeza.getDato();
-                cabeza = cabeza.getNext();
-                elimina(id);
-            } else {
-                NodoA aux = cabeza;
-                while (aux != null) {
-                    if (aux.getDato().getId().equals(id)) {
-                        valor = aux.getDato();
-                        elimina(id);
-                    }
-                    aux = aux.getNext();
-                }
-            }
-        }
-        return valor;
-    }
-    
-    public Alquiler obtain(String id) {
-        Alquiler valor = null;
-        NodoA aux = cabeza;
 
-        while (aux != null) {
-            if (aux.getDato().getId().equals(id)) {
-                valor = aux.getDato();
-            }
-            aux = aux.getNext();
-        }
-        return valor;
-    }
-    
-    @Override
-    public String toString() {
-        NodoA aux = cabeza;
+    public String Listar() {
+        //Crea una copia de la pila
+        NodoA aux = cima;
         String s = "";
+        //Recorre la pila hasta el ultimo node
         while (aux != null) {
-            s += aux + ", \n";
-            aux = aux.getNext();
+            s += "|\t" + aux.getValor() + "|\t";
+            s += "\n\n";
+            aux = aux.getSiguiente();
         }
         return s;
     }
-    
-    public void Limpiar() {
-        this.jtfCedulaUsuario.setText("");
-        this.jtfDiasAlquilar.setText("");
-        this.jtfCantPasajeros.setText("");
-        this.jtfMarcaAlquilar.setText("");
-        this.jtfModeloAlquilar.setText("");
-        this.jtfAnnoAlquilar.setText("");
-        //this.jcbExtras.setSelectedItem(0);
+
+    //Variable para almacenar la info del accuracy ligado al vehiculo
+    private static ArrayList<SeleccionVehiculo> accVehiculo = new ArrayList<>();
+
+    public void buscarVehiculo() {
+
+        boolean pas = false;
+
+        for (int i = 0; i < vehiculo.getRegVehiculo().size(); i++) {
+            //Variable para calcular accuracy 
+            int acc = 0;
+
+            //Se busca vehiculos que tengan la cantidad minima de pasajeros
+            if (Integer.parseInt(jtfCantPasajeros.getText())
+                    <= Integer.parseInt(vehiculo.getRegVehiculo()
+                            .get(i).getPasajeros())) {
+
+                pas = true;
+                acc += 5;
+
+                if (jtfMarcaAlquilar.getText().toLowerCase()
+                        .equals(vehiculo.getRegVehiculo()
+                                .get(i).getMarca().toLowerCase())) {
+                    acc += 1;
+                }
+
+                if (jtfModeloAlquilar.getText().toLowerCase()
+                        .equals(vehiculo.getRegVehiculo()
+                                .get(i).getModelo().toLowerCase())) {
+                    acc += 1;
+                }
+
+                if (jtfAnnoAlquilar.getText().toLowerCase()
+                        .equals(vehiculo.getRegVehiculo()
+                                .get(i).getAnno().toLowerCase())) {
+                    acc += 1;
+                }
+
+                if (jcbExtras.getSelectedItem().toString()
+                        .toLowerCase().equals(vehiculo
+                                .getRegVehiculo().get(i)
+                                .getExtras().get(0)
+                                .toLowerCase())) {
+                    acc += 1;
+                }
+
+            }
+
+            //Almacenamiento de placa y accuracy 
+            accVehiculo.add(new SeleccionVehiculo(vehiculo.getRegVehiculo()
+                    .get(i).getPlaca(), acc));
+
+        }
+        if (pas == false) { //cantidad minima de pasajeros no cumple
+            JOptionPane.showMessageDialog(null, "No hay vehiculos que "
+                    + "satisfagan la busqueda");
+        }
+
+        //Se ordena el arraylist
+        Collections.sort(accVehiculo, new Ordenamiento());
+
+    }
+
+    public void cambioCategoria(int dias, String cedula, String placa) {
+        RegistroCliente cat = new RegistroCliente();
+
+        //Por dias de alquiler
+        if (dias >= 40) {
+            for (int i = 0; i < cat.getRegCliente().size(); i++) {
+                if (cat.getRegCliente().get(i).getId().equals(cedula)) {
+                    cat.getRegCliente().get(i).setCategoria("oro");
+                }
+            }
+        } else if (dias >= 30) {
+            for (int i = 0; i < cat.getRegCliente().size(); i++) {
+                if (cat.getRegCliente().get(i).getId().equals(cedula)) {
+
+                    if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+                            .equals("bronce")) {
+                        cat.getRegCliente().get(i).setCategoria("plata");
+
+                    } else if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+                            .equals("plata")) {
+                        cat.getRegCliente().get(i).setCategoria("oro");
+
+                    } else if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+                            .equals("oro")) {
+                        cat.getRegCliente().get(i).setCategoria("zafiro");
+                    }
+                }
+            }
+        }
+
+        //Por monto de alquiler
+        if (calculoAlquiler(placa) >= 700000) {
+            for (int i = 0; i < cat.getRegCliente().size(); i++) {
+                if (cat.getRegCliente().get(i).getId().equals(cedula)) {
+
+                    if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+                            .equals("bronce")) {
+                        cat.getRegCliente().get(i).setCategoria("plata");
+
+                    } else if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+                            .equals("plata")) {
+                        cat.getRegCliente().get(i).setCategoria("oro");
+
+                    } else if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+                            .equals("oro")) {
+                        cat.getRegCliente().get(i).setCategoria("zafiro");
+                    }
+                }
+            }
+        }
+
+    }
+
+    public void cambioEstado(String placa) {
+        RegistroVehiculo estado = new RegistroVehiculo();
+
+        for (int i = 0; i < estado.getRegVehiculo().size(); i++) {
+            if (estado.getRegVehiculo().get(i).getPlaca().toLowerCase()
+                    .equals(placa.toLowerCase())) {
+                estado.getRegVehiculo().get(i).setEstado("Alquilado");
+            }
+        }
+    }
+
+    public double calculoAlquiler(String placa) {
+
+        RegistroVehiculo alq = new RegistroVehiculo();
+        double alqDia = 0.0;
+
+        int dias = Integer.parseInt(jtfDiasAlquilar.getText());
+
+        for (int i = 0; i < alq.getRegVehiculo().size(); i++) {
+            if (alq.getRegVehiculo().get(i).getPlaca().toLowerCase()
+                    .equals(placa.toLowerCase())) {
+                alqDia = Double.parseDouble(alq.getRegVehiculo()
+                        .get(i).getAlquiler());
+            }
+        }
+
+        return alqDia * dias * 1.13;
     }
 
     /**
@@ -172,11 +327,11 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
         jcbExtras = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jtfAnnoAlquilar = new javax.swing.JTextField();
-        jtfCedulaUsuario = new javax.swing.JTextField();
+        jtfPlacaAlquiler = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TextAlquiler = new javax.swing.JTextArea();
-        jbVolverSolicAlquiler = new javax.swing.JButton();
+        jtfCedulaAlquiler = new javax.swing.JTextField();
+        jbVolverSolicVehiculo = new javax.swing.JButton();
+        jbBuscarVehiculo = new javax.swing.JButton();
         jbAlquilarVehiculo = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -228,118 +383,144 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
             }
         });
 
-        jcbExtras.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel6.setText("Año");
-
-        jtfCedulaUsuario.addActionListener(new java.awt.event.ActionListener() {
+        jcbExtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfCedulaUsuarioActionPerformed(evt);
+                jcbExtrasActionPerformed(evt);
             }
         });
 
-        jLabel7.setText("Cedula");
+        jLabel6.setText("Año");
 
-        TextAlquiler.setColumns(20);
-        TextAlquiler.setRows(5);
-        jScrollPane1.setViewportView(TextAlquiler);
+        jLabel7.setText("Cedula");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel7)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jtfCedulaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jtfMarcaAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3))
-                            .addGap(26, 26, 26)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jtfDiasAlquilar)
-                                .addComponent(jtfCantPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGap(86, 86, 86)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtfModeloAlquilar, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-                            .addComponent(jtfAnnoAlquilar))))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 76, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel10)
                         .addGap(18, 18, 18)
                         .addComponent(jcbExtras, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 14, Short.MAX_VALUE)))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6))
+                                .addGap(99, 99, 99)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtfModeloAlquilar, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                                    .addComponent(jtfAnnoAlquilar)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel4))
+                                .addGap(40, 40, 40)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jtfCantPasajeros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                                    .addComponent(jtfDiasAlquilar, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jtfCedulaAlquiler, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jtfMarcaAlquilar, javax.swing.GroupLayout.Alignment.TRAILING))))
+                        .addGap(18, 18, 18)
+                        .addComponent(jtfPlacaAlquiler)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(jcbExtras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfCedulaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1)
-                        .addGap(34, 34, 34))
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(jcbExtras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtfCedulaAlquiler, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(0, 104, Short.MAX_VALUE)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jtfCantPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
+                                .addComponent(jtfCantPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jtfMarcaAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jtfModeloAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jtfDiasAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(14, 14, 14)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtfAnnoAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addContainerGap())))
+                                    .addComponent(jLabel4)))))
+                    .addComponent(jtfDiasAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jtfPlacaAlquiler, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jtfModeloAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel6))
+                    .addComponent(jtfAnnoAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
+
+        jbVolverSolicVehiculo.setBackground(new java.awt.Color(255, 153, 153));
+        jbVolverSolicVehiculo.setText("Volver");
+        jbVolverSolicVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbVolverSolicVehiculoActionPerformed(evt);
+            }
+        });
+
+        jbBuscarVehiculo.setBackground(new java.awt.Color(204, 255, 255));
+        jbBuscarVehiculo.setText("Buscar");
+        jbBuscarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarVehiculoActionPerformed(evt);
+            }
+        });
+
+        jbAlquilarVehiculo.setBackground(new java.awt.Color(255, 255, 204));
+        jbAlquilarVehiculo.setText("Alquilar");
+        jbAlquilarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAlquilarVehiculoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 9, Short.MAX_VALUE)
+                .addComponent(jbAlquilarVehiculo)
+                .addGap(75, 75, 75)
+                .addComponent(jbBuscarVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(97, 97, 97)
+                .addComponent(jbVolverSolicVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,92 +528,108 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbVolverSolicVehiculo)
+                    .addComponent(jbBuscarVehiculo)
+                    .addComponent(jbAlquilarVehiculo))
+                .addContainerGap())
         );
-
-        jbVolverSolicAlquiler.setBackground(new java.awt.Color(255, 153, 153));
-        jbVolverSolicAlquiler.setText("Volver");
-        jbVolverSolicAlquiler.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbVolverSolicAlquilerActionPerformed(evt);
-            }
-        });
-
-        jbAlquilarVehiculo.setBackground(new java.awt.Color(204, 255, 255));
-        jbAlquilarVehiculo.setText("Registrar");
-        jbAlquilarVehiculo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbAlquilarVehiculoActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jbAlquilarVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbVolverSolicAlquiler, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbAlquilarVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbVolverSolicAlquiler)
-                .addGap(18, 18, 18))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbVolverSolicAlquilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverSolicAlquilerActionPerformed
-        NodoA aux = cabeza;
-
-        while (aux != null) {
-            sctdAlquiler.add(aux.getDato());
-            aux = aux.getNext();
-        }
-        
-        Usuario volv = new Usuario();
-        volv.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jbVolverSolicAlquilerActionPerformed
-
-    private void jbAlquilarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlquilarVehiculoActionPerformed
-        if (existe(jtfCedulaUsuario.getText())) {
-            JOptionPane.showMessageDialog(null, "Ya se solicito un alquiler bajo "
-                    + "esta cedula");
-        } else {
-            inserta(new Alquiler(jtfCedulaUsuario.getText(), 
-                    jtfDiasAlquilar.getText(),
-                    jtfCantPasajeros.getText(), jtfMarcaAlquilar.getText(), 
-                    jtfModeloAlquilar.getText(), jtfAnnoAlquilar.getText()));
-            JOptionPane.showMessageDialog(null, "Solicitud enviada!");
-            Limpiar();
-        }
-        
-        for (int i = 0; i < sctdAlquiler.size(); i++) {
-            sctdAlquiler.remove(i);
-        }
-        TextAlquiler.setText(toString());
-    }//GEN-LAST:event_jbAlquilarVehiculoActionPerformed
-
-    private void jtfCedulaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCedulaUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfCedulaUsuarioActionPerformed
-
     private void jtfMarcaAlquilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfMarcaAlquilarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfMarcaAlquilarActionPerformed
+
+    private void jbVolverSolicVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverSolicVehiculoActionPerformed
+
+        Usuario volUsuario = new Usuario();
+        volUsuario.setVisible(true);
+        this.setVisible(false);
+
+
+    }//GEN-LAST:event_jbVolverSolicVehiculoActionPerformed
+
+    private void jbBuscarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarVehiculoActionPerformed
+
+        buscarVehiculo();
+
+        //Se apilan las opciones de vehiculo
+        for (int i = 0; i < accVehiculo.size(); i++) {
+
+            for (int j = 0; j < vehiculo.getRegVehiculo().size(); j++) {
+
+                if (accVehiculo.get(i).getPlaca().toLowerCase()
+                        .equals(vehiculo.getRegVehiculo().get(j)
+                                .getPlaca().toLowerCase())) {
+
+                    push(vehiculo.getRegVehiculo().get(j));
+
+                }
+
+            }
+
+        }
+
+        //Se decide mostrar al usuario hasta 5 opciones
+        while (longitud > 3) {
+            pop();
+        }
+        String placa = JOptionPane.showInputDialog(null, "Elija el vehiculo "
+                + "de preferencia\nInserte la placa\n\n" + Listar());
+
+        //Eleccion
+        try {
+            NodoA aux = cima;
+            while (aux != null) {
+                if (aux.getValor().getPlaca().toLowerCase()
+                        .equals(placa.toLowerCase())) {
+                    jtfCantPasajeros.setText(aux.getValor().getPasajeros());
+                    jtfMarcaAlquilar.setText(aux.getValor().getMarca());
+                    jtfModeloAlquilar.setText(aux.getValor().getModelo());
+                    jtfAnnoAlquilar.setText(aux.getValor().getAnno());
+                    jcbExtras.setSelectedItem(aux.getValor().getExtras().get(0));
+                    jtfPlacaAlquiler.setText(aux.getValor().getPlaca());
+                }
+                aux = aux.getSiguiente();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+
+    }//GEN-LAST:event_jbBuscarVehiculoActionPerformed
+
+    private void jcbExtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbExtrasActionPerformed
+
+    }//GEN-LAST:event_jcbExtrasActionPerformed
+
+    private void jbAlquilarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlquilarVehiculoActionPerformed
+
+        placaAlquilada.add(new Solicitud(jtfPlacaAlquiler.getText(),
+                jtfCedulaAlquiler.getText(), "Registrada",
+                calculoAlquiler(jtfPlacaAlquiler.getText())));
+
+        cambioCategoria((Integer.parseInt(jtfDiasAlquilar.getText())),
+                jtfCedulaAlquiler.getText(), jtfPlacaAlquiler.getText());
+        cambioEstado(jtfPlacaAlquiler.getText());
+
+    }//GEN-LAST:event_jbAlquilarVehiculoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -463,6 +660,10 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -473,7 +674,6 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea TextAlquiler;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -486,15 +686,16 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbAlquilarVehiculo;
-    private javax.swing.JButton jbVolverSolicAlquiler;
+    private javax.swing.JButton jbBuscarVehiculo;
+    private javax.swing.JButton jbVolverSolicVehiculo;
     private javax.swing.JComboBox<String> jcbExtras;
     private javax.swing.JTextField jtfAnnoAlquilar;
     private javax.swing.JTextField jtfCantPasajeros;
-    private javax.swing.JTextField jtfCedulaUsuario;
+    private javax.swing.JTextField jtfCedulaAlquiler;
     private javax.swing.JTextField jtfDiasAlquilar;
     private javax.swing.JTextField jtfMarcaAlquilar;
     private javax.swing.JTextField jtfModeloAlquilar;
+    private javax.swing.JTextField jtfPlacaAlquiler;
     // End of variables declaration//GEN-END:variables
 }

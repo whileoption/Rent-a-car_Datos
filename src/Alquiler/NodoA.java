@@ -1,34 +1,37 @@
+/*
+ */
 package Alquiler;
 
+import Vehiculo.Vehiculo;
+
+/**
+ *
+ * @author Karina Madrigal
+ */
 public class NodoA {
-    private Alquiler dato;
-    private NodoA next;
-    
+
+    private Vehiculo valor;
+    private NodoA siguiente;
+
     public NodoA() {
-    }
-    
-    public NodoA(Alquiler dato) {
-        this.dato = dato;
+        this.valor = null;
+        this.siguiente = null;
     }
 
-    public Alquiler getDato() {
-        return dato;
+    public Vehiculo getValor() {
+        return valor;
     }
 
-    public void setDato(Alquiler dato) {
-        this.dato = dato;
+    public void setValor(Vehiculo valor) {
+        this.valor = valor;
     }
 
-    public NodoA getNext() {
-        return next;
+    public NodoA getSiguiente() {
+        return siguiente;
     }
 
-    public void setNext(NodoA next) {
-        this.next = next;
+    public void setSiguiente(NodoA siguiente) {
+        this.siguiente = siguiente;
     }
-    
-    @Override
-    public String toString() {
-        return "" + this.dato;
-    }
+
 }

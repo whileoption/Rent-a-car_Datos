@@ -146,13 +146,6 @@ public class RegistroCliente extends javax.swing.JFrame {
         return valor;
     }
 
-    public void Cantidad(){
-        int canZafiro = 0;
-        if(jcbCategoria.equals(this.jcbCategoria)){
-            canZafiro = canZafiro + 1;
-        }
-    }
-            
     public Cliente obtain(String id) {
         Cliente valor = null;
         NodoC aux = cabeza;
@@ -163,10 +156,10 @@ public class RegistroCliente extends javax.swing.JFrame {
             }
             aux = aux.getNext();
         }
+
         return valor;
+
     }
-    
-    
 
     @Override
     public String toString() {
@@ -512,7 +505,7 @@ public class RegistroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jbMostrarClientesActionPerformed
 
     private void jcbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbCategoriaActionPerformed
-        
+        // TODO add your handling code here:
     }//GEN-LAST:event_jcbCategoriaActionPerformed
 
     /**
@@ -540,6 +533,8 @@ public class RegistroCliente extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(RegistroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
