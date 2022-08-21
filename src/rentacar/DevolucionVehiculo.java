@@ -4,6 +4,8 @@
  */
 package rentacar;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Karina Madrigal
@@ -17,9 +19,48 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
     }
-    
-    public void procesar(){
-        
+
+    SolicitudAlquiler devol = new SolicitudAlquiler();
+    RegistroVehiculo regV = new RegistroVehiculo();
+
+    public void devolver() {
+
+        boolean encontrada = false;
+        for (int i = 0; i < devol.getSolicAlquiler().size(); i++) {
+
+            if (jtfCedulaDevolucion.getText()
+                    .equals(devol.getSolicAlquiler().get(i).getCedAlq())
+                    && jtfPlacaDevolucion.getText()
+                            .equals(devol.getSolicAlquiler().get(i).getPlaca())) {
+
+                devol.getSolicAlquiler().get(i).setEstado(jcbEstadoDevolucion
+                        .getSelectedItem().toString());
+
+                encontrada = true;
+
+            }
+
+            if (encontrada == false) {
+                JOptionPane.showMessageDialog(null,
+                        "La solicitud no fue encontrada");
+            }
+        }
+    }
+
+    public void estadoVehiculo() {
+
+        for (int i = 0; i < regV.getRegVehiculo().size(); i++) {
+
+            if (jtfCedulaDevolucion.getText()
+                    .equals(devol.getSolicAlquiler().get(i).getCedAlq())
+                    && jtfPlacaDevolucion.getText()
+                            .equals(devol.getSolicAlquiler().get(i).getPlaca())) {
+
+                regV.getRegVehiculo().get(i).setEstado("Disponible");
+            }
+
+        }
+
     }
 
     /**
@@ -53,7 +94,7 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(142, 142, 142)
+                .addGap(188, 188, 188)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -72,6 +113,11 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
         jLabel10.setText("Estado");
 
         jcbEstadoDevolucion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Excelente", "Bien", "Mal", "Deplorable" }));
+        jcbEstadoDevolucion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbEstadoDevolucionActionPerformed(evt);
+            }
+        });
 
         jbProcesarDevolucion.setBackground(new java.awt.Color(204, 255, 255));
         jbProcesarDevolucion.setText("Procesar");
@@ -94,25 +140,25 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jbProcesarDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jtfCedulaDevolucion)
-                            .addComponent(jtfPlacaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jtfPlacaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jbProcesarDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addGap(18, 18, 18)
                         .addComponent(jcbEstadoDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jbVolverDevolVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jbVolverDevolVehiculo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -131,10 +177,10 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
                         .addComponent(jLabel10)
                         .addComponent(jtfCedulaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jcbEstadoDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(jbProcesarDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbVolverDevolVehiculo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbVolverDevolVehiculo)
+                    .addComponent(jbProcesarDevolucion))
                 .addContainerGap())
         );
 
@@ -148,7 +194,7 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -161,9 +207,19 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_jbVolverDevolVehiculoActionPerformed
 
     private void jbProcesarDevolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbProcesarDevolucionActionPerformed
-        
-        
+
+        devolver();
+        try{
+            estadoVehiculo();
+        } catch (Exception e){
+            e.getMessage();
+        }
+
     }//GEN-LAST:event_jbProcesarDevolucionActionPerformed
+
+    private void jcbEstadoDevolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEstadoDevolucionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbEstadoDevolucionActionPerformed
 
     /**
      * @param args the command line arguments
