@@ -33,8 +33,7 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
                     && jtfPlacaDevolucion.getText()
                             .equals(devol.getSolicAlquiler().get(i).getPlaca())) {
 
-                devol.getSolicAlquiler().get(i).setEstado(jcbEstadoDevolucion
-                        .getSelectedItem().toString());
+                devol.getSolicAlquiler().get(i).setEstado("Finalizada");
 
                 encontrada = true;
 
@@ -62,6 +61,14 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
         }
 
     }
+    
+    
+    public void Limpiar(){
+        jtfCedulaDevolucion.setText("");
+        jtfPlacaDevolucion.setText("");
+        jcbEstadoDevolucion.setSelectedIndex(0);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -211,8 +218,11 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
         devolver();
         try{
             estadoVehiculo();
+            JOptionPane.showMessageDialog(null, "Proceso efectuado con éxito");
+            Limpiar();
         } catch (Exception e){
             e.getMessage();
+            JOptionPane.showMessageDialog(null, "Registro no encontrado");
         }
 
     }//GEN-LAST:event_jbProcesarDevolucionActionPerformed

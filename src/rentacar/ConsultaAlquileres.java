@@ -84,19 +84,17 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
 
     private static boolean existeFiltro = false;
     private ArrayList<Solicitud> filtro = new ArrayList<>();
-    
+    SolicitudAlquiler solic = new SolicitudAlquiler();
+
     public void filtrar() {
-        
+
         existeFiltro = false;
 
-        SolicitudAlquiler solic = new SolicitudAlquiler();
-        
-
         //Busqueda por placa y estado
-        if (jtfConsultaPlaca.getText() != "") {
+        if (!jtfConsultaPlaca.getText().equals("")) {
 
             //Busqueda por placa, por cedula y estado
-            if (jtfConsultaCedula.getText() != "") {
+            if (!jtfConsultaCedula.getText().equals("")) {
 
                 for (int i = 0; i < solic.getSolicAlquiler().size(); i++) {
 
@@ -128,19 +126,6 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
                         existeFiltro = true;
                     }
                 }
-            }
-
-            //Se realiza la busqueda unicamente por estado
-            for (int i = 0; i < solic.getSolicAlquiler().size(); i++) {
-
-                if (solic.getSolicAlquiler().get(i).getEstado().toLowerCase()
-                        .equals(jcbEstado.getSelectedItem()
-                                .toString().toLowerCase())
-                        && solic.getSolicAlquiler().get(i).getPlaca()
-                                .toLowerCase().equals(jtfConsultaPlaca
-                                        .getText().toLowerCase())) {
-                    filtro.add(solic.getSolicAlquiler().get(i));
-                }
 
             }
 
@@ -156,10 +141,11 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
                     existeFiltro = true;
                 }
             }
+
         }
 
         //Muestra cuando la busqueda no arroja resultados
-        if(existeFiltro ==  false){
+        if (!existeFiltro) {
             JOptionPane.showMessageDialog(null, "No existen registros"
                     + " con los parámetros busados");
         }
@@ -239,7 +225,7 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
 
         jLabel4.setText("Estado");
 
-        jcbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrada", "Rechazada" }));
+        jcbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Registrada", "Rechazada", "Finalizada" }));
 
         jbBuscarSolicitud.setBackground(new java.awt.Color(204, 255, 255));
         jbBuscarSolicitud.setText("Buscar");
@@ -328,17 +314,22 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
     }//GEN-LAST:event_jbVolverAlquilProcesActionPerformed
 
     private void jbBuscarSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarSolicitudActionPerformed
-        
+
+        for (int i = 0; i < filtro.size(); i++) {
+            filtro.remove(i);
+        }
+
         filtrar();
-        if(existeFiltro == true){
-            
-            for(int i = (filtro.size() - 1); i < 0; i--){
+        if (existeFiltro == true) {
+
+            JOptionPane.showMessageDialog(null, "Tamano filtro" + filtro.size());
+
+            for (int i = 0; i < filtro.size(); i++) {
                 enCola(new NodoSolCons(filtro.get(i)));
             }
             jtaConsulta.setText(toString());
         }
-        
-        
+
     }//GEN-LAST:event_jbBuscarSolicitudActionPerformed
 
     private void jbOtraConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbOtraConsultaActionPerformed

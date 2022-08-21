@@ -13,7 +13,7 @@ public class Solicitud {
     private String estado;
     private double alquiler;
 
-    public Solicitud(String placa, String cedAlq, 
+    public Solicitud(String placa, String cedAlq,
             String estado, double alquiler) {
         this.placa = placa;
         this.cedAlq = cedAlq;
@@ -52,7 +52,12 @@ public class Solicitud {
     public void setAlquiler(double alquiler) {
         this.alquiler = alquiler;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Placa: " + placa + ", Cedula: " + cedAlq + ","
+                + " Estado: " + estado + ", "
+                + "Monto alquiler (col): " + alquiler;
+    }
 
 }

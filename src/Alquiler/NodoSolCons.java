@@ -35,7 +35,7 @@ public class NodoSolCons {
     
     @Override
     public String toString() {
-        return "" +dato;
+        return "" +this.dato;
     }
 
 }
