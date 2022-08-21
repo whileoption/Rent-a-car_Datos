@@ -41,7 +41,15 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
     RegistroVehiculo vehiculo = new RegistroVehiculo();
 
     //Almacenamiento de la informacion
-    private static ArrayList<Solicitud> placaAlquilada = new ArrayList<>();
+    private static ArrayList<Solicitud> solicAlquiler = new ArrayList<>();
+
+    public static ArrayList<Solicitud> getSolicAlquiler() {
+        return solicAlquiler;
+    }
+
+    public static void setSolicAlquiler(ArrayList<Solicitud> solicAlquiler) {
+        SolicitudAlquiler.solicAlquiler = solicAlquiler;
+    }
 
     //Esto es para la pila
     private NodoA cima;
@@ -159,10 +167,11 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
 
     //Variable para almacenar la info del accuracy ligado al vehiculo
     private static ArrayList<SeleccionVehiculo> accVehiculo = new ArrayList<>();
+    private static boolean pas = false;
 
     public void buscarVehiculo() {
 
-        boolean pas = false;
+        pas = false;
 
         for (int i = 0; i < vehiculo.getRegVehiculo().size(); i++) {
             //Variable para calcular accuracy 
@@ -212,6 +221,9 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
         if (pas == false) { //cantidad minima de pasajeros no cumple
             JOptionPane.showMessageDialog(null, "No hay vehiculos que "
                     + "satisfagan la busqueda");
+
+            solicAlquiler.add(new Solicitud(jtfPlacaAlquiler.getText(),
+                    jtfCedulaAlquiler.getText(), "Rechazada", 0.0));
         }
 
         //Se ordena el arraylist
@@ -300,6 +312,19 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
 
         return alqDia * dias * 1.13;
     }
+    
+    
+    public void Limpiar(){
+        jtfCedulaAlquiler.setText("");
+        jtfDiasAlquilar.setText("");
+        jtfCantPasajeros.setText("");
+        jtfMarcaAlquilar.setText("");
+        jtfModeloAlquilar.setText("");
+        jtfAnnoAlquilar.setText("");
+        jtfPlacaAlquiler.setText("");
+        jcbExtras.setSelectedIndex(0);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -586,7 +611,7 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
 
         }
 
-        //Se decide mostrar al usuario hasta 5 opciones
+        //Se decide mostrar al usuario hasta 3 opciones
         while (longitud > 3) {
             pop();
         }
@@ -621,7 +646,7 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
 
     private void jbAlquilarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlquilarVehiculoActionPerformed
 
-        placaAlquilada.add(new Solicitud(jtfPlacaAlquiler.getText(),
+        solicAlquiler.add(new Solicitud(jtfPlacaAlquiler.getText(),
                 jtfCedulaAlquiler.getText(), "Registrada",
                 calculoAlquiler(jtfPlacaAlquiler.getText())));
 
@@ -629,6 +654,9 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
                 jtfCedulaAlquiler.getText(), jtfPlacaAlquiler.getText());
         cambioEstado(jtfPlacaAlquiler.getText());
 
+        JOptionPane.showMessageDialog(null, "Solicitud procesada");
+        Limpiar();
+        
     }//GEN-LAST:event_jbAlquilarVehiculoActionPerformed
 
     /**
