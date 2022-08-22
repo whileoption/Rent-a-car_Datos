@@ -138,13 +138,17 @@ public class RegistroCliente extends javax.swing.JFrame {
                 //Se vuelven a setear todos los campos de informacion.
                 while (aux != null) {
                     if (aux.getDato().getId().equals(p.getId())) {
-                        aux.getDato().setNombre(JOptionPane.showInputDialog("Digite "
+                        aux.getDato().setNombre(JOptionPane.showInputDialog(
+                                "Digite "
                             + "el nuevo nombre"));
-                        aux.getDato().setNacimiento(JOptionPane.showInputDialog("Digite "
+                        aux.getDato().setNacimiento(JOptionPane.showInputDialog(
+                                "Digite "
                             + "la nueva fecha de nacimiento"));
-                        aux.getDato().setCorreo(JOptionPane.showInputDialog("Digite "
+                        aux.getDato().setCorreo(JOptionPane.showInputDialog(""
+                                + "Digite "
                             + "el nuevo correo"));
-                        aux.getDato().setCategoria(JOptionPane.showInputDialog("Digite "
+                        aux.getDato().setCategoria(JOptionPane.showInputDialog(
+                                "Digite "
                             + "la nueva categoria\n Zafiro, Oro, Plata, Bronce"));
                     }
                     aux = aux.getNext();

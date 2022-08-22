@@ -43,20 +43,21 @@ public class Analisis extends javax.swing.JFrame {
         if (cabezaC == null) { //si no hay cabeza
             cabezaC = new NodoOrden(c); //se crea un nodo cabeza
             ultimoC = cabezaC; //el ultimo es igual a cabeza
-        } else if (c.getCantCliente() < cabezaC.getDato().getCantCliente()) { //si el dato es mayor a la cabeza
+        } else if (c.getCantCliente() < cabezaC.getDato().getCantCliente()) { 
             NodoOrden aux = new NodoOrden(c); //se crea un nuevo nodo aux
             aux.setNext(cabezaC); //el siguiente a aux es cabeza
             cabezaC = aux; //la cabeza es ahora el aux
-        } else if (ultimoC.getDato().getCantCliente() <= c.getCantCliente()) { //si el ultimo es mayor o igual al dato
-            ultimoC.setNext(new NodoOrden(c)); //el nuevo nodo se ubica luego del ultimo
+        } else if (ultimoC.getDato().getCantCliente() <= c.getCantCliente()) { 
+            ultimoC.setNext(new NodoOrden(c)); 
             ultimoC = ultimoC.getNext(); //el ultimo es ahora el siguiente
         } else { //si el dato esta entre la cabeza y el ultimo
             NodoOrden aux = cabezaC; //se crea nodo aux que es igual a cabeza
-            while (aux.getNext().getDato().getCantCliente() < c.getCantCliente()) { //mientras siguiente a aux sea mayor que el dato
+            while (aux.getNext().getDato().getCantCliente() < 
+                    c.getCantCliente()) { 
                 aux = aux.getNext(); //aux se actualiza
             }
             NodoOrden temp = new NodoOrden(c); //se crea nuevo nodo temporal
-            temp.setNext(aux.getNext()); //el siguiente al temporal es el siguiente al aux
+            temp.setNext(aux.getNext()); 
             temp.setBack(aux); //el anterior al temporal es el aux
             aux.setNext(temp); //el siguiente al aux es el temporal
             temp.getNext().setBack(temp); //se ubica el temporal  
@@ -71,20 +72,20 @@ public class Analisis extends javax.swing.JFrame {
         if (cabezaV == null) { //si no hay cabeza
             cabezaV = new NodoOrden(v); //se crea un nodo cabeza
             ultimoV = cabezaV; //el ultimo es igual a cabeza
-        } else if (v.getCantPlaca() < cabezaV.getDato().getCantPlaca()) { //si el dato es mayor a la cabeza
+        } else if (v.getCantPlaca() < cabezaV.getDato().getCantPlaca()) { 
             NodoOrden aux = new NodoOrden(v); //se crea un nuevo nodo aux
             aux.setNext(cabezaV); //el siguiente a aux es cabeza
             cabezaV = aux; //la cabeza es ahora el aux
-        } else if (ultimoV.getDato().getCantPlaca() <= v.getCantPlaca()) { //si el ultimo es mayor o igual al dato
-            ultimoV.setNext(new NodoOrden(v)); //el nuevo nodo se ubica luego del ultimo
+        } else if (ultimoV.getDato().getCantPlaca() <= v.getCantPlaca()) { 
+            ultimoV.setNext(new NodoOrden(v)); 
             ultimoV = ultimoV.getNext(); //el ultimo es ahora el siguiente
         } else { //si el dato esta entre la cabeza y el ultimo
             NodoOrden aux = cabezaV; //se crea nodo aux que es igual a cabeza
-            while (aux.getNext().getDato().getCantPlaca() < v.getCantPlaca()) { //mientras siguiente a aux sea mayor que el dato
+            while (aux.getNext().getDato().getCantPlaca() < v.getCantPlaca()) { 
                 aux = aux.getNext(); //aux se actualiza
             }
             NodoOrden temp = new NodoOrden(v); //se crea nuevo nodo temporal
-            temp.setNext(aux.getNext()); //el siguiente al temporal es el siguiente al aux
+            temp.setNext(aux.getNext()); 
             temp.setBack(aux); //el anterior al temporal es el aux
             aux.setNext(temp); //el siguiente al aux es el temporal
             temp.getNext().setBack(temp); //se ubica el temporal  

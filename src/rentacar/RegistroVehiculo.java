@@ -107,17 +107,20 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         //Si la cabeza de la lista existe.
         if (cabeza != null) {
             //Si la placa que se inserto existe dentro de la lista.
-            if (cabeza.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
+            if (cabeza.getDato().getPlaca().toLowerCase().
+                    equals(placa.toLowerCase())) {
                 //Se obtienen los datos del vehiculo.
                 vehObtenido = cabeza.getDato();
             } else 
-                if (ultimo.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
+                if (ultimo.getDato().getPlaca().toLowerCase().
+                        equals(placa.toLowerCase())) {
                     vehObtenido = ultimo.getDato();
                 } else {
                     Nodo aux = cabeza;
                     
                     while (aux.getNext() != cabeza) {
-                        if (aux.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
+                        if (aux.getDato().getPlaca().toLowerCase().
+                                equals(placa.toLowerCase())) {
                             vehObtenido = aux.getDato();
                         }
                         aux = aux.getNext();
@@ -170,7 +173,8 @@ public class RegistroVehiculo extends javax.swing.JFrame {
 
         if (cabeza != null) {
             while (cabeza != null && !enc) {
-                if (aux.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
+                if (aux.getDato().getPlaca().toLowerCase()
+                        .equals(placa.toLowerCase())) {
                     if (aux == cabeza) {
                         cabeza = cabeza.getNext();
                         cabeza.setBack(null);

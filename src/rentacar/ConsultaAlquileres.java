@@ -40,10 +40,10 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
     }
 
     public NodoSolCons atiende() {
-        NodoSolCons aux = frente; //Se almacena el valor de frente antes de ser extraído
+        NodoSolCons aux = frente; 
         if (frente != null) { //Existe un elemento para extraer
-            frente = frente.getAtras(); //El elemento en frente es ahora el que estaba de segundo
-            aux.setAtras(null); //Se remueve la referencia al nodo que estaba en frente
+            frente = frente.getAtras(); 
+            aux.setAtras(null); 
         }
         longitud--;
         return aux; //Se obtiene el valor de frente original (el que se atiende)

@@ -59,7 +59,7 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
         SolicitudAlquiler.solicAlquiler = solicAlquiler;
     }
 
-    //Lista simple.
+    //Pila
     private NodoA cima;
     private int longitud;
 
@@ -313,13 +313,16 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
         } else if (dias >= 30) {
             for (int i = 0; i < cat.getRegCliente().size(); i++) {
                 if (cat.getRegCliente().get(i).getId().equals(cedula)) {
-                    if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+                    if (cat.getRegCliente().get(i).getCategoria()
+                            .toLowerCase()
                             .equals("bronce")) {
                         cat.getRegCliente().get(i).setCategoria("plata");
-                    } else if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+                    } else if (cat.getRegCliente().get(i).getCategoria()
+                            .toLowerCase()
                             .equals("plata")) {
                         cat.getRegCliente().get(i).setCategoria("oro");
-                    } else if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+                    } else if (cat.getRegCliente().get(i).getCategoria()
+                            .toLowerCase()
                             .equals("oro")) {
                         cat.getRegCliente().get(i).setCategoria("zafiro");
                     }
