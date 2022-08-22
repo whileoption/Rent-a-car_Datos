@@ -1,67 +1,89 @@
-/*
- */
 package rentacar;
 
+/**
+ * Clases dentro de paquete 'Cliente' importadas.
+ * Librerias para uso de ArrayList, Collections y JOptionPane importadas.
+ */
 import Cliente.Cliente;
 import Cliente.NodoC;
 import java.util.ArrayList;
-import java.util.Locale;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Karina Madrigal
+ * Clase 'RegistroCliente' representa el espacio para los registros de vehiculos.
+ * Posee una interfaz grafica (JFrame).
  */
 public class RegistroCliente extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RegistroVehiculo
-     */
+    //Constructor crea nuevo formulario para 'RegistroCliente'.
     public RegistroCliente() {
         initComponents();
         setLocationRelativeTo(null);
 
+        //Contador para ingreso de nuevos registros.
         for (int i = 0; i < regCliente.size(); i++) {
             inserta(regCliente.get(i));
         }
-
     }
 
-    //Almacenamiento de la informacion
+    //Almacenamiento de la informacion dentro de la lista 'Cliente'.
     protected static ArrayList<Cliente> regCliente = new ArrayList<>();
 
     public static ArrayList<Cliente> getRegCliente() {
         return regCliente;
     }
 
+    /**
+     * Se sobreescribe 'RegCliente' con nuevo registro. 
+     * @param regVehiculo Lista con nuevo registro.
+     */
     public static void setRegCliente(ArrayList<Cliente> regCliente) {
         RegistroCliente.regCliente = regCliente;
     }
 
-    //Esto es para la lista
+    //Lista.
     private NodoC cabeza;
 
+    /**
+     * Inserta un objeto cliente a una lista no ordenada.
+     * @param p objeto tipo Vehiculo a insertar.
+     */
     public void inserta(Cliente p) {
-        if (cabeza == null) {  //si no hay cabeza
-            cabeza = new NodoC(p); //crea un nodo que establece como cabeza
-        } else if (cabeza.getNext() == null) { //si no hay nada luego de cabeza
-            cabeza.setNext(new NodoC(p)); //crea el nodo detras de la cabeza
-        } else {
-            NodoC aux = cabeza;
+        //Si la cabeza de la lista es null.
+        if (cabeza == null) {
+            //Se crea nuevo nodo cabeza.
+            cabeza = new NodoC(p);
+        } else 
+            //Si no hay nada luego de cabeza.
+            if (cabeza.getNext() == null) { 
+                //Se crea el nodo detras de la cabeza.
+                cabeza.setNext(new NodoC(p));
+            } else {
+                NodoC aux = cabeza;
 
-            while (aux.getNext() != null) {
-                aux = aux.getNext(); //el auxiliar es lo que esta luego
+                while (aux.getNext() != null) {
+                    //El auxiliar es lo que esta luego.
+                    aux = aux.getNext();
+                }
+                //Se crea nodo temporal.
+                NodoC temp = new NodoC(p);
+                temp.setNext(aux.getNext());
+                aux.setNext(temp);
             }
-            NodoC temp = new NodoC(p); //se crea nodo temporal
-            temp.setNext(aux.getNext());
-            aux.setNext(temp);
-        }
     }
 
+    /**
+     * Se asegura de que el cliente exista por medio del id.
+     * @param id ID del cliente.
+     * @return Si existe(true) o no(false).
+     */
     public boolean existe(String id) {
         boolean exist = false;
+        
+        //Si la cabeza de la lista existe.
         if (cabeza != null) {
             NodoC aux = cabeza;
+            
             while (aux != null) {
                 if (aux.getDato().getId().equals(id)) {
                     return true;
@@ -72,11 +94,14 @@ public class RegistroCliente extends javax.swing.JFrame {
         }
         return exist;
     }
-
-    //Este metodo se basa en lo expuesto por Jesús Equihua
-    //Fuente: https://www.youtube.com/watch?v=W7t5ewx1vp4
+    
+    /**
+     * Este metodo se basa en lo expuesto por Jesús Equihua
+     * Fuente: https://www.youtube.com/watch?v=W7t5ewx1vp4
+     * Se eliminan clientes por medio del id de referencia.
+     * @param id ID del cliente.
+     */
     public void elimina(String id) {
-
         NodoC aux = cabeza;
         NodoC previous = null;
         boolean found = false;
@@ -95,24 +120,32 @@ public class RegistroCliente extends javax.swing.JFrame {
             previous = aux;
             aux = aux.getNext();
         }
-
     }
 
+    /**
+     * Modifica los datos del cliente segun el id de referencia.
+     * @param p ID del cliente.
+     */
     public void modificar(Cliente p) {
         //JOptionPane.showMessageDialog(null, p.getId());
+        //Si el cliente no es null.
         if (p != null) {
+            //Si el ID que se inserto existe dentro de la lista.
             if (existe(p.getId())) {
+                //Nodo aux es igual a cabeza.
                 NodoC aux = cabeza;
+                
+                //Se vuelven a setear todos los campos de informacion.
                 while (aux != null) {
                     if (aux.getDato().getId().equals(p.getId())) {
                         aux.getDato().setNombre(JOptionPane.showInputDialog("Digite "
-                                + "el nuevo nombre"));
+                            + "el nuevo nombre"));
                         aux.getDato().setNacimiento(JOptionPane.showInputDialog("Digite "
-                                + "la nueva fecha de nacimiento"));
+                            + "la nueva fecha de nacimiento"));
                         aux.getDato().setCorreo(JOptionPane.showInputDialog("Digite "
-                                + "el nuevo correo"));
+                            + "el nuevo correo"));
                         aux.getDato().setCategoria(JOptionPane.showInputDialog("Digite "
-                                + "la nueva categoria\n Zafiro, Oro, Plata, Bronce"));
+                            + "la nueva categoria\n Zafiro, Oro, Plata, Bronce"));
                     }
                     aux = aux.getNext();
                 }
@@ -122,11 +155,16 @@ public class RegistroCliente extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "No existe id");
         }
-
     }
 
+    /**
+     *  Se extraen clientes por medio del id de referencia.
+     * @param id ID del cliente.
+     * @return Cliente.
+     */
     public Cliente extrae(String id) {
         Cliente valor = null;
+        
         if (cabeza != null) {
             if (cabeza.getDato().getId().equals(id)) {
                 valor = cabeza.getDato();
@@ -146,6 +184,11 @@ public class RegistroCliente extends javax.swing.JFrame {
         return valor;
     }
 
+    /**
+     * Obtiene los datos del cliente por medio del id.
+     * @param id ID del cliente.
+     * @return Cliente.
+     */
     public Cliente obtain(String id) {
         Cliente valor = null;
         NodoC aux = cabeza;
@@ -156,11 +199,13 @@ public class RegistroCliente extends javax.swing.JFrame {
             }
             aux = aux.getNext();
         }
-
         return valor;
-
     }
 
+    /**
+     * Excribe los datos del cliente y los imprime.
+     * @return Datos ordenados.
+     */
     @Override
     public String toString() {
         NodoC aux = cabeza;
@@ -443,15 +488,22 @@ public class RegistroCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtfNacimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfNacimientoActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jtfNacimientoActionPerformed
 
+    /**
+     * Boton 'Limpiar' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbLimpiarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarVActionPerformed
+        //Se llama a metodo 'Limpiar'.
         Limpiar();
     }//GEN-LAST:event_jbLimpiarVActionPerformed
 
+    /**
+     * Boton 'VolverRegCliente' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbVolverRegClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverRegClienteActionPerformed
-
         NodoC aux = cabeza;
 
         while (aux != null) {
@@ -459,53 +511,68 @@ public class RegistroCliente extends javax.swing.JFrame {
             aux = aux.getNext();
         }
 
+        /**
+         * Nuevo objeto Administracion se crea.
+         * Interfaz grafica (JFrame) de 'Administracion' es llamada y mostrada en pantalla.
+         */
         Administracion volv = new Administracion();
         volv.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbVolverRegClienteActionPerformed
-
+/**
+     * Boton 'RegistrarCliente' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbRegistroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRegistroClienteActionPerformed
-
+        //Si el texto de referencia insertado en el espacio 'Cedula' existe dentro de la lista.
         if (existe(jtfCedula.getText())) {
             JOptionPane.showMessageDialog(null, "Registro ya existe");
             Limpiar();
         } else {
+            //Se llama al metodo 'inserta' para hacer la insersion del registro.
             inserta(new Cliente(jtfCedula.getText(), jtfNombre.getText(),
-                    jtfNacimiento.getText(), jtfCorreo.getText(),
-                    jcbCategoria.getSelectedItem().toString()));
+                jtfNacimiento.getText(), jtfCorreo.getText(),
+                jcbCategoria.getSelectedItem().toString()));
 
             Limpiar();
         }
-
     }//GEN-LAST:event_jbRegistroClienteActionPerformed
 
+    /**
+     * Boton 'Modificar' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbModificarCleinteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarCleinteActionPerformed
-
         String cedula = JOptionPane.showInputDialog("Ingrese la cedula");
         modificar(obtain(cedula));
     }//GEN-LAST:event_jbModificarCleinteActionPerformed
 
+    /**
+     * Boton 'Eliminar' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarClienteActionPerformed
-
         String cedula = JOptionPane.showInputDialog("Ingrese la cedula");
         int op = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar registro?");
         if (op == 0) {
             elimina(cedula);
             Limpiar();
         }
-
     }//GEN-LAST:event_jbEliminarClienteActionPerformed
 
+    /**
+     * Boton 'Mostrar' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbMostrarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMostrarClientesActionPerformed
-
         for (int i = 0; i < regCliente.size(); i++) {
             regCliente.remove(i);
         }
+        //Imprime los datos.
         jtaClientes.setText(toString());
     }//GEN-LAST:event_jbMostrarClientesActionPerformed
 
     private void jcbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbCategoriaActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jcbCategoriaActionPerformed
 
     /**
@@ -534,9 +601,6 @@ public class RegistroCliente extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(RegistroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -546,6 +610,7 @@ public class RegistroCliente extends javax.swing.JFrame {
         });
     }
 
+    //Se lleva a cabo la limpieza de los campos de texto.
     public void Limpiar() {
         this.jtfCedula.setText("");
         this.jtfNombre.setText("");
@@ -553,7 +618,6 @@ public class RegistroCliente extends javax.swing.JFrame {
         this.jtfCorreo.setText("");
         this.jcbCategoria.setSelectedIndex(0);
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

@@ -1,17 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package rentacar;
 
 /**
- *
- * @author Karina Madrigal
+ * Clase 'Usuario' representa el usuario cliente.
+ * Posee una interfaz grafica (JFrame).
  */
 public class Usuario extends javax.swing.JFrame {
 
     /**
-     * Creates new form Usuario
+     * Constructor crea nuevo formulario para 'Usuario'.
      */
     public Usuario() {
         initComponents();
@@ -125,14 +121,31 @@ public class Usuario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Boton 'SolicitarVehiculo' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbSolicitarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSolicitarVehiculoActionPerformed
-        // TODO add your handling code here:
+        /**
+         * Nuevo objeto solicitud de alquiler se crea.
+         * Interfaz grafica (JFrame) de 'SolicitudAlquiler' es llamada y mostrada
+         * en pantalla.
+         */
         SolicitudAlquiler sctA = new SolicitudAlquiler();
         sctA.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbSolicitarVehiculoActionPerformed
 
+    /**
+     * Boton 'VolverUsuario' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbVolverUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverUsuarioActionPerformed
+        /**
+         * Nuevo objeto de interfaz de usuario se crea.
+         * Interfaz grafica (JFrame) de 'InterfazGrafica' es llamada y mostrada
+         * en pantalla.
+         */
         InterfazUsuario gui = new InterfazUsuario();
         gui.setVisible(true);
         this.setVisible(false);
