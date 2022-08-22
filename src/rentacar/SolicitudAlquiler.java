@@ -1,9 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package rentacar;
 
+/**
+ * Clases dentro de paquetes 'Alquiler' y 'Vehiculo' importadas.
+ * Librerias para uso de ArrayList, Collections y JOptionPane importadas.
+ */
 import Alquiler.NodoA;
 import Analisis.Ordenamiento;
 import Analisis.SeleccionVehiculo;
@@ -14,150 +14,191 @@ import java.util.Collections;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Karina Madrigal
+ * Clase 'SolicitudAlquier' representa el espacio para las solicitudes de alquierles.
+ * Posee una interfaz grafica (JFrame).
  */
 public class SolicitudAlquiler extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RegistroVehiculo
-     */
+    //Constructor crea nuevo formulario para 'SolicitudAlquiler'.
     public SolicitudAlquiler() {
         initComponents();
         setLocationRelativeTo(null);
+        /**
+         * Expacio para texto 'PlacaAlquiler'.
+         * Boton 'AlquilarVehiculo' se mantiene bloqueado.
+         */
         jtfPlacaAlquiler.setVisible(false);
         jbAlquilarVehiculo.setEnabled(false);
-
+    
+        //Contador para desplegable Extras dentro de la solitud.
         for (int i = 0; i < vehiculo.getExtras().size(); i++) {
             jcbExtras.addItem(vehiculo.getExtras().get(i));
         }
-
-        //Pila
+        
+        //Pila para almacenar solicitudes.
         this.cima = null;
         this.longitud = 0;
-
     }
 
-    //Objeto tipo RegistroVehiculo
+    //Creacion de nuevo objeto tipo 'RegistroVehiculo'.
     RegistroVehiculo vehiculo = new RegistroVehiculo();
 
-    //Almacenamiento de la informacion
+    //Almacenamiento de la informacion dentro de lista 'Solicitud'.
     private static ArrayList<Solicitud> solicAlquiler = new ArrayList<>();
-
+    
     public static ArrayList<Solicitud> getSolicAlquiler() {
         return solicAlquiler;
     }
 
+    /**
+     * Se sobreescribe 'SolicitudAlquiler' con nueva solicitud. 
+     * @param solicAlquiler Lista con nueva solicitud.
+     */
     public static void setSolicAlquiler(ArrayList<Solicitud> solicAlquiler) {
         SolicitudAlquiler.solicAlquiler = solicAlquiler;
     }
 
-    //Esto es para la pila
+    //Lista simple.
     private NodoA cima;
     private int longitud;
 
+    /**
+     * Se asegura que la cima de la pila este vacia.
+     * @return Cima de la pila.
+     */
     public boolean Vacia() {
         return cima == null;
     }
-
+    
+    /**
+     * Recibe el tamanio de la pila.
+     * @return Tamanio de la pila.
+     */
     public int tamano() {
         return longitud;
     }
 
-    //se agregan nodos
+    /**
+     * Push para que se agregen los nuevos nodos.
+     * @param valor Valor del vehiculo.
+     */
     public void push(Vehiculo valor) {
         NodoA newNode = new NodoA();
         newNode.setValor(valor);
+        
+        //Se asegura que la cima de la pila este vacia.
         if (this.Vacia()) {
             this.cima = newNode;
-        } else {
+        } 
+        //Si la cima no esta vacia, agrega el nodo en el siguiente espacio vacio
+        else {
             newNode.setSiguiente(this.cima);
             this.cima = newNode;
         }
+        //Aumenta el contador del tamaño de la pila.
         this.longitud++;
     }
 
-    //elimina el nodo de la cima
+    //Se elimina el nodo de la cima de la pila.
     public void pop() {
         if (!Vacia()) {
-            //Asigna como primer nodo al siguiente de la pila
+            //Asigna como primer nodo al siguiente de la pila.
             this.cima = this.cima.getSiguiente();
-            //Decrementa el contador del tamaño de la pila
+            //Decrementa el contador del tamaño de la pila.
             this.longitud--;
         }
     }
 
-    //Busca el nodo segun valor y retorna true si exise y false si no existe
+    /**
+     * Busca el nodo segun valor y retorna true si exise y false si no existe.
+     * @param placa Placa del vehiculo.
+     * @return Se retorna el valor de la bandera.
+     */
     public boolean search(String placa) {
-        //Crea una copia de la pila
+        //Crea una copia de la pila.
         NodoA aux = cima;
-        //Bandera para verificar si existe el elemento search
+        //Bandera para verificar si existe el elemento search.
         boolean exist = false;
-        //Recorre la pila hasta encontrar el node o llegar al final de la pila
+        //Recorre la pila hasta encontrar el nodo o llegar al final de la pila.
         while (exist != true && aux != null) {
-            //Compara si el valor del nodo es igual al reference
-            if (placa.toLowerCase()
-                    .equals(aux.getValor().getPlaca().toLowerCase())) {
-                //Cambia el valor de la bandera
+            //Compara si el valor del nodo es igual al reference.
+            if (placa.toLowerCase().equals(aux.getValor().getPlaca().toLowerCase())) {
+                //Cambia el valor de la bandera.
                 exist = true;
             } else {
-                //Avanza al siguiente node
+                //Avanza al siguiente nodo.
                 aux = aux.getSiguiente();
             }
         }
-        //Retorna el valor de la bandera
         return exist;
     }
 
-    //Elimina según referencia
+    /**
+     * Se elimina según referencia.
+     * @param placa Placa del vehiculo.
+     */
     public void delete(String placa) {
-        //Consulta si el valor existe en la pila
+        //Consulta si el valor existe en la pila.
         if (search(placa)) {
-            //Crea una pila auxiliar que guarda valores que se vayan 
-            //desapilando en la pila original
+            /**
+             * Crea una pila auxiliar que guarda valores que se vayan desapilando 
+             * en la pila original.
+             */
             NodoA cimaPilaAux = null;
-            //Recorre la pila hasta llegar al node que tenga el valor 
-            //igual que el de reference
-            while (!placa.toLowerCase()
-                    .equals(cima.getValor().getPlaca().toLowerCase())) {
-                //Cra un node temporal para agregarlos a la pila auxiliar
+            /**
+             * Recorre la pila hasta llegar al nodo que tenga el valor igual que
+             * el de reference.
+             */
+            while (!placa.toLowerCase().equals(cima.getValor().getPlaca().toLowerCase())) {
+                //Crea un nodo temporal para agregarlos a la pila auxiliar.
                 NodoA temp = new NodoA();
-                //Ingresa el valor al node temmporal
+                //Ingresa el valor al nodo temporal.
                 temp.setValor(cima.getValor());
-                //Consulta si la pila auxiliar no ha sido inicializada
+                //Consulta si la pila auxiliar no ha sido inicializada.
                 if (cimaPilaAux == null) {
-                    //Inicializa la pila auxiliar
+                    //Inicializa la pila auxiliar.
                     cimaPilaAux = temp;
-                } //Caso contrario si la pila auxiliar ya contiene elementos
-                //los agrega al start
+                } 
+                /**
+                 * Caso contrario si la pila auxiliar ya contiene elementos los
+                 * agrega al start.
+                 */
                 else {
                     temp.setSiguiente(cimaPilaAux);
                     cimaPilaAux = temp;
                 }
-                //Elimina el node del tope de la pila hasta llegar al node
-                //que se desea eliminar
+                /**
+                 * Elimina el nodo del tope de la pila hasta llegar al nodo que
+                 * se desea eliminar.
+                 */
                 pop();
             }
-            //Elimina el node que coincide con el de reference
+            //Elimina el nodo que coincide con el de reference.
             pop();
-            //Regresa los valores de la pila auxiliar a la pila original
-            //mientras la pila auxiliar tenga elementos
+            /**
+             * Regresa los valores de la pila auxiliar a la pila original
+             * mientras la pila auxiliar tenga elementos.
+             */
             while (cimaPilaAux != null) {
-                //Utiliza el metodo push para regresar elementos a la pila original
+                //Utiliza el metodo push para regresar elementos a la pila original.
                 push(cimaPilaAux.getValor());
             }
-            //Libera la memoria utilizada por la pila auxiliar
+            //Libera la memoria utilizada por la pila auxiliar.
             cimaPilaAux = null;
         } else {
             System.out.println("El nodo indicado no existe");
         }
     }
 
+    /**
+     * Se escribe la lista.
+     * @return Lista completa.
+     */
     public String Listar() {
-        //Crea una copia de la pila
+        //Crea una copia de la pila.
         NodoA aux = cima;
         String s = "";
-        //Recorre la pila hasta el ultimo node
+        //Recorre la pila hasta el ultimo nodo.
         while (aux != null) {
             s += "|\t" + aux.getValor() + "|\t";
             s += "\n\n";
@@ -166,195 +207,197 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
         return s;
     }
 
-    //Variable para almacenar la info del accuracy ligado al vehiculo
+    //Variable para almacenar la informacion del accuracy ligado al vehiculo.
     private static ArrayList<SeleccionVehiculo> accVehiculo = new ArrayList<>();
     private static boolean pas = false;
 
+    /**
+     * Se busca el vehiculo basado en la informacion dentro de la lista.
+     */
     public void buscarVehiculo() {
-
         pas = false;
 
         for (int i = 0; i < vehiculo.getRegVehiculo().size(); i++) {
-            //Variable para calcular accuracy 
+            //Variable para calcular accuracy.
             int acc = 0;
-
-            //Se busca vehiculos que tengan la cantidad minima de pasajeros
-            if (Integer.parseInt(jtfCantPasajeros.getText())
-                    <= Integer.parseInt(vehiculo.getRegVehiculo()
-                            .get(i).getPasajeros())) {
-
+            //Se busca vehiculos que tengan la cantidad minima de pasajeros.
+            if (Integer.parseInt(jtfCantPasajeros.getText()) <= Integer
+                    .parseInt(vehiculo.getRegVehiculo().get(i).getPasajeros())) {
                 pas = true;
                 acc += 5;
-
-                if (jtfMarcaAlquilar.getText().toLowerCase()
-                        .equals(vehiculo.getRegVehiculo()
-                                .get(i).getMarca().toLowerCase())) {
+                //Se busca vehiculos que sean de la marca.
+                if (jtfMarcaAlquilar.getText().toLowerCase().equals(vehiculo
+                        .getRegVehiculo().get(i).getMarca().toLowerCase())) {
                     acc += 1;
                 }
-
-                if (jtfModeloAlquilar.getText().toLowerCase()
-                        .equals(vehiculo.getRegVehiculo()
-                                .get(i).getModelo().toLowerCase())) {
+                //Se busca vehiculos que sean del modelo.
+                if (jtfModeloAlquilar.getText().toLowerCase().equals(vehiculo
+                        .getRegVehiculo().get(i).getModelo().toLowerCase())) {
                     acc += 1;
                 }
-
-                if (jtfAnnoAlquilar.getText().toLowerCase()
-                        .equals(vehiculo.getRegVehiculo()
-                                .get(i).getAnno().toLowerCase())) {
+                //Se busca vehiculos que sean del anio.
+                if (jtfAnnoAlquilar.getText().toLowerCase().equals(vehiculo
+                        .getRegVehiculo().get(i).getAnno().toLowerCase())) {
                     acc += 1;
                 }
-
-                if (jcbExtras.getSelectedItem().toString()
-                        .toLowerCase().equals(vehiculo
-                                .getRegVehiculo().get(i)
-                                .getExtras().get(0)
-                                .toLowerCase())) {
+                //Se busca vehiculos que tengas los mismos extras.
+                if (jcbExtras.getSelectedItem().toString().toLowerCase()
+                        .equals(vehiculo.getRegVehiculo().get(i).getExtras()
+                        .get(0).toLowerCase())) {
                     acc += 1;
                 }
-
             }
 
-            //Almacenamiento de placa y accuracy 
+            //Almacenamiento de placa y accuracy.
             accVehiculo.add(new SeleccionVehiculo(vehiculo.getRegVehiculo()
-                    .get(i).getPlaca(), acc));
-
+                .get(i).getPlaca(), acc));
         }
-        if (pas == false) { //cantidad minima de pasajeros no cumple
-            JOptionPane.showMessageDialog(null, "No hay vehiculos que "
-                    + "satisfagan la busqueda");
+        //Si la cantidad minima de pasajeros no cumple.
+        if (pas == false) { 
+            JOptionPane.showMessageDialog(null, "No hay vehiculos que satisfagan"
+                + " la busqueda");
 
             solicAlquiler.add(new Solicitud(jtfPlacaAlquiler.getText(),
-                    jtfCedulaAlquiler.getText(), "Rechazada", 0.0, v, c));
+                jtfCedulaAlquiler.getText(), "Rechazada", 0.0, v, c));
         }
 
-        //Se ordena el arraylist
+        //Se ordena el arraylist.
         Collections.sort(accVehiculo, new Ordenamiento());
         jbAlquilarVehiculo.setEnabled(true);
-
     }
 
+    /**
+     * Se lleva a cabo el cambio de categoria del usuario.
+     * @param dias Dias de alquiler del vehiculo.
+     * @param cedula Cedula del usuario que alquila.
+     * @param placa Placa del vehiculo alquilado.
+     */
     public void cambioCategoria(int dias, String cedula, String placa) {
         RegistroCliente cat = new RegistroCliente();
 
-        //Por dias de alquiler
+        //Por dias de alquiler.
         if (dias >= 40) {
             for (int i = 0; i < cat.getRegCliente().size(); i++) {
                 if (cat.getRegCliente().get(i).getId().equals(cedula)) {
                     cat.getRegCliente().get(i).setCategoria("oro");
                 }
             }
-        } else if (dias >= 30) {
-            for (int i = 0; i < cat.getRegCliente().size(); i++) {
-                if (cat.getRegCliente().get(i).getId().equals(cedula)) {
-
-                    if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+        } else 
+            if (dias >= 30) {
+                for (int i = 0; i < cat.getRegCliente().size(); i++) {
+                    if (cat.getRegCliente().get(i).getId().equals(cedula)) {
+                        if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
                             .equals("bronce")) {
-                        cat.getRegCliente().get(i).setCategoria("plata");
-
-                    } else if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
-                            .equals("plata")) {
-                        cat.getRegCliente().get(i).setCategoria("oro");
-
-                    } else if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
-                            .equals("oro")) {
-                        cat.getRegCliente().get(i).setCategoria("zafiro");
+                            cat.getRegCliente().get(i).setCategoria("plata");
+                        } else 
+                            if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+                                .equals("plata")) {
+                                cat.getRegCliente().get(i).setCategoria("oro");
+                            } else 
+                                if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+                                    .equals("oro")) {
+                                    cat.getRegCliente().get(i).setCategoria("zafiro");
+                                }
                     }
                 }
             }
-        }
 
-        //Por monto de alquiler
+        //Por monto de alquiler.
         if (calculoAlquiler(placa) >= 700000) {
             for (int i = 0; i < cat.getRegCliente().size(); i++) {
                 if (cat.getRegCliente().get(i).getId().equals(cedula)) {
-
                     if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
-                            .equals("bronce")) {
+                        .equals("bronce")) {
                         cat.getRegCliente().get(i).setCategoria("plata");
-
-                    } else if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+                    } else 
+                        if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
                             .equals("plata")) {
-                        cat.getRegCliente().get(i).setCategoria("oro");
-
-                    } else if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
-                            .equals("oro")) {
-                        cat.getRegCliente().get(i).setCategoria("zafiro");
-                    }
+                            cat.getRegCliente().get(i).setCategoria("oro");
+                        } else 
+                            if (cat.getRegCliente().get(i).getCategoria().toLowerCase()
+                                .equals("oro")) {
+                                cat.getRegCliente().get(i).setCategoria("zafiro");
+                            }
                 }
             }
         }
-
     }
 
+    /**
+     * Se lleva a cabo la verificacion de estado del vehiculo.
+     * @param placa Placa del vehiculo.
+     * @return Estado en modo alquilado.
+     */
     public boolean estadoAlquilado(String placa) {
         RegistroVehiculo estado = new RegistroVehiculo();
         boolean alquilado = false; //no está alquilado
 
         for (int i = 0; i < estado.getRegVehiculo().size(); i++) {
-
             if (estado.getRegVehiculo().get(i).getPlaca().toLowerCase()
-                    .equals(placa.toLowerCase())) {
+                .equals(placa.toLowerCase())) {
+                //Verificacion si el vehiculo ya se encuentra alquilado.
                 if (estado.getRegVehiculo().get(i).getEstado().toLowerCase()
-                        .equals("alquilado")) {
-                    alquilado = true; //está alquilado
+                    .equals("alquilado")) {
+                    alquilado = true; //Está alquilado.
                 }
             }
         }
         return alquilado;
     }
 
+    /**
+     * Se lleva a cabo el cambio de estado del vehiculo.
+     * @param placa Placa del vehiculo.
+     */
     public void cambioEstado(String placa) {
         RegistroVehiculo estado = new RegistroVehiculo();
 
         for (int i = 0; i < estado.getRegVehiculo().size(); i++) {
-
             if (estado.getRegVehiculo().get(i).getPlaca().toLowerCase()
-                    .equals(placa.toLowerCase())) {
-
+                .equals(placa.toLowerCase())) {
                 if (!estado.getRegVehiculo().get(i).getEstado().toLowerCase()
-                        .equals("alquilado")) {
+                    .equals("alquilado")) {
                     estado.getRegVehiculo().get(i).setEstado("Alquilado");
                 } else {
                     JOptionPane.showMessageDialog(null, "Vehiculo en uso\n"
-                            + "Las disculpas del caso, intente nuevamente");
+                        + "Las disculpas del caso, intente nuevamente");
                 }
             }
         }
     }
 
+    /**
+     * Se lleva a cabo el calculo del total por el alquiler del vehiculo.
+     * @param placa Placa del vehiculo.
+     * @return Total.
+     */
     public double calculoAlquiler(String placa) {
-
         RegistroVehiculo alq = new RegistroVehiculo();
         double alqDia = 0.0;
-
         int dias = Integer.parseInt(jtfDiasAlquilar.getText());
 
         for (int i = 0; i < alq.getRegVehiculo().size(); i++) {
             if (alq.getRegVehiculo().get(i).getPlaca().toLowerCase()
-                    .equals(placa.toLowerCase())) {
-                alqDia = Double.parseDouble(alq.getRegVehiculo()
-                        .get(i).getAlquiler());
+                .equals(placa.toLowerCase())) {
+                alqDia = Double.parseDouble(alq.getRegVehiculo().get(i).getAlquiler());
             }
         }
-
         return alqDia * dias * 1.13;
     }
     
-    
+    //Se lleva a cabo el incremento de la cantidad del alquiler del vehiculo.
     public void incrementoCantAlquiler(){
         for(int i = 0; i < solicAlquiler.size(); i++){
-            if(jtfCedulaAlquiler.getText()
-                    .equals(solicAlquiler.get(i).getCedAlq())){
+            if(jtfCedulaAlquiler.getText().equals(solicAlquiler.get(i).getCedAlq())){
                 c++;
             }
-            if(jtfPlacaAlquiler.getText()
-                    .equals(solicAlquiler.get(i).getPlaca())){
+            if(jtfPlacaAlquiler.getText().equals(solicAlquiler.get(i).getPlaca())){
                 v++;
             }
         }
     }
     
-
+    //Se lleva a cabo la limpieza de los campos de texto.
     public void Limpiar() {
         jtfCedulaAlquiler.setText("");
         jtfDiasAlquilar.setText("");
@@ -618,41 +661,41 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtfMarcaAlquilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfMarcaAlquilarActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jtfMarcaAlquilarActionPerformed
 
+    /**
+     * Boton 'VolverSolicVehiculo' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbVolverSolicVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverSolicVehiculoActionPerformed
-
+        /**
+         * Nuevo objeto Usuario se crea.
+         * Interfaz grafica (JFrame) de 'Usuario' es llamada y mostrada en pantalla.
+         */
         Usuario volUsuario = new Usuario();
         volUsuario.setVisible(true);
         this.setVisible(false);
-
-
     }//GEN-LAST:event_jbVolverSolicVehiculoActionPerformed
 
+    /**
+     * Boton 'BuscarVehiculo' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbBuscarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarVehiculoActionPerformed
-
         try {
+            //Se llama a metodo 'buscarVehiculo'.
             buscarVehiculo();
-
-            //Se apilan las opciones de vehiculo
+            //Se apilan las opciones de vehiculo.
             for (int i = 0; i < accVehiculo.size(); i++) {
-
                 for (int j = 0; j < vehiculo.getRegVehiculo().size(); j++) {
-
                     if (accVehiculo.get(i).getPlaca().toLowerCase()
-                            .equals(vehiculo.getRegVehiculo().get(j)
-                                    .getPlaca().toLowerCase())) {
-
+                        .equals(vehiculo.getRegVehiculo().get(j).getPlaca().toLowerCase())) {
                         push(vehiculo.getRegVehiculo().get(j));
-
                     }
-
                 }
-
             }
 
-            //Se decide mostrar al usuario hasta 3 opciones
+            //Se decide mostrar al usuario hasta 3 opciones.
             while (longitud > 3) {
                 pop();
             }
@@ -667,12 +710,11 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
                     
                     """ + Listar());
 
-            //Eleccion
+            //Eleccion.
             try {
                 NodoA aux = cima;
                 while (aux != null) {
-                    if (aux.getValor().getPlaca().toLowerCase()
-                            .equals(placa.toLowerCase())) {
+                    if (aux.getValor().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
                         jtfCantPasajeros.setText(aux.getValor().getPasajeros());
                         jtfMarcaAlquilar.setText(aux.getValor().getMarca());
                         jtfModeloAlquilar.setText(aux.getValor().getModelo());
@@ -686,47 +728,49 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error con la lectura "
-                    + "de los valores ingresados, intente de nuevo");
+            JOptionPane.showMessageDialog(null, "Error con la lectura de los "
+                + "valores ingresados, intente de nuevo");
         }
-
-
     }//GEN-LAST:event_jbBuscarVehiculoActionPerformed
 
     private void jcbExtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbExtrasActionPerformed
-
     }//GEN-LAST:event_jcbExtrasActionPerformed
 
-    
-    //Valores para control de cantidad de veces que se alquila
+    //Valores para control de cantidad de veces que se alquila.
     private static int v = 0;
     private static int c = 0;
     
+    /**
+     * Boton 'AlquilarVehiculo' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbAlquilarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlquilarVehiculoActionPerformed
-
         try {
-
+            //Se llama al metodo 'incrementoCantAlquiler'.
             incrementoCantAlquiler();
             
+            //Si el estado del vehiculo no es 'Alquilado', entonces la solicitud se procesa.
             if (!estadoAlquilado(jtfPlacaAlquiler.getText())) {
                 solicAlquiler.add(new Solicitud(jtfPlacaAlquiler.getText(),
-                        jtfCedulaAlquiler.getText(), "Registrada",
-                        calculoAlquiler(jtfPlacaAlquiler.getText()), v, c));
+                jtfCedulaAlquiler.getText(), "Registrada",
+                calculoAlquiler(jtfPlacaAlquiler.getText()), v, c));
 
                 cambioCategoria((Integer.parseInt(jtfDiasAlquilar.getText())),
-                        jtfCedulaAlquiler.getText(), jtfPlacaAlquiler.getText());
+                jtfCedulaAlquiler.getText(), jtfPlacaAlquiler.getText());
                 cambioEstado(jtfPlacaAlquiler.getText());
 
                 JOptionPane.showMessageDialog(null, "Solicitud procesada");
                 Limpiar();
                 jbAlquilarVehiculo.setEnabled(false);
-            } else {
+            } 
+            //Sino, la solicitud se deniega.
+            else {
                 solicAlquiler.add(new Solicitud(jtfPlacaAlquiler.getText(),
-                        jtfCedulaAlquiler.getText(), "Rechazada",
-                        calculoAlquiler(jtfPlacaAlquiler.getText()), v, c));
+                jtfCedulaAlquiler.getText(), "Rechazada",
+                calculoAlquiler(jtfPlacaAlquiler.getText()), v, c));
 
                 cambioCategoria((Integer.parseInt(jtfDiasAlquilar.getText())),
-                        jtfCedulaAlquiler.getText(), jtfPlacaAlquiler.getText());
+                jtfCedulaAlquiler.getText(), jtfPlacaAlquiler.getText());
                 cambioEstado(jtfPlacaAlquiler.getText());
 
                 JOptionPane.showMessageDialog(null, "Solicitud rechazada");
@@ -738,8 +782,6 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error\nSolicitud rechazada");
             solicAlquiler.add(new Solicitud("", "", "Rechazada", 0.0, v, c));
         }
-
-
     }//GEN-LAST:event_jbAlquilarVehiculoActionPerformed
 
     /**
@@ -767,13 +809,6 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(SolicitudAlquiler.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

@@ -1,80 +1,93 @@
-/*
- */
 package rentacar;
 
+/**
+ * Clases dentro de paquete 'Vehiculo' importadas.
+ * Librerias para uso de ArrayList, Collections y JOptionPane importadas.
+ */
 import Vehiculo.Nodo;
 import Vehiculo.Vehiculo;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 
 /**
- *
- * @author Karina Madrigal
+ * Clase 'RegistroVehiculo' representa el espacio para los registros de vehiculos.
+ * Posee una interfaz grafica (JFrame).
  */
 public class RegistroVehiculo extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RegistroVehiculo
-     */
+    //Constructor crea nuevo formulario para 'RegistroVehiculo'.
     public RegistroVehiculo() {
         initComponents();
         setLocationRelativeTo(null);
 
+        //Contador para ingreso de nuevos registros.
         for (int i = 0; i < regVehiculo.size(); i++) {
             inserta(regVehiculo.get(i));
         }
-
     }
 
-    //Almacenamiento de la informacion
+    //Almacenamiento de la informacion dentro de la lista 'Vehiculo'.
     private static ArrayList<Vehiculo> regVehiculo = new ArrayList<>();
 
     public static ArrayList<Vehiculo> getRegVehiculo() {
         return regVehiculo;
     }
 
+    /**
+     * Se sobreescribe 'RegVehiculo' con nuevo registro. 
+     * @param regVehiculo Lista con nuevo registro.
+     */
     public static void setRegVehiculo(ArrayList<Vehiculo> regVehiculo) {
         RegistroVehiculo.regVehiculo = regVehiculo;
     }
 
-    //Se hace uso de la lista circular
+    //Lista circular.
     private Nodo cabeza;
     private Nodo ultimo;
 
     /**
-     * Inserta un objeto Vehiculo a una lista circular no ordenada
-     *
-     * @param p objeto tipo Vehiculo a insertar
+     * Inserta un objeto vehiculo a una lista circular no ordenada.
+     * @param p objeto tipo Vehiculo a insertar.
      */
     public void inserta(Vehiculo p) {
-        if (cabeza == null) { //si cabeza es igual a null
-            cabeza = new Nodo(p); //se crea nuevo nodo cabeza
-            ultimo = cabeza; //ultimo es igual a cabeza
-        } else { //si ya existe cabeza, se ubica al final
-            Nodo aux = cabeza; //nodo aux es igual a cabeza
+        //Si la cabeza de la lista es null.
+        if (cabeza == null) { 
+            //Se crea nuevo nodo cabeza.
+            cabeza = new Nodo(p);
+            //Ultimo es igual a cabeza.
+            ultimo = cabeza;
+        } 
+        //Sino, si ya existe cabeza, se ubica al final.
+        else {
+            //Nodo aux es igual a cabeza.
+            Nodo aux = cabeza;
             ultimo.setNext(new Nodo(p));
             ultimo = ultimo.getNext();
         }
-        ultimo.setNext(cabeza); //el ultimo se conecta a cabeza
-        cabeza.setBack(ultimo); //la cabeza se conecta al ultimo
+        //El ultimo nodo se conecta a cabeza.
+        ultimo.setNext(cabeza);
+        //La cabeza se conecta al ultimo nodo.
+        cabeza.setBack(ultimo);
     }
 
+    /**
+     * Se asegura de que el vehiculo exista por medio de la placa.
+     * @param placa Placa del vehiculo.
+     * @return Si existe(true) o no(false).
+     */
     public boolean existe(String placa) {
         boolean esta = false;
         Nodo aux = cabeza;
 
+        //Si la cabeza de la lista existe.
         if (cabeza != null) {
-
-            if (cabeza.getDato().getPlaca().toLowerCase()
-                    .equals(placa.toLowerCase())) {
+            //Si la placa que se inserto existe dentro de la lista.
+            if (cabeza.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
                 esta = true;
             }
 
             while (aux != ultimo && !esta) {
-                if (aux.getDato().getPlaca().toLowerCase()
-                        .equals(placa.toLowerCase())) {
+                if (aux.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
                     esta = true;
                 }
                 aux = aux.getNext();
@@ -83,36 +96,51 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         return esta;
     }
 
+    /**
+     * Obtiene los datos del vehiculo por medio de la placa.
+     * @param placa Placa del vehiculo.
+     * @return Vehiculo.
+     */
     public Vehiculo obtain(String placa) {
         Vehiculo vehObtenido = null;
+        
+        //Si la cabeza de la lista existe.
         if (cabeza != null) {
-            if (cabeza.getDato().getPlaca().toLowerCase()
-                    .equals(placa.toLowerCase())) {
+            //Si la placa que se inserto existe dentro de la lista.
+            if (cabeza.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
+                //Se obtienen los datos del vehiculo.
                 vehObtenido = cabeza.getDato();
-            } else if (ultimo.getDato().getPlaca().toLowerCase()
-                    .equals(placa.toLowerCase())) {
-                vehObtenido = ultimo.getDato();
-            } else {
-                Nodo aux = cabeza;
-                while (aux.getNext() != cabeza) {
-                    if (aux.getDato().getPlaca().toLowerCase()
-                            .equals(placa.toLowerCase())) {
-                        vehObtenido = aux.getDato();
+            } else 
+                if (ultimo.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
+                    vehObtenido = ultimo.getDato();
+                } else {
+                    Nodo aux = cabeza;
+                    
+                    while (aux.getNext() != cabeza) {
+                        if (aux.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
+                            vehObtenido = aux.getDato();
+                        }
+                        aux = aux.getNext();
                     }
-                    aux = aux.getNext();
                 }
-            }
         }
         return vehObtenido;
     }
 
+    /**
+     * Modifica los datos del vehiculo segun la placa de referencia.
+     * @param placa Placa del vehiculo.
+     */
     public void modifica(String placa) {
-
-        if (cabeza != null) { //si cabeza no es null
+        //Si cabeza no es null.
+        if (cabeza != null) { 
+            //Si la placa que se inserto existe dentro de la lista.
             if (existe(placa)) {
                 Vehiculo vehModif = obtain(placa);
-                Nodo aux = cabeza; //nodo aux es igual a cabeza
+                //Nodo aux es igual a cabeza.
+                Nodo aux = cabeza; 
 
+                //Se vuelven a setear todos los campos de informacion.
                 vehModif.setMarca(jtfMarca.getText());
                 vehModif.setModelo(jtfModelo.getText());
                 vehModif.setAnno(jtfAnno.getText());
@@ -123,14 +151,16 @@ public class RegistroVehiculo extends javax.swing.JFrame {
                 vehModif.setAlquiler(jtfAlquilerDia.getText());
                 vehModif.setEstado(jcbEstado.getSelectedItem().toString());
                 vehModif.setExtras(extras);
-
             }
         }
     }
 
-    //Este metodo se basa en lo expuesto por 
-    //Tutoriales de Programación Explicada
-    //Fuente: https://www.youtube.com/watch?v=bxvhZX_dwpo
+    /**
+     * Este metodo se basa en lo expuesto por 'Tutoriales de Programación Explicada'
+     * Fuente: https://www.youtube.com/watch?v=bxvhZX_dwpo
+     * Se eliminan vehiculos por medio de la placa de referencia.
+     * @param placa Placa del vehiculo.
+     */
     public void elimina(String placa) {
         boolean enc = false;
         Nodo aux = new Nodo();
@@ -140,52 +170,54 @@ public class RegistroVehiculo extends javax.swing.JFrame {
 
         if (cabeza != null) {
             while (cabeza != null && !enc) {
-                if (aux.getDato().getPlaca().toLowerCase()
-                        .equals(placa.toLowerCase())) {
+                if (aux.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
                     if (aux == cabeza) {
                         cabeza = cabeza.getNext();
                         cabeza.setBack(null);
-                    } else if (aux == ultimo) {
-                        ultimo = ultimo.getBack();
-                        ultimo = ant;
-                    } else {
-                        ant.setNext(aux.getNext());
-                        aux.getNext().setBack(ant);
-                    }
-
-                    enc = true;
-
+                    } else 
+                        if (aux == ultimo) {
+                            ultimo = ultimo.getBack();
+                            ultimo = ant;
+                        } else {
+                            ant.setNext(aux.getNext());
+                            aux.getNext().setBack(ant);
+                        }
+                        enc = true;
                 }
                 ant = aux;
                 aux = aux.getNext();
             }
-
         }
         cabeza.setBack(ultimo);
         ultimo.setNext(cabeza);
-
     }
 
+    /**
+     * Se extraen vehiculos por medio de la placa de referencia.
+     * @param placa Placa del vehiculo.
+     * @return Vehiculo.
+     */
     public Vehiculo extrae(String placa) {
         Vehiculo p = null;
+        
         if (cabeza != null) {
-            if (cabeza.getDato().getPlaca().toLowerCase()
-                    .equals(placa.toLowerCase())) {
+            if (cabeza.getDato().getPlaca().toLowerCase().equals(placa.toLowerCase())) {
                 p = cabeza.getDato();
                 cabeza = cabeza.getNext();
             } else {
                 Nodo aux = cabeza;
                 Nodo ant = aux;
-                while (aux.getNext() != cabeza
-                        && aux.getNext().getDato().getPlaca().toLowerCase()
-                                .equals(placa.toLowerCase())) {
+                
+                while (aux.getNext() != cabeza && aux.getNext().getDato()
+                    .getPlaca().toLowerCase().equals(placa.toLowerCase())) {
                     p = aux.getNext().getDato();
                     aux.setNext(aux.getNext().getNext());
                     ant = aux;
                     aux = aux.getNext();
                 }
-                if (ultimo.getDato().getPlaca()
-                        .toLowerCase().equals(placa.toLowerCase())) {
+                
+                if (ultimo.getDato().getPlaca().toLowerCase().equals(placa
+                    .toLowerCase())) {
                     p = ultimo.getDato();
                     ultimo = ant;
                     ultimo.setNext(cabeza);
@@ -196,6 +228,10 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         return p;
     }
 
+    /**
+     * Excribe los datos del vehiculo y los imprime.
+     * @return Datos ordenados.
+     */
     @Override
     public String toString() {
         Nodo aux = cabeza;
@@ -591,75 +627,102 @@ public class RegistroVehiculo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtfModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfModeloActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jtfModeloActionPerformed
 
-
+    /**
+     * Boton 'RegistrarVehiculo' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbRegistrarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRegistrarVActionPerformed
-
+        //Si el texto de referencia insertado en el espacio 'Placa' existe dentro de la lista.
         if (existe(jtfPlaca.getText())) {
             JOptionPane.showMessageDialog(null, "Registro ya existe");
             Limpiar();
         } else {
-
+            //Se llama al metodo 'ValidarCampos' para hacer la validacion
             if (ValidarCampos()) {
+                //Se llama al metodo 'inserta' para hacer la insersion del registro.
                 inserta(new Vehiculo(this.jtfPlaca.getText(),
-                        this.jtfMarca.getText(), this.jtfModelo.getText(),
-                        this.jtfAnno.getText(), this.jtfColor.getText(),
-                        this.jtfCilindrada.getText(), this.jtfCombustible.getText(),
-                        this.jtfPasajeros.getText(), this.jtfAlquilerDia.getText(),
-                        this.jcbEstado.getSelectedItem().toString(), extras));
+                    this.jtfMarca.getText(), this.jtfModelo.getText(),
+                    this.jtfAnno.getText(), this.jtfColor.getText(),
+                    this.jtfCilindrada.getText(), this.jtfCombustible.getText(),
+                    this.jtfPasajeros.getText(), this.jtfAlquilerDia.getText(),
+                    this.jcbEstado.getSelectedItem().toString(), extras));
             } else {
                 JOptionPane.showMessageDialog(null, "Complete todos los espacios "
-                        + "antes de registrar un vehiculo");
+                    + "antes de registrar un vehiculo");
             }
             Limpiar();
+            //Se habilitan.
             jtfPlaca.setEnabled(true);
             jbModificarV.setEnabled(true);
-
         }
     }//GEN-LAST:event_jbRegistrarVActionPerformed
 
+    /**
+     * Boton 'Limpiar' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbLimpiarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarVActionPerformed
+        //Se llama a metodo 'Limpiar'.
         Limpiar();
     }//GEN-LAST:event_jbLimpiarVActionPerformed
 
+    //Almacenamiento de la informacion dentro de lista.
     protected static ArrayList<String> extras = new ArrayList<>();
 
     public static ArrayList<String> getExtras() {
         return extras;
     }
 
+    /**
+     * Se sobreescribe con nuevos extras. 
+     * @param extras Extras del vehiculo.
+     */
     public static void setExtras(ArrayList<String> extras) {
         RegistroVehiculo.extras = extras;
     }
-
+    
+    /**
+     * Se agregan los nuevos extras.
+     * @return Extras del vehiculo.
+     */
     private ArrayList<String> agregarExtras() {
         extras.add(this.jtfExtra.getText());
         this.jtfExtra.setText("");
         return extras;
     }
 
+    /**
+     * Boton 'AgregarExtras' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbAgregarExtraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarExtraActionPerformed
+        //Se llama al metodo 'agregarExtras'.
         agregarExtras();
     }//GEN-LAST:event_jbAgregarExtraActionPerformed
 
+    /**
+     * Boton 'Eliminar' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbEliminarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarVActionPerformed
-
         String placa = JOptionPane.showInputDialog("Ingrese la placa");
         int op = JOptionPane.showConfirmDialog(null, "Se eliminará este registro"
                 + ", ¿está seguro?");
         if (op == 0) {
             elimina(placa);
         }
-
-
     }//GEN-LAST:event_jbEliminarVActionPerformed
 
+    /**
+     * Boton 'Modificar' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbModificarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarVActionPerformed
-
         jtfPlaca.setEnabled(false);
-//        jbAceptar.setVisible(true);
+        //jbAceptar.setVisible(true);
         jbModificarV.setEnabled(false);
         String placa = JOptionPane.showInputDialog("Ingrese la placa");
         LlenarCampos(placa);
@@ -667,39 +730,47 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         elimina(placa);
     }//GEN-LAST:event_jbModificarVActionPerformed
 
+    /**
+     * Boton 'Mostrar' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbMostrarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMostrarVActionPerformed
-
         for (int i = 0; i < regVehiculo.size(); i++) {
             regVehiculo.remove(i);
         }
-
+        //Imprime los datos.
         jtaVehiculos.setText(toString());
     }//GEN-LAST:event_jbMostrarVActionPerformed
 
+    /**
+     * Boton 'VolverAdmin' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbVolverAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverAdminActionPerformed
-
         try {
             Nodo aux = cabeza;
-
             ultimo.setNext(null);
+            
             while (aux != null) {
                 regVehiculo.add(aux.getDato());
                 aux = aux.getNext();
             }
             ultimo.setNext(cabeza);
-        } catch(Exception e){
-            
-        }
+        } catch(Exception e){}
 
+        /**
+         * Nuevo objeto Administracion se crea.
+         * Interfaz grafica (JFrame) de 'Administracion' es llamada y mostrada en pantalla.
+         */
         Administracion volv = new Administracion();
         volv.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbVolverAdminActionPerformed
 
     private void jtfMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfMarcaActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jtfMarcaActionPerformed
 
+    //Se lleva a cabo la limpieza de los campos de texto.
     public void Limpiar() {
         this.jtfPlaca.setText("");
         this.jtfMarca.setText("");
@@ -714,23 +785,31 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         this.jcbEstado.setSelectedIndex(0);
     }
 
+    /**
+     * Se validan los datos del vehiculo.
+     * @return Si existe(true) o no(false).
+     */
     public boolean ValidarCampos() {
         if (this.jtfPlaca.getText().equals("")
-                || this.jtfMarca.getText().equals("")
-                || this.jtfModelo.getText().equals("")
-                || this.jtfAnno.getText().equals("")
-                || this.jtfColor.getText().equals("")
-                || this.jtfCilindrada.getText().equals("")
-                || this.jtfCombustible.getText().equals("")
-                || this.jtfPasajeros.getText().equals("")
-                || this.jtfAlquilerDia.getText().equals("")) {
+            || this.jtfMarca.getText().equals("")
+            || this.jtfModelo.getText().equals("")
+            || this.jtfAnno.getText().equals("")
+            || this.jtfColor.getText().equals("")
+            || this.jtfCilindrada.getText().equals("")
+            || this.jtfCombustible.getText().equals("")
+            || this.jtfPasajeros.getText().equals("")
+            || this.jtfAlquilerDia.getText().equals("")) {
             return false;
         }
         return true;
     }
-
+    
+    /**
+     * Se llenan los espacios con la informacion del vehiculo.
+     * @param placa Placa del vehiculo.
+     */
     public void LlenarCampos(String placa) {
-
+        //Se llama al metodo 'obtain'.
         Vehiculo vehi = obtain(placa);
 
         try {
@@ -745,12 +824,10 @@ public class RegistroVehiculo extends javax.swing.JFrame {
             this.jtfAlquilerDia.setText(vehi.getAlquiler());
             this.jtfExtra.setText(vehi.getExtras().get(0));
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Placa no se encuentra "
-                    + "registrada");
+            JOptionPane.showMessageDialog(null, "Placa no se encuentra registrada");
             jtfPlaca.setEnabled(true);
             jbModificarV.setEnabled(true);
         }
-
     }
 
     /**
@@ -778,9 +855,6 @@ public class RegistroVehiculo extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(RegistroVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
