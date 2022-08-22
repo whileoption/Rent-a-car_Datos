@@ -224,7 +224,8 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
                     + "satisfagan la busqueda");
 
             solicAlquiler.add(new Solicitud(jtfPlacaAlquiler.getText(),
-                    jtfCedulaAlquiler.getText(), "Rechazada", 0.0, v, c));
+                    jtfCedulaAlquiler.getText(), "Rechazada", 0.0, v, c,
+                    obtenerCategoria(jtfCedulaAlquiler.getText())));
         }
 
         //Se ordena el arraylist
@@ -233,8 +234,9 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
 
     }
 
+    RegistroCliente cat = new RegistroCliente();
+
     public void cambioCategoria(int dias, String cedula, String placa) {
-        RegistroCliente cat = new RegistroCliente();
 
         //Por dias de alquiler
         if (dias >= 40) {
@@ -339,21 +341,32 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
 
         return alqDia * dias * 1.13;
     }
-    
-    
-    public void incrementoCantAlquiler(){
-        for(int i = 0; i < solicAlquiler.size(); i++){
-            if(jtfCedulaAlquiler.getText()
-                    .equals(solicAlquiler.get(i).getCedAlq())){
+
+    public void incrementoCantAlquiler() {
+        for (int i = 0; i < solicAlquiler.size(); i++) {
+            if (jtfCedulaAlquiler.getText()
+                    .equals(solicAlquiler.get(i).getCedAlq())) {
                 c++;
             }
-            if(jtfPlacaAlquiler.getText()
-                    .equals(solicAlquiler.get(i).getPlaca())){
+            if (jtfPlacaAlquiler.getText()
+                    .equals(solicAlquiler.get(i).getPlaca())) {
                 v++;
             }
         }
     }
-    
+
+    public String obtenerCategoria(String ced) {
+
+        String categoria = "";
+        for (int i = 0; i < cat.getRegCliente().size(); i++) {
+
+            if (cat.getRegCliente().get(i).getId().equals(ced)) {
+                categoria = cat.getRegCliente().get(i)
+                        .getCategoria().toLowerCase();
+            }
+        }
+        return categoria;
+    }
 
     public void Limpiar() {
         jtfCedulaAlquiler.setText("");
@@ -697,21 +710,21 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jcbExtrasActionPerformed
 
-    
     //Valores para control de cantidad de veces que se alquila
     private static int v = 0;
     private static int c = 0;
-    
+
     private void jbAlquilarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlquilarVehiculoActionPerformed
 
         try {
 
             incrementoCantAlquiler();
-            
+
             if (!estadoAlquilado(jtfPlacaAlquiler.getText())) {
                 solicAlquiler.add(new Solicitud(jtfPlacaAlquiler.getText(),
                         jtfCedulaAlquiler.getText(), "Registrada",
-                        calculoAlquiler(jtfPlacaAlquiler.getText()), v, c));
+                        calculoAlquiler(jtfPlacaAlquiler.getText()), v, c,
+                        obtenerCategoria(jtfCedulaAlquiler.getText())));
 
                 cambioCategoria((Integer.parseInt(jtfDiasAlquilar.getText())),
                         jtfCedulaAlquiler.getText(), jtfPlacaAlquiler.getText());
@@ -723,7 +736,8 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
             } else {
                 solicAlquiler.add(new Solicitud(jtfPlacaAlquiler.getText(),
                         jtfCedulaAlquiler.getText(), "Rechazada",
-                        calculoAlquiler(jtfPlacaAlquiler.getText()), v, c));
+                        calculoAlquiler(jtfPlacaAlquiler.getText()), v, c,
+                        obtenerCategoria(jtfCedulaAlquiler.getText())));
 
                 cambioCategoria((Integer.parseInt(jtfDiasAlquilar.getText())),
                         jtfCedulaAlquiler.getText(), jtfPlacaAlquiler.getText());
@@ -733,10 +747,11 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
                 Limpiar();
                 jbAlquilarVehiculo.setEnabled(false);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.getMessage();
             JOptionPane.showMessageDialog(null, "Error\nSolicitud rechazada");
-            solicAlquiler.add(new Solicitud("", "", "Rechazada", 0.0, v, c));
+            solicAlquiler.add(new Solicitud("", "", "Rechazada", 0.0, v, c,
+                    obtenerCategoria(jtfCedulaAlquiler.getText())));
         }
 
 

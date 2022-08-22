@@ -32,25 +32,27 @@ public class Analisis extends javax.swing.JFrame {
     private static ArrayList<Solicitud> vehiculo = new ArrayList<>();
 
     //Implementación de lista circular doble
-    private NodoOrden cabeza;
-    private NodoOrden ultimo;
+    private NodoOrden cabezaC;
+    private NodoOrden ultimoC;
+    private NodoOrden cabezaV;
+    private NodoOrden ultimoV;
     private int longVeh = 0;
     private int longCliente = 0;
 
     public void insertaCliente(Solicitud c) { //ordena de mayor a menor
-        if (cabeza == null) { //si no hay cabeza
-            cabeza = new NodoOrden(c); //se crea un nodo cabeza
-            ultimo = cabeza; //el ultimo es igual a cabeza
-        } else if (c.getCantCliente() > cabeza.getDato().getCantCliente()) { //si el dato es mayor a la cabeza
+        if (cabezaC == null) { //si no hay cabeza
+            cabezaC = new NodoOrden(c); //se crea un nodo cabeza
+            ultimoC = cabezaC; //el ultimo es igual a cabeza
+        } else if (c.getCantCliente() < cabezaC.getDato().getCantCliente()) { //si el dato es mayor a la cabeza
             NodoOrden aux = new NodoOrden(c); //se crea un nuevo nodo aux
-            aux.setNext(cabeza); //el siguiente a aux es cabeza
-            cabeza = aux; //la cabeza es ahora el aux
-        } else if (ultimo.getDato().getCantCliente() >= c.getCantCliente()) { //si el ultimo es mayor o igual al dato
-            ultimo.setNext(new NodoOrden(c)); //el nuevo nodo se ubica luego del ultimo
-            ultimo = ultimo.getNext(); //el ultimo es ahora el siguiente
+            aux.setNext(cabezaC); //el siguiente a aux es cabeza
+            cabezaC = aux; //la cabeza es ahora el aux
+        } else if (ultimoC.getDato().getCantCliente() <= c.getCantCliente()) { //si el ultimo es mayor o igual al dato
+            ultimoC.setNext(new NodoOrden(c)); //el nuevo nodo se ubica luego del ultimo
+            ultimoC = ultimoC.getNext(); //el ultimo es ahora el siguiente
         } else { //si el dato esta entre la cabeza y el ultimo
-            NodoOrden aux = cabeza; //se crea nodo aux que es igual a cabeza
-            while (aux.getNext().getDato().getCantCliente() > c.getCantCliente()) { //mientras siguiente a aux sea mayor que el dato
+            NodoOrden aux = cabezaC; //se crea nodo aux que es igual a cabeza
+            while (aux.getNext().getDato().getCantCliente() < c.getCantCliente()) { //mientras siguiente a aux sea mayor que el dato
                 aux = aux.getNext(); //aux se actualiza
             }
             NodoOrden temp = new NodoOrden(c); //se crea nuevo nodo temporal
@@ -59,29 +61,26 @@ public class Analisis extends javax.swing.JFrame {
             aux.setNext(temp); //el siguiente al aux es el temporal
             temp.getNext().setBack(temp); //se ubica el temporal  
         }
-        ultimo.setNext(cabeza); //el ultimo se conecta a la cabeza
-        cabeza.setBack(ultimo); //la cabeza se conecta al ultimo
+        ultimoC.setNext(cabezaC); //el ultimo se conecta a la cabeza
+        cabezaC.setBack(ultimoC); //la cabeza se conecta al ultimo
         longCliente++;
-        cliente.add(new Solicitud(ultimo.getDato().getPlaca(),
-                ultimo.getDato().getCedAlq(),
-                ultimo.getDato().getEstado(), ultimo.getDato().getAlquiler(),
-                ultimo.getDato().getCantPlaca(), ultimo.getDato().getCantCliente()));
+        cliente.add(c);
     }
 
     public void insertaVehiculo(Solicitud v) { //ordena de mayor a menor
-        if (cabeza == null) { //si no hay cabeza
-            cabeza = new NodoOrden(v); //se crea un nodo cabeza
-            ultimo = cabeza; //el ultimo es igual a cabeza
-        } else if (v.getCantPlaca() > cabeza.getDato().getCantPlaca()) { //si el dato es mayor a la cabeza
+        if (cabezaV == null) { //si no hay cabeza
+            cabezaV = new NodoOrden(v); //se crea un nodo cabeza
+            ultimoV = cabezaV; //el ultimo es igual a cabeza
+        } else if (v.getCantPlaca() < cabezaV.getDato().getCantPlaca()) { //si el dato es mayor a la cabeza
             NodoOrden aux = new NodoOrden(v); //se crea un nuevo nodo aux
-            aux.setNext(cabeza); //el siguiente a aux es cabeza
-            cabeza = aux; //la cabeza es ahora el aux
-        } else if (ultimo.getDato().getCantPlaca() >= v.getCantPlaca()) { //si el ultimo es mayor o igual al dato
-            ultimo.setNext(new NodoOrden(v)); //el nuevo nodo se ubica luego del ultimo
-            ultimo = ultimo.getNext(); //el ultimo es ahora el siguiente
+            aux.setNext(cabezaV); //el siguiente a aux es cabeza
+            cabezaV = aux; //la cabeza es ahora el aux
+        } else if (ultimoV.getDato().getCantPlaca() <= v.getCantPlaca()) { //si el ultimo es mayor o igual al dato
+            ultimoV.setNext(new NodoOrden(v)); //el nuevo nodo se ubica luego del ultimo
+            ultimoV = ultimoV.getNext(); //el ultimo es ahora el siguiente
         } else { //si el dato esta entre la cabeza y el ultimo
-            NodoOrden aux = cabeza; //se crea nodo aux que es igual a cabeza
-            while (aux.getNext().getDato().getCantPlaca() > v.getCantPlaca()) { //mientras siguiente a aux sea mayor que el dato
+            NodoOrden aux = cabezaV; //se crea nodo aux que es igual a cabeza
+            while (aux.getNext().getDato().getCantPlaca() < v.getCantPlaca()) { //mientras siguiente a aux sea mayor que el dato
                 aux = aux.getNext(); //aux se actualiza
             }
             NodoOrden temp = new NodoOrden(v); //se crea nuevo nodo temporal
@@ -90,39 +89,86 @@ public class Analisis extends javax.swing.JFrame {
             aux.setNext(temp); //el siguiente al aux es el temporal
             temp.getNext().setBack(temp); //se ubica el temporal  
         }
-        ultimo.setNext(cabeza); //el ultimo se conecta a la cabeza
-        cabeza.setBack(ultimo); //la cabeza se conecta al ultimo
+        ultimoV.setNext(cabezaV); //el ultimo se conecta a la cabeza
+        cabezaV.setBack(ultimoV); //la cabeza se conecta al ultimo
         longVeh++;
-        vehiculo.add(new Solicitud(ultimo.getDato().getPlaca(),
-                ultimo.getDato().getCedAlq(),
-                ultimo.getDato().getEstado(), ultimo.getDato().getAlquiler(),
-                ultimo.getDato().getCantPlaca(), ultimo.getDato().getCantCliente()));
+        vehiculo.add(v);
     }
-    
-    
-    private double totalZafiro = 0;
-    private double totalOro = 0;
-    private double totalPlata = 0;
-    private double totalBronce = 0;
-    
-    public void calculoTotales(){
-        
-        for(int i =  0; i < solicitud.getSolicAlquiler().size(); i++){
-            
-            
+
+    public void restablecerTodo() {
+        cabezaC = null;
+        cabezaV = null;
+        vehiculo.clear();
+        cliente.clear();
+        totalZafiro = 0;
+        cZaf = 0;
+        totalOro = 0;
+        cOro = 0;
+        totalPlata = 0;
+        cPl = 0;
+        totalBronce = 0;
+        cBr = 0;
+        promZafiro = 0;
+        promOro = 0;
+        promPlata = 0;
+        promBronce = 0;
+    }
+
+    private double totalZafiro, cZaf = 0;
+    private double totalOro, cOro = 0;
+    private double totalPlata, cPl = 0;
+    private double totalBronce, cBr = 0;
+
+    public void calculoTotales() {
+
+        for (int i = 0; i < solicitud.getSolicAlquiler().size(); i++) {
+
+            if (solicitud.getSolicAlquiler().get(i).getCatCliente()
+                    .toLowerCase().equals("zafiro")) {
+                totalZafiro += solicitud.getSolicAlquiler().get(i).getAlquiler();
+                cZaf++;
+            } else if (solicitud.getSolicAlquiler().get(i).getCatCliente()
+                    .toLowerCase().equals("oro")) {
+                totalOro += solicitud.getSolicAlquiler().get(i).getAlquiler();
+                cOro++;
+            } else if (solicitud.getSolicAlquiler().get(i).getCatCliente()
+                    .toLowerCase().equals("plata")) {
+                totalPlata += solicitud.getSolicAlquiler().get(i).getAlquiler();
+                cPl++;
+            } else if (solicitud.getSolicAlquiler().get(i).getCatCliente()
+                    .toLowerCase().equals("bronce")) {
+                totalBronce += solicitud.getSolicAlquiler().get(i).getAlquiler();
+                cBr++;
+            }
+
         }
-        
-        
+
     }
-    
-    
+
     private double promZafiro = 0;
     private double promOro = 0;
     private double promPlata = 0;
     private double promBronce = 0;
-    
-    public void calculoPromedios(){
-        
+
+    public void calculoPromedios() {
+
+        try {
+            promZafiro = totalZafiro / cZaf;
+            jtfPromedioZafiro.setText("" + promZafiro);
+
+            promOro = totalOro / cOro;
+            jtfPromedioOro.setText("" + promOro);
+
+            promPlata = totalPlata / cPl;
+            jtfPromedioPlata.setText("" + promPlata);
+
+            promBronce = totalBronce / cBr;
+            jtfPromedioBronce.setText("" + promBronce);
+
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
     }
 
     public void Limpiar() {
@@ -137,10 +183,14 @@ public class Analisis extends javax.swing.JFrame {
         this.jtfVehiculoTop3.setText("");
         this.jtfVehiculoTop4.setText("");
         this.jtfVehiculoTop5.setText("");
-        this.jtdPromZafiro.setText("");
-        this.jtdPromOro.setText("");
-        this.jtdPromPlata.setText("");
-        this.jtdPromBronce.setText("");
+        this.jtfPromedioZafiro.setText("");
+        this.jtfPromedioOro.setText("");
+        this.jtfPromedioPlata.setText("");
+        this.jtfPromedioBronce.setText("");
+        this.jtfTotalZafiro.setText("");
+        this.jtfTotalOro.setText("");
+        this.jtfTotalPlata.setText("");
+        this.jtfTotalBronce.setText("");
     }
 
     /**
@@ -180,19 +230,19 @@ public class Analisis extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jtdPromZafiro = new javax.swing.JTextField();
-        jtdPromOro = new javax.swing.JTextField();
-        jtdPromPlata = new javax.swing.JTextField();
-        jtdPromBronce = new javax.swing.JTextField();
+        jtfPromedioZafiro = new javax.swing.JTextField();
+        jtfPromedioOro = new javax.swing.JTextField();
+        jtfPromedioPlata = new javax.swing.JTextField();
+        jtfPromedioBronce = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jtdTotalBronce = new javax.swing.JTextField();
-        jtdTotalPlata = new javax.swing.JTextField();
-        jtdTotalOro = new javax.swing.JTextField();
-        jtdTotalZafiro = new javax.swing.JTextField();
+        jtfTotalBronce = new javax.swing.JTextField();
+        jtfTotalPlata = new javax.swing.JTextField();
+        jtfTotalOro = new javax.swing.JTextField();
+        jtfTotalZafiro = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jbVolverAnalisis = new javax.swing.JButton();
         jbGenerar = new javax.swing.JButton();
@@ -393,16 +443,16 @@ public class Analisis extends javax.swing.JFrame {
                             .addComponent(jLabel15))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtdPromBronce)
-                            .addComponent(jtdPromPlata)
-                            .addComponent(jtdPromOro)
-                            .addComponent(jtdPromZafiro, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtfPromedioBronce)
+                            .addComponent(jtfPromedioPlata)
+                            .addComponent(jtfPromedioOro)
+                            .addComponent(jtfPromedioZafiro, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtdTotalBronce)
-                            .addComponent(jtdTotalPlata)
-                            .addComponent(jtdTotalOro)
-                            .addComponent(jtdTotalZafiro, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jtfTotalBronce)
+                            .addComponent(jtfTotalPlata)
+                            .addComponent(jtfTotalOro)
+                            .addComponent(jtfTotalZafiro, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel19)
@@ -421,28 +471,28 @@ public class Analisis extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtdPromZafiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfPromedioZafiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtdPromOro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfPromedioOro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtdPromPlata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfPromedioPlata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtdPromBronce, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfPromedioBronce, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel15)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jtdTotalZafiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtfTotalZafiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jtdTotalOro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtfTotalOro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jtdTotalPlata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtfTotalPlata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jtdTotalBronce, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jtfTotalBronce, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -537,22 +587,46 @@ public class Analisis extends javax.swing.JFrame {
 
     private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
         Limpiar();
+        restablecerTodo();
+
     }//GEN-LAST:event_jbLimpiarActionPerformed
 
     private void jbGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGenerarActionPerformed
 
+        for (int i = 0; i < solicitud.getSolicAlquiler().size(); i++) {
+
+            insertaCliente(new Solicitud(solicitud.getSolicAlquiler()
+                    .get(i).getPlaca(), solicitud.getSolicAlquiler()
+                    .get(i).getCedAlq(), solicitud.getSolicAlquiler()
+                    .get(i).getEstado(), solicitud.getSolicAlquiler()
+                    .get(i).getAlquiler(), solicitud.getSolicAlquiler()
+                    .get(i).getCantPlaca(), solicitud.getSolicAlquiler()
+                    .get(i).getCantCliente(), solicitud.getSolicAlquiler()
+                    .get(i).getCatCliente()));
+
+            insertaVehiculo(new Solicitud(solicitud.getSolicAlquiler()
+                    .get(i).getPlaca(), solicitud.getSolicAlquiler()
+                    .get(i).getCedAlq(), solicitud.getSolicAlquiler()
+                    .get(i).getEstado(), solicitud.getSolicAlquiler()
+                    .get(i).getAlquiler(), solicitud.getSolicAlquiler()
+                    .get(i).getCantPlaca(), solicitud.getSolicAlquiler()
+                    .get(i).getCantCliente(), solicitud.getSolicAlquiler()
+                    .get(i).getCatCliente()));
+
+        }
+
         try {
             //Cliente
-            jtfClienteTop1.setText(cliente.get(0).getPlaca());
-            jtfClienteTop2.setText(cliente.get(1).getPlaca());
-            jtfClienteTop3.setText(cliente.get(2).getPlaca());
-            jtfClienteTop4.setText(cliente.get(3).getPlaca());
-            jtfClienteTop5.setText(cliente.get(4).getPlaca());
+            jtfClienteTop1.setText(cliente.get(0).getCedAlq());
+            jtfClienteTop2.setText(cliente.get(1).getCedAlq());
+            jtfClienteTop3.setText(cliente.get(2).getCedAlq());
+            jtfClienteTop4.setText(cliente.get(3).getCedAlq());
+            jtfClienteTop5.setText(cliente.get(4).getCedAlq());
 
-        } catch(Exception e){
+        } catch (Exception e) {
             e.getMessage();
         }
-        
+
         try {
             //Vehiculo
             jtfVehiculoTop1.setText(vehiculo.get(0).getPlaca());
@@ -560,12 +634,16 @@ public class Analisis extends javax.swing.JFrame {
             jtfVehiculoTop3.setText(vehiculo.get(2).getPlaca());
             jtfVehiculoTop4.setText(vehiculo.get(3).getPlaca());
             jtfVehiculoTop5.setText(vehiculo.get(4).getPlaca());
-        } catch(Exception e){
+        } catch (Exception e) {
             e.getMessage();
         }
-        
-        
 
+        calculoTotales();
+        calculoPromedios();
+        jtfTotalZafiro.setText("" + totalZafiro);
+        jtfTotalOro.setText("" + totalOro);
+        jtfTotalPlata.setText("" + totalPlata);
+        jtfTotalBronce.setText("" + totalBronce);
 
     }//GEN-LAST:event_jbGenerarActionPerformed
 
@@ -632,19 +710,19 @@ public class Analisis extends javax.swing.JFrame {
     private javax.swing.JButton jbGenerar;
     private javax.swing.JButton jbLimpiar;
     private javax.swing.JButton jbVolverAnalisis;
-    private javax.swing.JTextField jtdPromBronce;
-    private javax.swing.JTextField jtdPromOro;
-    private javax.swing.JTextField jtdPromPlata;
-    private javax.swing.JTextField jtdPromZafiro;
-    private javax.swing.JTextField jtdTotalBronce;
-    private javax.swing.JTextField jtdTotalOro;
-    private javax.swing.JTextField jtdTotalPlata;
-    private javax.swing.JTextField jtdTotalZafiro;
     private javax.swing.JTextField jtfClienteTop1;
     private javax.swing.JTextField jtfClienteTop2;
     private javax.swing.JTextField jtfClienteTop3;
     private javax.swing.JTextField jtfClienteTop4;
     private javax.swing.JTextField jtfClienteTop5;
+    private javax.swing.JTextField jtfPromedioBronce;
+    private javax.swing.JTextField jtfPromedioOro;
+    private javax.swing.JTextField jtfPromedioPlata;
+    private javax.swing.JTextField jtfPromedioZafiro;
+    private javax.swing.JTextField jtfTotalBronce;
+    private javax.swing.JTextField jtfTotalOro;
+    private javax.swing.JTextField jtfTotalPlata;
+    private javax.swing.JTextField jtfTotalZafiro;
     private javax.swing.JTextField jtfVehiculoTop1;
     private javax.swing.JTextField jtfVehiculoTop2;
     private javax.swing.JTextField jtfVehiculoTop3;

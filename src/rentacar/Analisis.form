@@ -387,17 +387,17 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jtdPromBronce" max="32767" attributes="0"/>
-                                  <Component id="jtdPromPlata" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jtdPromOro" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jtdPromZafiro" alignment="0" min="-2" pref="99" max="-2" attributes="0"/>
+                                  <Component id="jtfPromedioBronce" max="32767" attributes="0"/>
+                                  <Component id="jtfPromedioPlata" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jtfPromedioOro" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jtfPromedioZafiro" alignment="0" min="-2" pref="99" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jtdTotalBronce" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jtdTotalPlata" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jtdTotalOro" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jtdTotalZafiro" alignment="0" min="-2" pref="99" max="-2" attributes="0"/>
+                                  <Component id="jtfTotalBronce" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jtfTotalPlata" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jtfTotalOro" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jtfTotalZafiro" alignment="0" min="-2" pref="99" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -423,33 +423,33 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jtdPromZafiro" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jtfPromedioZafiro" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jtdPromOro" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jtfPromedioOro" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jtdPromPlata" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jtfPromedioPlata" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jtdPromBronce" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jtfPromedioBronce" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Component id="jtdTotalZafiro" min="-2" max="-2" attributes="0"/>
+                              <Component id="jtfTotalZafiro" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jtdTotalOro" min="-2" max="-2" attributes="0"/>
+                              <Component id="jtfTotalOro" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jtdTotalPlata" min="-2" max="-2" attributes="0"/>
+                              <Component id="jtfTotalPlata" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jtdTotalBronce" min="-2" max="-2" attributes="0"/>
+                              <Component id="jtfTotalBronce" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -458,13 +458,13 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JTextField" name="jtdPromZafiro">
+            <Component class="javax.swing.JTextField" name="jtfPromedioZafiro">
             </Component>
-            <Component class="javax.swing.JTextField" name="jtdPromOro">
+            <Component class="javax.swing.JTextField" name="jtfPromedioOro">
             </Component>
-            <Component class="javax.swing.JTextField" name="jtdPromPlata">
+            <Component class="javax.swing.JTextField" name="jtfPromedioPlata">
             </Component>
-            <Component class="javax.swing.JTextField" name="jtdPromBronce">
+            <Component class="javax.swing.JTextField" name="jtfPromedioBronce">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel12">
               <Properties>
@@ -494,13 +494,13 @@
                 <Property name="text" type="java.lang.String" value="Promedio / Total"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jtdTotalBronce">
+            <Component class="javax.swing.JTextField" name="jtfTotalBronce">
             </Component>
-            <Component class="javax.swing.JTextField" name="jtdTotalPlata">
+            <Component class="javax.swing.JTextField" name="jtfTotalPlata">
             </Component>
-            <Component class="javax.swing.JTextField" name="jtdTotalOro">
+            <Component class="javax.swing.JTextField" name="jtfTotalOro">
             </Component>
-            <Component class="javax.swing.JTextField" name="jtdTotalZafiro">
+            <Component class="javax.swing.JTextField" name="jtfTotalZafiro">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel19">
               <Properties>

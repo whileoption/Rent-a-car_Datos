@@ -14,19 +14,19 @@ public class Solicitud {
     private double alquiler;
     private int cantPlaca;
     private int cantCliente;
+    private String catCliente;
 
-    public Solicitud(String placa, String cedAlq, 
-            String estado, double alquiler, 
-            int cantPlaca, int cantCliente) {
+    public Solicitud(String placa, String cedAlq,
+            String estado, double alquiler, int cantPlaca,
+            int cantCliente, String catCliente) {
         this.placa = placa;
         this.cedAlq = cedAlq;
         this.estado = estado;
         this.alquiler = alquiler;
         this.cantPlaca = cantPlaca;
         this.cantCliente = cantCliente;
+        this.catCliente = catCliente;
     }
-
-    
 
     public String getPlaca() {
         return placa;
@@ -76,7 +76,13 @@ public class Solicitud {
         this.cantCliente = cantCliente;
     }
 
-    
+    public String getCatCliente() {
+        return catCliente;
+    }
+
+    public void setCatCliente(String catCliente) {
+        this.catCliente = catCliente;
+    }
 
     @Override
     public String toString() {
