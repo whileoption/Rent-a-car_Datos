@@ -1,18 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package rentacar;
 
 /**
- *
- * @author Karina Madrigal
+ * Clase 'InterfazUsuario' representa la primera interfaz del proyecto.
+ * Posee una interfaz grafica (JFrame).
  */
 public class InterfazUsuario extends javax.swing.JFrame {
 
-    /**
-     * Creates new form InterfazUsuario
-     */
+    //Constructor crea nuevo formulario para 'InterfazUsuario'.
     public InterfazUsuario() {
         initComponents();
         setLocationRelativeTo(null);
@@ -136,13 +130,30 @@ public class InterfazUsuario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Boton 'Admin' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt 
+     */
     private void jbAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAdminActionPerformed
+        /**
+         * Nuevo objeto Administracion se crea.
+         * Interfaz grafica (JFrame) de 'Administracion' es llamada y mostrada
+         * en pantalla.
+         */
         Administracion adm = new Administracion();
         adm.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbAdminActionPerformed
 
+    /**
+     * Boton 'Usuario' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbUsuarioActionPerformed
+        /**
+         * Nuevo objeto de Usuario se crea.
+         * Interfaz grafica (JFrame) de 'Usuario' es llamada y mostrada en pantalla.
+         */
         Usuario usr = new Usuario();
         usr.setVisible(true);
         this.setVisible(false);

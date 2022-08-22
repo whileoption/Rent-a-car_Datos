@@ -1,20 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package rentacar;
 
+//Libreria para uso de JOptionPane importada.
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Karina Madrigal
+ * Clase 'DevolucionVehiculo' representa el espacio para las devoluciones de vehiculos.
+ * Posee una interfaz grafica (JFrame).
  */
 public class DevolucionVehiculo extends javax.swing.JFrame {
 
-    /**
-     * Creates new form DevolucionVehiculo
-     */
+    //Constructor crea nuevo formulario para 'DevolucionVehiculo'.
     public DevolucionVehiculo() {
         initComponents();
         setLocationRelativeTo(null);
@@ -23,52 +18,46 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
     SolicitudAlquiler devol = new SolicitudAlquiler();
     RegistroVehiculo regV = new RegistroVehiculo();
 
+    //Se procede a hacer la devolucion del alquiler de un vehiculo.
     public void devolver() {
-
         boolean encontrada = false;
+        
         for (int i = 0; i < devol.getSolicAlquiler().size(); i++) {
-
-            if (jtfCedulaDevolucion.getText()
-                    .equals(devol.getSolicAlquiler().get(i).getCedAlq())
-                    && jtfPlacaDevolucion.getText()
-                            .equals(devol.getSolicAlquiler().get(i).getPlaca())) {
-
+            //Se verifican los datos insertados contra los existentes.
+            if (jtfCedulaDevolucion.getText().equals(devol.getSolicAlquiler()
+                .get(i).getCedAlq())&& jtfPlacaDevolucion.getText().equals(devol
+                .getSolicAlquiler().get(i).getPlaca())) {
+                //Se procesa la devolucion.
                 devol.getSolicAlquiler().get(i).setEstado("Finalizada");
-
                 encontrada = true;
-
             }
 
+            //Se verifica si la solicitud existe.
             if (encontrada == false) {
-                JOptionPane.showMessageDialog(null,
-                        "La solicitud no fue encontrada");
+                JOptionPane.showMessageDialog(null,"La solicitud no fue encontrada");
             }
         }
     }
 
+    //Se actualiza el estado del vehiculo.
     public void estadoVehiculo() {
-
         for (int i = 0; i < regV.getRegVehiculo().size(); i++) {
-
-            if (jtfCedulaDevolucion.getText()
-                    .equals(devol.getSolicAlquiler().get(i).getCedAlq())
-                    && jtfPlacaDevolucion.getText()
-                            .equals(devol.getSolicAlquiler().get(i).getPlaca())) {
-
+            //Se verifica la existencia de los datos insertados contra los existentes.
+            if (jtfCedulaDevolucion.getText().equals(devol.getSolicAlquiler()
+                .get(i).getCedAlq())&& jtfPlacaDevolucion.getText().equals(devol
+                .getSolicAlquiler().get(i).getPlaca())) {
+                //Se actualiza el estado del vehiculo.
                 regV.getRegVehiculo().get(i).setEstado("Disponible");
             }
-
         }
-
     }
     
-    
+    //Se lleva a cabo la limpieza de los campos de texto.
     public void Limpiar(){
         jtfCedulaDevolucion.setText("");
         jtfPlacaDevolucion.setText("");
         jcbEstadoDevolucion.setSelectedIndex(0);
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -207,16 +196,29 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Boton 'VolverDevolVehiculo' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbVolverDevolVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverDevolVehiculoActionPerformed
+        /**
+         * Nuevo objeto Administracion se crea.
+         * Interfaz grafica (JFrame) de 'Administracion' es llamada y mostrada en pantalla.
+         */
         Administracion admi = new Administracion();
         admi.show(true);
         dispose();
     }//GEN-LAST:event_jbVolverDevolVehiculoActionPerformed
 
+    /**
+     * Boton 'ProcesarDevolucion' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbProcesarDevolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbProcesarDevolucionActionPerformed
-
+        //Se llama al metodo 'devolver';
         devolver();
         try{
+            //Se llama al metodo 'estadoVehiculo'.
             estadoVehiculo();
             JOptionPane.showMessageDialog(null, "Proceso efectuado con éxito");
             Limpiar();
@@ -224,11 +226,9 @@ public class DevolucionVehiculo extends javax.swing.JFrame {
             e.getMessage();
             JOptionPane.showMessageDialog(null, "Registro no encontrado");
         }
-
     }//GEN-LAST:event_jbProcesarDevolucionActionPerformed
 
     private void jcbEstadoDevolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEstadoDevolucionActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jcbEstadoDevolucionActionPerformed
 
     /**

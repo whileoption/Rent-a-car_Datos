@@ -1,20 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package rentacar;
 
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Karina Madrigal
+ * Clase 'Administracion' representa el espacio para los analisis de las funcionalidades.
+ * Posee una interfaz grafica (JFrame).
  */
 public class Administracion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Administracion
-     */
+    //Constructor crea nuevo formulario para 'Administracion'.
     public Administracion() {
         initComponents();
         setLocationRelativeTo(null);
@@ -243,39 +237,85 @@ public class Administracion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Boton 'RegistrarCliente' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRegistrarClienteActionPerformed
+        /**
+         * Nuevo objeto RegistroCliente se crea.
+         * Interfaz grafica (JFrame) de 'RegistroCliente' es llamada y mostrada en pantalla.
+         */
         RegistroCliente client = new RegistroCliente();
         client.setVisible(true);
         this.setVisible(false);
-        
     }//GEN-LAST:event_jbRegistrarClienteActionPerformed
 
+    /**
+     * Boton 'VolverAdmin' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbVolverAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVolverAdminActionPerformed
+        /**
+         * Nuevo objeto InterfazUsuario se crea.
+         * Interfaz grafica (JFrame) de 'InterfazUsuario' es llamada y mostrada en pantalla.
+         */
         InterfazUsuario gui = new InterfazUsuario();
         gui.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbVolverAdminActionPerformed
 
+    /**
+     * Boton 'RegistrarVehiculo' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbRegistrarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRegistrarVehiculoActionPerformed
+        /**
+         * Nuevo objeto RegistroVehiculo se crea.
+         * Interfaz grafica (JFrame) de 'RegistroVehiculo' es llamada y mostrada en pantalla.
+         */
         RegistroVehiculo regV = new RegistroVehiculo();
         regV.setVisible(true);
         this.setVisible(false);
-
     }//GEN-LAST:event_jbRegistrarVehiculoActionPerformed
 
+    /**
+     * Boton 'VerAlquiler' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbVerAlquilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVerAlquilerActionPerformed
+        /**
+         * Nuevo objeto ConsultaAlquileres se crea.
+         * Interfaz grafica (JFrame) de 'ConsultaAlquileres' es llamada y mostrada en pantalla.
+         */
         ConsultaAlquileres consul = new ConsultaAlquileres();
         consul.show(true);
         dispose();
     }//GEN-LAST:event_jbVerAlquilerActionPerformed
 
+    /**
+     * Boton 'Devolucion' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbDevolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDevolucionActionPerformed
+        /**
+         * Nuevo objeto DevolucionVehiculo se crea.
+         * Interfaz grafica (JFrame) de 'DevolucionVehiculo' es llamada y mostrada en pantalla.
+         */
         DevolucionVehiculo dev = new DevolucionVehiculo();
         dev.show(true);
         dispose();
     }//GEN-LAST:event_jbDevolucionActionPerformed
 
+    /**
+     * Boton 'Analisis' ordena llevar a cabo acciones dentro del metodo.
+     * @param evt Evento de seleccion.
+     */
     private void jbAnalisisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAnalisisActionPerformed
+        /**
+         * Nuevo objeto Analisis se crea.
+         * Interfaz grafica (JFrame) de 'Analisis' es llamada y mostrada en pantalla.
+         */
         Analisis ana = new Analisis();
         ana.show(true);
         dispose();

@@ -6,9 +6,7 @@ package rentacar;
  */
 public class Usuario extends javax.swing.JFrame {
 
-    /**
-     * Constructor crea nuevo formulario para 'Usuario'.
-     */
+    //Constructor crea nuevo formulario para 'Usuario'.
     public Usuario() {
         initComponents();
         setLocationRelativeTo(null);
