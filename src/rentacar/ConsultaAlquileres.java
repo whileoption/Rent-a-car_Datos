@@ -26,6 +26,7 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
     //Esto es para la cola
     private NodoSolCons frente; //Variable que define el primero en cola
     private NodoSolCons ultimo; //Variable que define el último en cola
+    private int longitud = 0; //Variable que define el último en cola
 
     public void enCola(NodoSolCons d) {
         if (frente == null) { //La cola está vacía
@@ -35,6 +36,7 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
             ultimo.setAtras(d); //Se crea un enlace 'atras' con el nodo d 
             ultimo = d; //El nodo creado es ahora el último nodo en la cola
         }
+        longitud++;
     }
 
     public NodoSolCons atiende() {
@@ -43,6 +45,7 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
             frente = frente.getAtras(); //El elemento en frente es ahora el que estaba de segundo
             aux.setAtras(null); //Se remueve la referencia al nodo que estaba en frente
         }
+        longitud--;
         return aux; //Se obtiene el valor de frente original (el que se atiende)
     }
 
@@ -315,14 +318,8 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
 
     private void jbBuscarSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarSolicitudActionPerformed
 
-        for (int i = 0; i < filtro.size(); i++) {
-            filtro.remove(i);
-        }
-
         filtrar();
         if (existeFiltro == true) {
-
-            JOptionPane.showMessageDialog(null, "Tamano filtro" + filtro.size());
 
             for (int i = 0; i < filtro.size(); i++) {
                 enCola(new NodoSolCons(filtro.get(i)));
@@ -338,6 +335,11 @@ public class ConsultaAlquileres extends javax.swing.JFrame {
         jtfConsultaCedula.setText("");
         jcbEstado.setSelectedIndex(0);
         jtaConsulta.setText("");
+
+        filtro.clear();
+        for (int i = 0; i <= longitud; i++) {
+            atiende();
+        }
 
     }//GEN-LAST:event_jbOtraConsultaActionPerformed
 

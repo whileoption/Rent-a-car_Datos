@@ -4,7 +4,13 @@
  */
 package rentacar;
 
+import Analisis.NodoOrden;
+import Analisis.Solicitud;
 import Vehiculo.Vehiculo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter.Entry;
 
 /**
  *
@@ -19,7 +25,106 @@ public class Analisis extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
     }
+
+    //Variables para almacenar informacion
+    SolicitudAlquiler solicitud = new SolicitudAlquiler();
+    private static ArrayList<Solicitud> cliente = new ArrayList<>();
+    private static ArrayList<Solicitud> vehiculo = new ArrayList<>();
+
+    //Implementación de lista circular doble
+    private NodoOrden cabeza;
+    private NodoOrden ultimo;
+    private int longVeh = 0;
+    private int longCliente = 0;
+
+    public void insertaCliente(Solicitud c) { //ordena de mayor a menor
+        if (cabeza == null) { //si no hay cabeza
+            cabeza = new NodoOrden(c); //se crea un nodo cabeza
+            ultimo = cabeza; //el ultimo es igual a cabeza
+        } else if (c.getCantCliente() > cabeza.getDato().getCantCliente()) { //si el dato es mayor a la cabeza
+            NodoOrden aux = new NodoOrden(c); //se crea un nuevo nodo aux
+            aux.setNext(cabeza); //el siguiente a aux es cabeza
+            cabeza = aux; //la cabeza es ahora el aux
+        } else if (ultimo.getDato().getCantCliente() >= c.getCantCliente()) { //si el ultimo es mayor o igual al dato
+            ultimo.setNext(new NodoOrden(c)); //el nuevo nodo se ubica luego del ultimo
+            ultimo = ultimo.getNext(); //el ultimo es ahora el siguiente
+        } else { //si el dato esta entre la cabeza y el ultimo
+            NodoOrden aux = cabeza; //se crea nodo aux que es igual a cabeza
+            while (aux.getNext().getDato().getCantCliente() > c.getCantCliente()) { //mientras siguiente a aux sea mayor que el dato
+                aux = aux.getNext(); //aux se actualiza
+            }
+            NodoOrden temp = new NodoOrden(c); //se crea nuevo nodo temporal
+            temp.setNext(aux.getNext()); //el siguiente al temporal es el siguiente al aux
+            temp.setBack(aux); //el anterior al temporal es el aux
+            aux.setNext(temp); //el siguiente al aux es el temporal
+            temp.getNext().setBack(temp); //se ubica el temporal  
+        }
+        ultimo.setNext(cabeza); //el ultimo se conecta a la cabeza
+        cabeza.setBack(ultimo); //la cabeza se conecta al ultimo
+        longCliente++;
+        cliente.add(new Solicitud(ultimo.getDato().getPlaca(),
+                ultimo.getDato().getCedAlq(),
+                ultimo.getDato().getEstado(), ultimo.getDato().getAlquiler(),
+                ultimo.getDato().getCantPlaca(), ultimo.getDato().getCantCliente()));
+    }
+
+    public void insertaVehiculo(Solicitud v) { //ordena de mayor a menor
+        if (cabeza == null) { //si no hay cabeza
+            cabeza = new NodoOrden(v); //se crea un nodo cabeza
+            ultimo = cabeza; //el ultimo es igual a cabeza
+        } else if (v.getCantPlaca() > cabeza.getDato().getCantPlaca()) { //si el dato es mayor a la cabeza
+            NodoOrden aux = new NodoOrden(v); //se crea un nuevo nodo aux
+            aux.setNext(cabeza); //el siguiente a aux es cabeza
+            cabeza = aux; //la cabeza es ahora el aux
+        } else if (ultimo.getDato().getCantPlaca() >= v.getCantPlaca()) { //si el ultimo es mayor o igual al dato
+            ultimo.setNext(new NodoOrden(v)); //el nuevo nodo se ubica luego del ultimo
+            ultimo = ultimo.getNext(); //el ultimo es ahora el siguiente
+        } else { //si el dato esta entre la cabeza y el ultimo
+            NodoOrden aux = cabeza; //se crea nodo aux que es igual a cabeza
+            while (aux.getNext().getDato().getCantPlaca() > v.getCantPlaca()) { //mientras siguiente a aux sea mayor que el dato
+                aux = aux.getNext(); //aux se actualiza
+            }
+            NodoOrden temp = new NodoOrden(v); //se crea nuevo nodo temporal
+            temp.setNext(aux.getNext()); //el siguiente al temporal es el siguiente al aux
+            temp.setBack(aux); //el anterior al temporal es el aux
+            aux.setNext(temp); //el siguiente al aux es el temporal
+            temp.getNext().setBack(temp); //se ubica el temporal  
+        }
+        ultimo.setNext(cabeza); //el ultimo se conecta a la cabeza
+        cabeza.setBack(ultimo); //la cabeza se conecta al ultimo
+        longVeh++;
+        vehiculo.add(new Solicitud(ultimo.getDato().getPlaca(),
+                ultimo.getDato().getCedAlq(),
+                ultimo.getDato().getEstado(), ultimo.getDato().getAlquiler(),
+                ultimo.getDato().getCantPlaca(), ultimo.getDato().getCantCliente()));
+    }
     
+    
+    private double totalZafiro = 0;
+    private double totalOro = 0;
+    private double totalPlata = 0;
+    private double totalBronce = 0;
+    
+    public void calculoTotales(){
+        
+        for(int i =  0; i < solicitud.getSolicAlquiler().size(); i++){
+            
+            
+        }
+        
+        
+    }
+    
+    
+    private double promZafiro = 0;
+    private double promOro = 0;
+    private double promPlata = 0;
+    private double promBronce = 0;
+    
+    public void calculoPromedios(){
+        
+    }
+
     public void Limpiar() {
         //this.jcbCategoria.setSelectedIndex(0);
         this.jtfClienteTop1.setText("");
@@ -37,8 +142,6 @@ public class Analisis extends javax.swing.JFrame {
         this.jtdPromPlata.setText("");
         this.jtdPromBronce.setText("");
     }
-       
-        
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -86,6 +189,11 @@ public class Analisis extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        jtdTotalBronce = new javax.swing.JTextField();
+        jtdTotalPlata = new javax.swing.JTextField();
+        jtdTotalOro = new javax.swing.JTextField();
+        jtdTotalZafiro = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
         jbVolverAnalisis = new javax.swing.JButton();
         jbGenerar = new javax.swing.JButton();
         jbLimpiar = new javax.swing.JButton();
@@ -145,13 +253,13 @@ public class Analisis extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel6)
                     .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jtfClienteTop4, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtfClienteTop4, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                     .addComponent(jtfClienteTop3)
                     .addComponent(jtfClienteTop2)
-                    .addComponent(jtfClienteTop1)
-                    .addComponent(jtfClienteTop5))
+                    .addComponent(jtfClienteTop5)
+                    .addComponent(jtfClienteTop1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(58, Short.MAX_VALUE)
@@ -163,7 +271,7 @@ public class Analisis extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtfClienteTop1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -179,11 +287,11 @@ public class Analisis extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtfClienteTop4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfClienteTop5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addGap(28, 28, 28))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jtfClienteTop5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -213,13 +321,13 @@ public class Analisis extends javax.swing.JFrame {
                     .addComponent(jLabel10)
                     .addComponent(jLabel11)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jtfVehiculoTop5, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtfVehiculoTop5, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
                     .addComponent(jtfVehiculoTop4)
                     .addComponent(jtfVehiculoTop3)
                     .addComponent(jtfVehiculoTop2)
-                    .addComponent(jtfVehiculoTop1))
+                    .addComponent(jtfVehiculoTop1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(51, Short.MAX_VALUE)
@@ -231,29 +339,26 @@ public class Analisis extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jtfVehiculoTop1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtfVehiculoTop2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtfVehiculoTop3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtfVehiculoTop4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(110, 110, 110)))
-                .addGap(8, 8, 8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jtfVehiculoTop1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfVehiculoTop5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11))
+                    .addComponent(jtfVehiculoTop2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtfVehiculoTop3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jtfVehiculoTop4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel11)
+                    .addComponent(jtfVehiculoTop5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -268,16 +373,19 @@ public class Analisis extends javax.swing.JFrame {
         jLabel15.setText("Bronce");
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel17.setText("Promedio / Categoria");
+        jLabel17.setText("Promedio / Total");
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel19.setText("Categoría");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addComponent(jLabel13)
@@ -289,32 +397,52 @@ public class Analisis extends javax.swing.JFrame {
                             .addComponent(jtdPromPlata)
                             .addComponent(jtdPromOro)
                             .addComponent(jtdPromZafiro, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel17)
-                        .addGap(25, 25, 25))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jtdTotalBronce)
+                            .addComponent(jtdTotalPlata)
+                            .addComponent(jtdTotalOro)
+                            .addComponent(jtdTotalZafiro, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel19)
+                        .addGap(51, 51, 51)
+                        .addComponent(jLabel17)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel17)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel19))
                 .addGap(13, 13, 13)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtdPromZafiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtdPromOro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtdPromPlata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtdPromBronce, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtdPromZafiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtdPromOro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtdPromPlata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtdPromBronce, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jtdTotalZafiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jtdTotalOro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jtdTotalPlata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jtdTotalBronce, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -391,7 +519,7 @@ public class Analisis extends javax.swing.JFrame {
                     .addComponent(jbVolverAnalisis)
                     .addComponent(jbGenerar)
                     .addComponent(jbLimpiar))
-                .addGap(0, 20, Short.MAX_VALUE))
+                .addGap(0, 17, Short.MAX_VALUE))
         );
 
         pack();
@@ -412,8 +540,33 @@ public class Analisis extends javax.swing.JFrame {
     }//GEN-LAST:event_jbLimpiarActionPerformed
 
     private void jbGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGenerarActionPerformed
-        Vehiculo mivehiculo = new Vehiculo();
-        //mivehiculo.getRegVehiculo();
+
+        try {
+            //Cliente
+            jtfClienteTop1.setText(cliente.get(0).getPlaca());
+            jtfClienteTop2.setText(cliente.get(1).getPlaca());
+            jtfClienteTop3.setText(cliente.get(2).getPlaca());
+            jtfClienteTop4.setText(cliente.get(3).getPlaca());
+            jtfClienteTop5.setText(cliente.get(4).getPlaca());
+
+        } catch(Exception e){
+            e.getMessage();
+        }
+        
+        try {
+            //Vehiculo
+            jtfVehiculoTop1.setText(vehiculo.get(0).getPlaca());
+            jtfVehiculoTop2.setText(vehiculo.get(1).getPlaca());
+            jtfVehiculoTop3.setText(vehiculo.get(2).getPlaca());
+            jtfVehiculoTop4.setText(vehiculo.get(3).getPlaca());
+            jtfVehiculoTop5.setText(vehiculo.get(4).getPlaca());
+        } catch(Exception e){
+            e.getMessage();
+        }
+        
+        
+
+
     }//GEN-LAST:event_jbGenerarActionPerformed
 
     /**
@@ -462,6 +615,7 @@ public class Analisis extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -482,6 +636,10 @@ public class Analisis extends javax.swing.JFrame {
     private javax.swing.JTextField jtdPromOro;
     private javax.swing.JTextField jtdPromPlata;
     private javax.swing.JTextField jtdPromZafiro;
+    private javax.swing.JTextField jtdTotalBronce;
+    private javax.swing.JTextField jtdTotalOro;
+    private javax.swing.JTextField jtdTotalPlata;
+    private javax.swing.JTextField jtdTotalZafiro;
     private javax.swing.JTextField jtfClienteTop1;
     private javax.swing.JTextField jtfClienteTop2;
     private javax.swing.JTextField jtfClienteTop3;

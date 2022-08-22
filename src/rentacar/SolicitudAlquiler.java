@@ -224,7 +224,7 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
                     + "satisfagan la busqueda");
 
             solicAlquiler.add(new Solicitud(jtfPlacaAlquiler.getText(),
-                    jtfCedulaAlquiler.getText(), "Rechazada", 0.0));
+                    jtfCedulaAlquiler.getText(), "Rechazada", 0.0, v, c));
         }
 
         //Se ordena el arraylist
@@ -339,6 +339,21 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
 
         return alqDia * dias * 1.13;
     }
+    
+    
+    public void incrementoCantAlquiler(){
+        for(int i = 0; i < solicAlquiler.size(); i++){
+            if(jtfCedulaAlquiler.getText()
+                    .equals(solicAlquiler.get(i).getCedAlq())){
+                c++;
+            }
+            if(jtfPlacaAlquiler.getText()
+                    .equals(solicAlquiler.get(i).getPlaca())){
+                v++;
+            }
+        }
+    }
+    
 
     public void Limpiar() {
         jtfCedulaAlquiler.setText("");
@@ -641,8 +656,16 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
             while (longitud > 3) {
                 pop();
             }
-            String placa = JOptionPane.showInputDialog(null, "Elija el vehiculo "
-                    + "de preferencia\nInserte la placa\n\n" + Listar());
+            String placa = JOptionPane.showInputDialog(null,
+                    """
+                    Elija el vehiculo de preferencia
+                    Inserte la placa
+                    Se muestran los vehiculos que se ajustan 
+                    a su busqueda. 
+                    
+                    La opción más ajustada es la que se muestra al ultimo
+                    
+                    """ + Listar());
 
             //Eleccion
             try {
@@ -674,33 +697,48 @@ public class SolicitudAlquiler extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jcbExtrasActionPerformed
 
+    
+    //Valores para control de cantidad de veces que se alquila
+    private static int v = 0;
+    private static int c = 0;
+    
     private void jbAlquilarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlquilarVehiculoActionPerformed
 
-        if (!estadoAlquilado(jtfPlacaAlquiler.getText())) {
-            solicAlquiler.add(new Solicitud(jtfPlacaAlquiler.getText(),
-                    jtfCedulaAlquiler.getText(), "Registrada",
-                    calculoAlquiler(jtfPlacaAlquiler.getText())));
+        try {
 
-            cambioCategoria((Integer.parseInt(jtfDiasAlquilar.getText())),
-                    jtfCedulaAlquiler.getText(), jtfPlacaAlquiler.getText());
-            cambioEstado(jtfPlacaAlquiler.getText());
+            incrementoCantAlquiler();
+            
+            if (!estadoAlquilado(jtfPlacaAlquiler.getText())) {
+                solicAlquiler.add(new Solicitud(jtfPlacaAlquiler.getText(),
+                        jtfCedulaAlquiler.getText(), "Registrada",
+                        calculoAlquiler(jtfPlacaAlquiler.getText()), v, c));
 
-            JOptionPane.showMessageDialog(null, "Solicitud procesada");
-            Limpiar();
-            jbAlquilarVehiculo.setEnabled(false);
-        } else {
-            solicAlquiler.add(new Solicitud(jtfPlacaAlquiler.getText(),
-                    jtfCedulaAlquiler.getText(), "Rechazada",
-                    calculoAlquiler(jtfPlacaAlquiler.getText())));
+                cambioCategoria((Integer.parseInt(jtfDiasAlquilar.getText())),
+                        jtfCedulaAlquiler.getText(), jtfPlacaAlquiler.getText());
+                cambioEstado(jtfPlacaAlquiler.getText());
 
-            cambioCategoria((Integer.parseInt(jtfDiasAlquilar.getText())),
-                    jtfCedulaAlquiler.getText(), jtfPlacaAlquiler.getText());
-            cambioEstado(jtfPlacaAlquiler.getText());
+                JOptionPane.showMessageDialog(null, "Solicitud procesada");
+                Limpiar();
+                jbAlquilarVehiculo.setEnabled(false);
+            } else {
+                solicAlquiler.add(new Solicitud(jtfPlacaAlquiler.getText(),
+                        jtfCedulaAlquiler.getText(), "Rechazada",
+                        calculoAlquiler(jtfPlacaAlquiler.getText()), v, c));
 
-            JOptionPane.showMessageDialog(null, "Solicitud rechazada");
-            Limpiar();
-            jbAlquilarVehiculo.setEnabled(false);
+                cambioCategoria((Integer.parseInt(jtfDiasAlquilar.getText())),
+                        jtfCedulaAlquiler.getText(), jtfPlacaAlquiler.getText());
+                cambioEstado(jtfPlacaAlquiler.getText());
+
+                JOptionPane.showMessageDialog(null, "Solicitud rechazada");
+                Limpiar();
+                jbAlquilarVehiculo.setEnabled(false);
+            }
+        } catch (Exception e){
+            e.getMessage();
+            JOptionPane.showMessageDialog(null, "Error\nSolicitud rechazada");
+            solicAlquiler.add(new Solicitud("", "", "Rechazada", 0.0, v, c));
         }
+
 
     }//GEN-LAST:event_jbAlquilarVehiculoActionPerformed
 
